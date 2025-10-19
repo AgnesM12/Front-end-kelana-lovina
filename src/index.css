@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+    @apply bg-white text-black font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.btn-primary {
+    @apply bg-primary text-white font-bold py-2 px-6 rounded-lg hover:opacity-90 transition-opacity;
+}
+
+.text-nav {
+    @apply text-xl mx-4 px-1 text-dark hover:text-primary hover:border-b-2 hover:border-primary;
+}
+
+/* slider paket pada halaman beranda */
+
+.paket-slider {
+  padding-top: 20px !important;
+  padding-bottom: 50px !important; 
+  overflow: visible !important;
+  }
+  
+  .paket-slider .swiper-slide {
+  width: auto;
+  height: auto;
+  transform: scale(0.675);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .paket-slider .swiper-slide-active {
+  transform: scale(1);
+  opacity: 1;
+  z-index: 10;
+  }
+  
+  .paket-slider .swiper-slide-next,
+  .paket-slider .swiper-slide-prev {
+    transform: scale(0.675);
+    opacity: 1;
+  }
+  
+  .paket-slider .swiper-button-next,
+  .paket-slider .swiper-button-prev {
+  z-index: 20; 
+  color: #000000; 
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  }
+  
+  .paket-slider .swiper-button-next {
+    left: auto !important;
+    right: -1rem !important;
+  }
+  
+  .paket-slider .swiper-button-prev {
+    right: auto !important;
+    left: -1rem !important;
+  }
+   /* festival pada halaman acara */
+  .festival-slider {
+    padding-top: 20px !important;
+    padding-bottom: 50px !important;
+    overflow: visible !important;
+  }
+  
+  .festival-slider .swiper-slide {
+  width: auto;
+  height: auto;
+  transform: scale(0.675);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .festival-slider .swiper-slide-active {
+    transform: scale(1);
+    opacity: 1;
+    z-index: 10;
+  }
+  
+  .festival-slider .swiper-slide-next,
+  .festival-slider .swiper-slide-prev {
+    transform: scale(0.8);
+    opacity: 0.9;
+  }
+  
+  .festival-slider .swiper-button-next,
+  .festival-slider .swiper-button-prev {
+    z-index: 20; 
+    color: #000000; 
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+  }
+  
+  .festival-slider .swiper-button-next {
+    left: auto !important;
+    right: -1rem !important;
+  }
+  
+  .festival-slider .swiper-button-prev {
+    right: auto !important;
+    left: -1rem !important;
+  }
