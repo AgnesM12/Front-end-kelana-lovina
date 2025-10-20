@@ -1,19 +1,23 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, A11y } from 'swiper/modules';
-import PaketCard from '../component/PaketCard';
+
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
+import GaleriGrid from '../component/GaleriGrid';
+import PaketCard from '../component/PaketCard';
+import Judul from '../component/Judul';
+
 function Beranda() {
   return (
       <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden ">
           
-          {/* Tagline */}
+          {/* Hero */}
           <div className="relative w-full max-w-[1200px] aspect-[2.6/1] max-h-[458px] mx-auto pt-24 ">
-              <img src="/tagline.png" alt="Kelana Lovina" className="absolute inset-0 w-full h-full object-cover rounded-[35px]" />
+              <img src="/hero.png" alt="Kelana Lovina" className="absolute inset-0 w-full h-full object-cover rounded-[35px]" />
               <div className="absolute inset-0 bg-black/30 rounded-[35px]" />
               <img src="/Loogooo 1.png" alt="Logo Kelana" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-[850px] h-auto" />
           </div>
@@ -114,13 +118,15 @@ const paketData = [
 ];
 
 function RekomendasiPaket() {
+
+const judulRekomendasi = {
+  title: "REKOMENDASI PAKET",
+  description: "Temukan pilihan paket wisata lengkap mulai dari tur lumba-lumba saat matahari terbit, snorkeling di laut jernih, hingga penginapan nyaman di sekitar Lovina. Setiap paket sudah termasuk transportasi dan akomodasi sesuai kebutuhan Anda — cocok untuk keluarga, pasangan, maupun solo traveler.",
+}
+
   return (
     <section className="mt-16 w-full">
-      {/* Header Teks */}
-      <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-wide">REKOMENDASI PAKET</h2>
-          <p className="mt-4 max-w-3xl mx-auto text-gray-600">Temukan pilihan paket wisata lengkap mulai dari tur lumba-lumba saat matahari terbit, snorkeling di laut jernih, hingga penginapan nyaman di sekitar Lovina. Setiap paket sudah termasuk transportasi dan akomodasi sesuai kebutuhan Anda — cocok untuk keluarga, pasangan, maupun solo traveler.</p>
-      </div>
+      <Judul header = {judulRekomendasi}/>
 
       {/* Swiper Slider */}
       <Swiper
@@ -147,7 +153,7 @@ function RekomendasiPaket() {
         }}
         className="paket-slider"
       >
-        {/* Map data Anda ke <SwiperSlide> */}
+        {/* Map ke <SwiperSlide> */}
         {paketData.map((paket) => (
           <SwiperSlide key={paket.id}>
             <PaketCard paket={paket} />
@@ -162,56 +168,27 @@ function RekomendasiPaket() {
     </section>
   );
 }
-
-
-
-
 //Komponwn GaleriPengunjung
-  const defaultGalleryData = [
-    { id: 1, src: '/galeri-1.png', alt: 'galeri-1', size: 'small-left' },
-    { id: 2, src: '/galeri-2.png', alt: 'galeri-2', size: 'large-right' },
-    { id: 3, src: '/galeri-3.png', alt: 'galeri-3', size: 'large-left' },
-    { id: 4, src: '/galeri-4.png', alt: 'galeri-4', size: 'small-right' },
+  const GalleryData = [
+    { src: '/galeri-1.png', alt: 'galeri-1', size: 'small-left' },
+    { src: '/galeri-2.png', alt: 'galeri-2', size: 'large-right' },
+    { src: '/galeri-3.png', alt: 'galeri-3', size: 'large-left' },
+    { src: '/galeri-4.png', alt: 'galeri-4', size: 'small-right' },
   ];
 
-  export function GaleriPengunjung ({title, description, images}) {
-    const gallery = images || defaultGalleryData;
+  export function GaleriPengunjung () {
+
+    const judulGaleri = {
+      title: "GALERI PENGUNJUNG",
+      description: "Kumpulan foto dan momen seru dari para pengunjung Pantai Lovina yang bisa menjadi inspirasi liburan Anda."
+    };
+
   return (
     <section className="mt-16">
       <div className="mx-auto px-6 ">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-wide">
-            {title || "GALERI PENGUNJUNG"}
-          </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-zinc-800">
-            { description || "Kumpulan foto dan momen seru dari para pengunjung Pantai Lovina yang bisa menjadi inspirasi liburan Anda."}
-          </p>
-        </div>
-
-        {/* Grid Galeri */}
-        <div className="flex flex-col gap-4 items-center">
-          {/* Baris 1 */}
-          <div className="flex flex-col lg:flex-row gap-4 w-full max-w-[1191px]">
-            <div className="w-full lg:w-[40%] h-[306px] overflow-hidden ">
-              <img src={gallery[0].src} alt={gallery[0].alt} className="w-full h-full object-cover rounded-2xl" />
-            </div>
-            <div className="w-full lg:w-[60%] h-[306px] overflow-hidden">
-              <img src={gallery[1].src} alt={gallery[1].alt} className="w-full h-full object-cover rounded-2xl" />
-            </div>
-          </div>
-
-          {/* Baris 2 */}
-          <div className="flex flex-col lg:flex-row gap-4 w-full max-w-[1191px]">
-            <div className="w-full lg:w-[60%] h-[306px] overflow-hidden">
-              <img src={gallery[2].src} alt={gallery[2].alt} className="w-full h-full object-cover rounded-2xl" />
-            </div>
-            <div className="w-full lg:w-[40%] h-[306px] overflow-hidden ">
-              <img src={gallery[3].src} alt={gallery[3].alt} className="w-full h-full object-cover rounded-2xl" />
-            </div>
-          </div>
-        </div>
-
+        <Judul header = {judulGaleri} />  
+        <GaleriGrid images = {GalleryData}/>
         {/* Button */}
         <div className="text-center mt-12">
           <button className="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
@@ -225,18 +202,15 @@ function RekomendasiPaket() {
 
 // Komponen LokasiLovina
   function LokasiLovina () {
+
+    const judulLokasi = {
+      title: "LOKASI PANTAI LOVINA",
+      description: "Pantai Lovina terletak di Bali Utara, tepatnya di Kabupaten Buleleng. Kawasan ini terkenal dengan pantai berpasir hitam, suasana tenang, serta menjadi spot populer untuk menyaksikan lumba-lumba di laut lepas."
+    }
   return (
     <section className="w-full max-w-[1200px] h-auto rounded-[30px] py-10 mt-16 mx-auto">
-        
         {/* Header Section */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-wide">
-            LOKASI PANTAI LOVINA
-          </h2>
-          <p className="mt-4 max-w-3xl mx-auto text-gray-600">
-            "Pantai Lovina terletak di Bali Utara, tepatnya di Kabupaten Buleleng. Kawasan ini terkenal dengan pantai berpasir hitam, suasana tenang, serta menjadi spot populer untuk menyaksikan lumba-lumba di laut lepas."
-          </p>
-        </div>
+        <Judul header={judulLokasi} />
         <div className="w-full h-[547px] bg-white rounded-3xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] overflow-hidden flex items-center justify-center sm:p-6">
           <iframe
             title="Peta Lokasi Pantai Lovina"
@@ -247,7 +221,6 @@ function RekomendasiPaket() {
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
         </div>
-
     </section>
   );
 };

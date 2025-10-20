@@ -2,32 +2,33 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y } from "swiper/modules";
 import FestivalCard from "../component/FestivalCard";
+import Judul from "../component/Judul";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import {GaleriPengunjung} from './beranda';
+import HeroSection from "../component/HeroSection";
 
 function Acara() {
     
     const acaraGallery = [
-        { id: 1, src: '/festival-1.png', alt: 'festival-1' },
-        { id: 2, src: '/festival-2.jpg', alt: 'festival-2' },
-        { id: 3, src: '/festival-3.jpg', alt: 'festival-3' },
-        { id: 4, src: '/festival-4.jpg', alt: 'festival-4' },
+        { src: '/festival-1.png', alt: 'festival-1' },
+        { src: '/festival-2.jpg', alt: 'festival-2' },
+        { src: '/festival-3.jpg', alt: 'festival-3' },
+        { src: '/festival-4.jpg', alt: 'festival-4' },
     ];
+
+    const dataHero = {
+      title: "Jelajahi Festival",
+      imageSrc: '/hero.png',
+      altText: 'hero',
+    }
 
     return (
         <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16">
-        {/*tagline*/}
-            <div className="relative w-full max-w-[1200px] aspect-[2.6/1] max-h-[458px] mx-auto">
-                <img src="/tagline.png" alt="Kelana Lovina" className="absolute inset-0 w-full h-full object-cover rounded-[35px]" />
-            <div className="absolute inset-0 bg-black/30 rounded-[35px]" />
-                <h3 className="absolute inset-0 flex items-center justify-center text-white text-4xl font-semibold">
-                    Jelajahi Festival
-                </h3>
-            </div>
+            <HeroSection hero={dataHero}/>
             <FestivalLovina/>
             <GaleriPengunjung 
             title="Galeri Acara"
@@ -89,21 +90,16 @@ const eventData = [
 ];
 
 function FestivalLovina() {
+
+  const judulFestival = {
+    title: "Acara & Festival di Pantai Lovina & Sekitarnya",
+    description: "Pantai Lovina dan desa-desa sekitar di Buleleng selalu hidup dengaan beragam festival budaya dan pariwisata sepanjang tahun. Dari festival tahunan seperti Lovina Festival, Buleleng Festival, hingga acara lingkungan dan budaya di danau. Temukan info lengkap acara yang akan datang agar liburan Anda makin bermakna.",
+  };
+
   return (
     <section className="mt-16 w-full">
       {/* Header */}
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-wide">
-          Acara & Festival di Pantai Lovina & Sekitarnya
-        </h2>
-        <p className="mt-4 max-w-3xl mx-auto text-gray-600">
-          Pantai Lovina dan desa-desa sekitar di Buleleng selalu hidup dengan
-          beragam festival budaya dan pariwisata sepanjang tahun. Dari festival
-          tahunan seperti Lovina Festival, Buleleng Festival, hingga acara
-          lingkungan dan budaya di danau. Temukan info lengkap acara yang akan
-          datang agar liburan Anda makin bermakna.
-        </p>
-      </div>
+      <Judul header={judulFestival} />
 
       {/* Swiper */}
       <Swiper
