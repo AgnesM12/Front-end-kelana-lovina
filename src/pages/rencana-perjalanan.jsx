@@ -1,9 +1,6 @@
-function RencanaPerjalanan() {
+function Rencana () {
     return (
-    <div>
-        <h1>Buat Rencana perjalanamu</h1>
-        <p>Selamat datang di Website kami!</p>
-    </div>
-    );
+        <h1>Hello</h1>
+    )
 }
-export default RencanaPerjalanan;
+export default Rencana;
