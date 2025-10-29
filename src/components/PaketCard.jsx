@@ -8,7 +8,7 @@ const PaketCard = ({ paket }) => (
             <h3 className="text-2xl font-bold object-center text-gray-900">{paket.title}</h3>
             <p className="text-xl text-gray-600">{paket.description}</p>
             <div className="flex justify-between items-center mt-2">
-                <p className="text-xl font-bold text-blue-600">{paket.price}</p>
+                <p className="text-xl font-bold text-black">{paket.price}</p>
                 <div className="flex items-center gap-1 text-base text-gray-700">
                     <HiStar className="h-5 w-5 text-yellow-400" />
                     <span className="font-semibold">{paket.rating}</span>

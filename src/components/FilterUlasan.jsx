@@ -57,7 +57,7 @@ const FilterUlasan = ({ onFilterChange }) => {
 
       <div className="flex justify-between items-center w-full">
         <div className="flex items-center gap-6">
-          {/* RATING */}
+          {/* rating */}
           <div className="relative">
             <button
               onClick={() => toggleDropdown("rating")}
@@ -84,7 +84,7 @@ const FilterUlasan = ({ onFilterChange }) => {
               </div>
             )}
           </div>
-          {/* WAKTU */}
+          {/* waktu */}
           <div className="relative">
             <button
               onClick={() => toggleDropdown("waktu")}
@@ -114,7 +114,7 @@ const FilterUlasan = ({ onFilterChange }) => {
               </div>
             )}
           </div>
-          {/* KATEGORI */}
+          {/* kategori */}
           <div className="relative">
             <button
               onClick={() => toggleDropdown("kategori")}
@@ -149,7 +149,7 @@ const FilterUlasan = ({ onFilterChange }) => {
             )}
           </div>
         </div>
-        {/* CARI ULASAN */}
+        {/* cari ulasan */}
         <div className="flex items-center bg-blue-600 rounded-full px-4 py-2 w-96 ml-8">
           <Search className="text-white w-5 h-5 mr-2" />
           <input

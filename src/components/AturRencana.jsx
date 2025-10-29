@@ -4,18 +4,18 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const paketData = [
-    { id: 1, imageSrc: "/paket-morning-dolphin.png", title: "Morning Dolphin Tour", price: "Rp. 200.000" },
-    { id: 2, imageSrc: "/paket-sunrise-cruise.png", title: "Sunrise Dolphin Cruise", price: "Rp. 180.000" },
-    { id: 3, imageSrc: "/paket-snorkeling.png", title: "Snorkeling Lovina", price: "Rp. 150.000" },
+    { id: 1, imageSrc: "/paket-morning-dolphin.png", title: "Morning Dolphin Tour", price: "Rp. 150.000" },
+    { id: 2, imageSrc: "/paket-sunrise-cruise.png", title: "Sunrise Dolphin Cruise", price: "Rp. 300.000" },
+    { id: 3, imageSrc: "/paket-snorkeling.png", title: "Snorkeling Lovina", price: "Rp. 350.000" },
     { id: 4, imageSrc: "/paket-dolphin-watching.png", title: "Dolphin Watching Tour", price: "Rp. 200.000" },
     { id: 5, imageSrc: "/paket-swim-with.png", title: "Swim with Dolphin", price: "Rp. 200.000" },
-    { id: 6, imageSrc: "/paket-privat-tour.png", title: "Private Tour Guide", price: "Rp. 150.000" },
+    { id: 6, imageSrc: "/paket-privat-tour.png", title: "Private Tour Guide", price: "Rp. 400.000" },
 ];
 
 const priceOptions = [
   {value: "all", label: "Semua Harga"},
-  {value: "150to180", label: "Rp.150.000 - 180.000"},
-  {value: "above180", label: "Di atas Rp.180.000"}
+  {value: "150to200", label: "Di bawah Rp.200.000"},
+  {value: "above200", label: "Di atas Rp.200.000"}
 ]
 
 function RencanaPerjalanan({ onAddPackage }) {
@@ -29,12 +29,12 @@ function RencanaPerjalanan({ onAddPackage }) {
 
 useEffect(() => {
     const filterPackagesByPrice = () => {
-        if (selectedPriceRange === "150to180") {
+        if (selectedPriceRange === "150to200") {
             return paketData.filter((p) => {
                 const price = parsePrice(p.price);
                 return price >= 150000 && price <= 180000;
             });
-        } else if (selectedPriceRange === "above180") {
+        } else if (selectedPriceRange === "above200") {
             return paketData.filter((p) => parsePrice(p.price) > 180000);
         }
         return paketData;

@@ -34,7 +34,7 @@ const Login = () => {
   const handleLogin = (data) => {
     console.log("Login Berhasil (Lolos Validasi):", data);
     const userData = {
-      name: data.email.split('@')[0], // Nama diambil dari bagian email sebelum @
+      name: data.email.split('@')[0], 
       profilePic: null
   };
   dispatch(loginSuccess(userData));
@@ -42,14 +42,14 @@ const Login = () => {
   };
     
 
-  const baseStyle = "w-full h-11 px-2.5 py-2 rounded-lg border-2 focus:ring-primary focus:border-primary placeholder-zinc-400";
+  const baseStyle = "w-full h-11 px-2.5 py-2 rounded-lg border-2 focus:ring-primary focus:border-primary placeholder-zinc-400 focus:outline-none";
   const defaultStyle = "border-primary";
   const errorStyle = "border-red-500 focus:border-red-500 focus:ring-red-500";
   const errorMessage = "mt-1 text-sm text-red-500";
 
   return (
     <div className="flex w-full h-screen bg-white">
-      {/* Kolom Kiri: Gambar Latar */}
+      {/* Kolom Kiri: baground */}
       <div className="relative hidden h-full items-center justify-center bg-gray-500 md:flex md:w-3/5">
         <img
           src="/login.png"

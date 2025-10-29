@@ -148,7 +148,7 @@ function RencanaCard({ pkg }) {
             ))}
           </div>
 
-          {/* Bagian Salin Link */}
+          {/* Salin Link */}
           <div className="flex items-center shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] bg-white rounded-md p-3">
             <span className="text-sm text-zinc-800 truncate flex-1 mr-2">
               {shareUrl}

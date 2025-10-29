@@ -21,7 +21,6 @@ const GaleriGrid = ({ images }) => {
             />
             </div>
         </div>
-
         {/* Baris 2 */}
         <div className="flex flex-col lg:flex-row gap-4 w-full max-w-[1191px]">
             <div className="w-full lg:w-[60%] h-[306px] overflow-hidden">
