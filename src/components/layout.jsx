@@ -1,7 +1,6 @@
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import NavbarBefore from './navbarBefore';
-import NavbarAfter from './navbarAfter';
 import Footer from './footer';
 
 const Layout = ({ isLoggedIn, user, onLogout }) => {
@@ -14,14 +13,9 @@ const Layout = ({ isLoggedIn, user, onLogout }) => {
             
             {!isLoginPage && (
                 <header className="fixed top-0 left-0 w-full z-50">
-                    {isLoggedIn ? (
-                        <NavbarAfter user={user} onLogout={onLogout} />
-                    ) : (
-                        <NavbarBefore />
-                    )}
+                    <NavbarBefore isLoggedIn={isLoggedIn} user={user} onLogout={onLogout} />
                 </header>
             )}
-
             {/* halaman konten */}
             <main className={`flex-grow ${mainPadding}`}>
                 <Outlet />
