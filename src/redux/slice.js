@@ -19,13 +19,8 @@ const authSlice = createSlice({
         profilePic: action.payload.profilePic || '/profile.svg'
         };
     },
-
-    logout: (state) => {
-        state.isAuthenticated = false;
-        state.user = null
-    },
     },
 });
 
-export const { loginSuccess, logout } = authSlice.actions;
+export const { loginSuccess } = authSlice.actions;
 export default authSlice.reducer;

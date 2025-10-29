@@ -10,6 +10,7 @@ function NavbarBefore() {
 
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const user = useSelector((state) => state.auth.user);
+    
 
     return (
         <header className="py-6 w-full bg-white flex justify-center items-center shadow-sm mx-auto">
