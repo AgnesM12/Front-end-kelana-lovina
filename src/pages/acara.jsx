@@ -1,17 +1,20 @@
-import React from "react";
+import {React, useState} from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y } from "swiper/modules";
-import FestivalCard from "../component/FestivalCard";
-import Judul from "../component/Judul";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import {GaleriPengunjung} from './beranda';
-import HeroSection from "../component/HeroSection";
+import GaleriGrid from "../components/GaleriGrid";
+import HeroSection from "../components/HeroSection";
+import FestivalCard from "../components/FestivalCard";
+import Judul from "../components/Judul";
+import HalamanAcaraPenuh from "../components/HalamanAcaraPenuh";
 
 function Acara() {
+
+  const [tampilkanAcaraPenuh, setTampilkanAcaraPenuh] = useState(false);
     
     const acaraGallery = [
         { src: '/festival-1.png', alt: 'festival-1' },
@@ -24,22 +27,57 @@ function Acara() {
       title: "Jelajahi Festival",
       imageSrc: '/hero.png',
       altText: 'hero',
-    }
+    };
 
+    const onShowMore = () => {
+      setTampilkanAcaraPenuh(true);
+    };
+
+    if(tampilkanAcaraPenuh) {
+      const dataHero = {
+        title: "Jelajahi Festival",
+        imageSrc: '/hero.png',
+        altText: 'hero',
+      };
+
+      return (
+        <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden">
+          <HeroSection hero={dataHero}/>
+          <HalamanAcaraPenuh />
+        </main>
+      )
+    } else {
     return (
-        <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16">
-            <HeroSection hero={dataHero}/>
+      <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden">
+        <HeroSection hero={dataHero}/>
+          <div className="mt-16">
             <FestivalLovina/>
-            <GaleriPengunjung 
-            title="Galeri Acara"
-            description="Galeri foto penuh warna yang menghadirkan cerita dari setiap event dan festival di Lovina"
+          </div>
+          <div className=" mt-16">
+            <Judul header={{
+              title: "GALERI ACARA",
+              description: "Galeri foto penuh warna yang menghadirkan cerita dari setiap event dan festival di Lovina" }}
+              />
+            <GaleriGrid
             images={acaraGallery}
             />
+          <div className="text-center mt-12">
+          <button 
+          onClick={onShowMore}
+          className="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
+            Selengkapnya
+          </button>
+          </div>
+        </div>
         </main>
     )
+  };
 }
 
 export default Acara;
+
+
+
 
 
 // komponen FestivalLovina
@@ -56,7 +94,7 @@ const eventData = [
     imageSrc: "/festival-pemutaran-bay.png",
     title: "Pemuteran Bay Festival",
     description:
-      "Menampilkan pertunjukan seni budaya, kuliner, kemungkinan pameran & juag aktivitas laut di daerah pantai sekitar Pemuteran.",
+      "Menampilkan pertunjukan seni budaya, kuliner, kemungkinan pameran & juga aktivitas laut di daerah pantai sekitar Pemuteran.",
   },
   {
     id: 3,
@@ -66,21 +104,21 @@ const eventData = [
       "Menampilkan pelepasan burung, lomba memancing, tracking, serta carving buah sebagai bagian dari hiburan dan atraksi wisata.",
   },
   {
-    id: 1,
+    id: 4,
     imageSrc: "/festival-buleleng.png",
     title: "Buleleng Festival",
     description:
       "Menghadirkan seni tradisional & modern, UMKM, kuliner lokal, digital expo, serta transportasi gratis dengan bemo dan dokar.",
   },
   {
-    id: 2,
+    id: 5,
     imageSrc: "/festival-pemutaran-bay.png",
     title: "Pemuteran Bay Festival",
     description:
-      "Menampilkan pertunjukan seni budaya, kuliner, kemungkinan pameran & aktivitas laut di daerah pantai Pemuteran.",
+      "Menampilkan pertunjukan seni budaya, kuliner, kemungkinan pameran & juga aktivitas laut di daerah pantai sekitar Pemuteran.",
   },
   {
-    id: 3,
+    id: 6,
     imageSrc: "/festival-twin-lake.png",
     title: "Twin Lake Festival",
     description:

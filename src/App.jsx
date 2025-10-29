@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 
 // Layout
-import Layout from "./component/layout.jsx";
+import Layout from "./components/layout.jsx";
 
 // halaman
 import Beranda from "./pages/beranda.jsx";
@@ -15,13 +17,13 @@ import Profil from "./pages/profil.jsx";
 
 import "./index.css";
 
-
-function ProtectedRoute({ isLoggedIn, children }) {
-  if (!isLoggedIn) {
-    return <Navigate to="/login" replace />;
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  if (!isAuthenticated) {
+      return <Navigate to="/login" replace />;
   }
   return children;
-}
+};
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -42,23 +44,12 @@ function App() {
     localStorage.setItem('user_data', JSON.stringify(userData));
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUser(null);
-    localStorage.removeItem('user_data');
-  };
-
   return (
     <Routes>
       <Route
         path="/"
         element={
-          <Layout
-            isLoggedIn={isLoggedIn}
-            user={user}
-            onLogout={handleLogout}
-          />
-        }
+          <Layout/>}
       >
         <Route index element={<Beranda />} />
         <Route path="acara" element={<Acara />} />

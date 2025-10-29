@@ -1,7 +1,7 @@
 import React from 'react';
 
 const HeroSection = ({hero}) => (
-    <div className="relative w-full max-w-[1200px] aspect-[2.6/1] max-h-[458px] mx-auto">
+    <div className="relative w-full max-w-[1200px] aspect-[2.6/1] max-h-[458px] mx-auto ">
         <img 
             src={hero.imageSrc} 
             alt={hero.altText} 
