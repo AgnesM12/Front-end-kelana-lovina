@@ -7,7 +7,6 @@ import Tiket from './pages/tiket';
 function App() {
   return (
     <Routes>
-      <Route path="/"/>
       <Route path="/menuPaket" element={<MenuPaket />} />
       <Route path="/menuPaket/detailPaket" element={<DetailPaket />} />
       <Route path="/menuPaket/detailPaket/menuPembayaran" element={<MenuPembayaran />} />

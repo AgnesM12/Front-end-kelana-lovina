@@ -1,8 +1,11 @@
-import React from "react";
+import React, { use } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 function Tiket(){
-    
+
+    const navigate = useNavigate();
+
     return(
         <div>
         <div className="flex min-h-screen flex-col justify-center items-center">
@@ -17,7 +20,7 @@ function Tiket(){
                         <p className="text-lg font-semibold">17 September 2025</p>
                     </div>
 
-                <div className="">
+                <div>
                     <p className="text-sm font-semibold text-gray-300"> Waktu Keberangkatan</p>
                     <div className="flex justify-between">
                         <p className="text-lg font-semibold">05.00 WITA</p>
@@ -36,8 +39,8 @@ function Tiket(){
         </div>
 
         <div className="flex justify-center p-10 gap-5">   
-            <button className="bg-blue-600 w-40 h-12 rounded-lg items-center text-white">Unduh tiket</button>
-            <button className="bg-blue-600 w-40 h-12 rounded-lg items-center text-white">Kembali</button>
+            <button className="bg-blue-600 w-45 h-13items-center text-white font-semibold" style={{borderRadius: '8px'}}>Unduh tiket</button>
+            <button onClick={() => navigate ('/menuPaket')} className="bg-blue-600 w-45 h-13 items-center text-white font-semibold" style={{borderRadius: '8px'}}>Kembali</button>
         </div>
 
         </div>

@@ -68,7 +68,18 @@ import { Dialog, DialogTitle, DialogPanel } from "@headlessui/react";
             borderRadius : '15px',
             justifyContent: 'center',   
         };
-
+        
+        const buttonStyle ={
+            width: '300px',
+            height: '50px',
+            fontFamily: 'Poppins, sans-serif', 
+            fontSize: '18px',
+            borderRadius: '8px', 
+            margin: '30px auto 10px auto', 
+            display: 'flex', 
+            alignItems: 'center',
+            textAlign: 'center',
+          };
 
         return(   
             <div>
@@ -165,8 +176,8 @@ import { Dialog, DialogTitle, DialogPanel } from "@headlessui/react";
                         </div>
                     </div>
 
-                    <div className="mt-8 px-6">
-                        <button  onClick={() => setIsOpen(true)} className="rounded-xl w-64 py-3 bg-blue-700 text-white text-2xl font-bold hover:bg-blue-600 transition-colors"> Bayar </button>
+                    <div>
+                        <button  onClick={() => setIsOpen(true)} style={buttonStyle} className="flex justify-center flex-items bg-blue-700 text-white font-bold"> Bayar </button>
                     </div>
 
                     {/* pop up biling info */}
@@ -199,10 +210,12 @@ import { Dialog, DialogTitle, DialogPanel } from "@headlessui/react";
                                     <p>Total</p>
                                     <p>{paket.harga}</p>
                                 </div>
+
                                 <div className="flex justify-between text-base">
                                     <p>Biaya Layanan</p>
                                     <p>Rp. 10.000</p>
                             </div>
+
                             
                             <div className="border-2 border-gray-300 rounded-lg p-3 w-4/5 mx-auto">
                                 <p className="font-semibold text-left mb-3">Pilih metode pembayaran</p>
@@ -246,12 +259,14 @@ import { Dialog, DialogTitle, DialogPanel } from "@headlessui/react";
 
                             <div className="p-3 bg-white rounded-b-xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)]">
                                 <div className="flex justify-between items-center w-full">
-                                <div className="flex flex-col">
+                                <div className="flex flex-col" style={{lineHeight: '1px'}}>
                                     <p className="font-bold">Total</p>
                                     <p className="font-bold text-3xl">Rp. 190.000</p>
+
                                 </div>
-                                    <button onClick={(openNested)} className="bg-blue-700 text-white font-semibold text-2xl px-8 py-4 rounded-xl w-48 hover:bg-blue-800 transition-colors">Bayar</button>
+                                    <button onClick={(openNested)} className="bg-blue-700 text-white py-3 w-48 h-25 hover:bg-blue-800 transition-colors" style={{borderRadius: '8px', fontWeight:'bold', fontSize: '18px'}}>Bayar</button>
                                 </div>
+
                             </div>
                             </DialogPanel>
                         </div>
@@ -287,11 +302,11 @@ import { Dialog, DialogTitle, DialogPanel } from "@headlessui/react";
                       
                             <div className="p-3 bg-white rounded-b-xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)]">
                                 <div className="flex justify-center">
-                                    <button onClick={() => setIsOpenNested(false)} className="bg-blue-700 text-white font-semibold text-2xl px-6 py-3 rounded-xl w-48">Unduh QRIS</button>
+                                    <button onClick={() => setIsOpenNested(false)} className="bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl w-48" style={{borderRadius: '8px'}}>Unduh QRIS</button>
                                 </div>
 
-                                <div className="flex justify-center mt-4">
-                                    <button onClick={() => setIsOpenNested(false)} className="bg-blue-700 text-white font-semibold text-2xl px-6 py-3 rounded-md w-48">Cek status</button>
+                                <div className="flex justify-center mt-3">
+                                    <button onClick={() => setIsOpenNested(false)} className="bg-blue-700 text-white font-semibold text-2xl px-6 py-3 rounded-md w-48" style={{borderRadius: '8px'}}>Cek status</button>
                                 </div>
                             </div>
                             </DialogPanel>
