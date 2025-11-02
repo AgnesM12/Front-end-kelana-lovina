@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y } from "swiper/modules";
 import { Link } from "react-router-dom";
@@ -10,40 +9,9 @@ import "swiper/css/pagination";
 import GaleriGrid from "../components/GaleriGrid";
 import PaketCard from "../components/PaketCard";
 import Judul from "../components/Judul";
-import HeroSection from "../components/HeroSection";
-import HalamanPaketPenuh from "../components/HalamanPaketPenuh";
-import HalamanGaleriPenuh from "../components/HalamanGaleriPenuh";
+
 
 function Beranda() {
-
-  const [tampilkanGaleriPenuh, setTampilkanGaleriPenuh] = useState(false);
-  const [tampilkanPaketPenuh, setTampilkanPaketPenuh] = useState(false);
-
-if (tampilkanGaleriPenuh) {
-  const dataHero = {
-    title: "Galeri Lovina",
-    imageSrc: '/hero.png',
-    altText: 'hero',
-  }
-  return (
-    <main className="w-full max-w-7xl mx-auto px-6 sm:px-8  overflow-x-hidden my-16">
-      <HeroSection hero={dataHero} />
-      <HalamanGaleriPenuh/>
-    </main>
-  );
-}else if (tampilkanPaketPenuh) {
-  const dataHero = {
-    title: "Temukan Paket Terbaik untuk Perjalananmu",
-    imageSrc: '/hero.png',
-    altText: 'hero',
-  }
-  return (
-    <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden ">
-    <HeroSection hero={dataHero} />
-    <HalamanPaketPenuh/>
-    </main>
-  );
-} else{
   return (
     <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden ">
       {/* Hero */}
@@ -124,13 +92,12 @@ if (tampilkanGaleriPenuh) {
           </div>
         </div>
       </section>
-      <RekomendasiPaket onShowMore={() => setTampilkanPaketPenuh(true)} />
-      <GaleriPengunjung onShowMore={() => setTampilkanGaleriPenuh(true)} />
+      <RekomendasiPaket />
+      <GaleriPengunjung />
       <LokasiLovina />
     </main>
     );
   } 
-}
 export default Beranda;
 
 // Komponen RekomedasiPaket
@@ -191,7 +158,7 @@ const paketData = [
   },
 ];
 
-function RekomendasiPaket({onShowMore}) {
+function RekomendasiPaket() {
   const judulRekomendasi = {
     title: "REKOMENDASI PAKET",
     description:
@@ -236,11 +203,12 @@ function RekomendasiPaket({onShowMore}) {
 
       {/* Lihat paket lainnya*/}
       <div className="text-center mt-12">
+        <Link to={"/paket"} >
         <button 
-        onClick={onShowMore}
         className="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
           Lihat paket lainnya
         </button>
+        </Link>
       </div>
     </section>
   );
@@ -254,7 +222,7 @@ const GalleryData = [
   { src: "/galeri-4.png", alt: "galeri-4", size: "small-right" },
 ];
 
-export function GaleriPengunjung({onShowMore}) {
+export function GaleriPengunjung() {
   const judulGaleri = {
     title: "GALERI PENGUNJUNG",
     description:
@@ -269,11 +237,12 @@ export function GaleriPengunjung({onShowMore}) {
         <GaleriGrid images={GalleryData} />
         {/* Button */}
         <div className="text-center mt-12">
+          <Link to={"/galeri"} >
           <button 
-          onClick={onShowMore}
           className="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
             Selengkapnya
           </button>
+          </Link>
         </div>
       </div>
     </section>

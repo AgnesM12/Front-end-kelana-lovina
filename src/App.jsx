@@ -14,6 +14,18 @@ import Destinasi from "./pages/destinasi.jsx";
 import Ulasan from "./pages/ulasan.jsx";
 import Login from "./pages/login.jsx";
 import Profil from "./pages/profil.jsx";
+import HalamanGaleriPenuh from "./pages/galeri.jsx";
+import Paket from "./pages/paket.jsx";
+import HalamanAcaraLengkap from "./pages/acara-lengkap.jsx";
+import DetailAcara from "./pages/detailAcara.jsx";
+import DetailPaket from "./pages/detailPaket.jsx";
+
+// login page
+import Register from "./pages/register.jsx";
+import LupaPassword from "./pages/lupa-password.jsx";
+import VerifyOTP from "./pages/verify-otp.jsx";
+import ResetSandi from "./pages/reset-sandi.jsx";
+
 
 import "./index.css";
 
@@ -52,14 +64,23 @@ function App() {
           <Layout/>}
       >
         <Route index element={<Beranda />} />
+        <Route path="galeri" element={<HalamanGaleriPenuh />} />
+        <Route path="paket" element={<Paket />} />
         <Route path="acara" element={<Acara />} />
+        <Route path="acara/lengkap" element={<HalamanAcaraLengkap />} />
         <Route path="rencana-perjalanan" element={<RencanaPerjalanan />} />
         <Route path="destinasi" element={<Destinasi />} />
         <Route path="ulasan" element={<Ulasan />} />
+        <Route path="/acara/:slug" element={<DetailAcara />} />
+        <Route path="/paket/:slug" element={<DetailPaket />} />
         <Route
           path="login"
           element={<Login onLoginSuccess={handleLoginSuccess} isLoggedIn={isLoggedIn} />}
         />
+        <Route path="register" element={<Register />} />
+        <Route path="lupa-password" element={<LupaPassword />} />
+        <Route path="verify-otp" element={<VerifyOTP />} />
+        <Route path="reset-sandi" element={<ResetSandi />} />
         <Route
           path="profil"
           element={

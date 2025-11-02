@@ -10,17 +10,7 @@ function Ulasan() {
     
     const reviews = [
         {
-        avatar: "/sanjaya.svg",
-        username: 'Sanjaya William',
-        rating: 4,
-        kategori: "sunrise",
-        date: "13 September 2025",
-        tripTitle: "Sunrise Dolphin Cruise",
-        text: "Seruuu bangettt!!! Berenang sama dolphin yang rame seruu, terus dikasih tips yang detail sama guidenya, bener2 save bangett. Selalu ditanyain udh puas blm liat dolphinnya klo belum bakalan diajak liat terus sampe udh puas bgttt!!! Bapak guide nya juga baik sekali kasih kita gorengan krn blm sarapan🥺 sehat2 selalu ya pak👍🏻 nama guide nya pak Dolet👍🏻👍🏻👍🏻👍🏻Nanti klo mau balik lagi pastiii bakalan book disini lagi dan req pak Doket guidenya klo bisaa hihi👍🏻",
-        likes: 10,
-        images: ["/reviewS-1.png", "/reviewS-2.png", "/reviewS-3.png"],
-        },
-        {
+        id : 1,
         avatar: "/Alenty.svg",
         username: 'Alenty M',
         rating: 5,
@@ -32,6 +22,7 @@ function Ulasan() {
         images: ["/reviewA-1.png", "/reviewA-2.png", "/reviewA-3.png"],
         },
         {
+        id : 2,
         avatar: "/Allena.svg",
         username: 'Allena',
         rating: 5,
@@ -42,6 +33,18 @@ function Ulasan() {
         likes: 10,
         images: ["/reviewAl-1.png", "/reviewAl-2.png", "/reviewAl-3.png"],
         },
+        {
+            id: 3,
+            avatar: "/sanjaya.svg",
+            username: 'Sanjaya William',
+            rating: 4,
+            kategori: "sunrise",
+            date: "13 September 2025",
+            tripTitle: "Sunrise Dolphin Cruise",
+            text: "Seruuu bangettt!!! Berenang sama dolphin yang rame seruu, terus dikasih tips yang detail sama guidenya, bener2 save bangett. Selalu ditanyain udh puas blm liat dolphinnya klo belum bakalan diajak liat terus sampe udh puas bgttt!!! Bapak guide nya juga baik sekali kasih kita gorengan krn blm sarapan🥺 sehat2 selalu ya pak👍🏻 nama guide nya pak Dolet👍🏻👍🏻👍🏻👍🏻Nanti klo mau balik lagi pastiii bakalan book disini lagi dan req pak Doket guidenya klo bisaa hihi👍🏻",
+            likes: 10,
+            images: ["/reviewS-1.png", "/reviewS-2.png", "/reviewS-3.png"],
+            },
     ];
 
     const handleFilterChange = (value) => setFilter(value);
@@ -54,7 +57,35 @@ function Ulasan() {
                 r.username.toLowerCase().includes(filter.search.toLowerCase()) || 
                 r.tripTitle.toLowerCase().includes(filter.search.toLowerCase()))
         );
-    });
+    })
+    .sort((a, b) => {
+        if (filter.waktu === "terbaru") {
+            const bulanMap = {
+                Januari: 0,
+                Februari: 1,
+                Maret: 2,
+                April: 3,
+                Mei: 4,
+                Juni: 5,
+                Juli: 6,
+                Agustus: 7,
+                September: 8,
+                Oktober: 9,
+                November: 10,
+                Desember: 11,
+            };
+            // ubah format dari string ke object
+            const parseDate = (str) => {
+                const [tanggal, bulan, tahun] = str.split(" ");
+                return new Date(tahun, bulanMap[bulan], tanggal);
+            };
+    
+            const dateA = parseDate(a.date);
+            const dateB = parseDate(b.date);
+    
+            return dateB - dateA;
+        }
+})    
 
     return (
     <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden">

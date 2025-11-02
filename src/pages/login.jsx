@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -49,7 +50,7 @@ const Login = () => {
 
   return (
     <div className="flex w-full h-screen bg-white">
-      {/* Kolom Kiri: baground */}
+      {/* Kolom Kiri: latar */}
       <div className="relative hidden h-full items-center justify-center bg-gray-500 md:flex md:w-3/5">
         <img
           src="/login.png"
@@ -136,12 +137,11 @@ const Login = () => {
             </div>
             {/* Lupa kata sandi */}
             <div className="text-right text-sm">
-              <a
-                href="#"
+              <Link to={"/lupa-password"}
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Lupa kata sandi?
-              </a>
+              </Link>
             </div>
             {/* Button Masuk */}
             <div>
@@ -154,12 +154,11 @@ const Login = () => {
             </div>
             <p className="text-center text-base font-normal text-black">
               Tidak memiliki akun?{" "}
-              <a
-                href="#"
+              <Link to={"/register"}
                 className="font-medium text-blue-600 hover:text-blue-500"
               >
                 Buat sekarang
-              </a>
+              </Link>
             </p>
           </form>
 

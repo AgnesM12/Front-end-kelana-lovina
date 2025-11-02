@@ -29,7 +29,6 @@ const FilterUlasan = ({ onFilterChange }) => {
         break;
       case "waktu":
         if (filters.waktu === "terbaru") return "Terbaru";
-        if (filters.waktu === "terlama") return "Terlama";
         break;
       case "kategori": {
         const mapping = {
@@ -104,12 +103,6 @@ const FilterUlasan = ({ onFilterChange }) => {
                   className="px-4 py-2 hover:bg-blue-100 cursor-pointer text-gray-700"
                 >
                   Terbaru
-                </div>
-                <div
-                  onClick={() => handleChange("waktu", "terlama")}
-                  className="px-4 py-2 hover:bg-blue-100 cursor-pointer text-gray-700"
-                >
-                  Terlama
                 </div>
               </div>
             )}

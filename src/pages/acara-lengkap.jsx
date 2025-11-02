@@ -1,7 +1,14 @@
 import React from "react";
 import Judul from "../components/Judul"; 
+import HeroSection from "../components/HeroSection";
 
-function HalamanAcaraPenuh() {
+function HalamanAcaraLengkap() {
+    
+    const dataHero = {
+        title: "Jelajahi Festival",
+        imageSrc: '/hero.png',
+        altText: 'hero',
+    };
 
 const acaraData = [
     { src: "/acara-1.jpg", alt: "acara 1" },
@@ -24,6 +31,8 @@ const acaraData = [
     }
 
     return (
+        <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden">
+            <HeroSection hero={dataHero}/>
         <section className="flex flex-col items-center px-4 my-16">
         <Judul
             header={{
@@ -68,7 +77,8 @@ const acaraData = [
             ))}
         </div>
     </section>
+    </main>
     );
 };
 
-export default HalamanAcaraPenuh;
+export default HalamanAcaraLengkap;

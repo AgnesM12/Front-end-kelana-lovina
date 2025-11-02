@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { FiSearch, FiMenu, FiX } from 'react-icons/fi';
 import {  useSelector } from 'react-redux';
 
@@ -10,6 +10,28 @@ function NavbarBefore() {
 
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const user = useSelector((state) => state.auth.user);
+
+    const location = useLocation();
+    const currentPath = location.pathname;
+
+    const isBerandaActive =
+        currentPath === '/' ||
+        currentPath === '/paket' ||
+        currentPath === '/galeri'||
+        currentPath === '/paket/morning-dolphin-tour' ||
+        currentPath === '/paket/sunrise-dolphin-cruise' ||
+        currentPath === '/paket/snorkeling-lovina' ||
+        currentPath === '/paket/dolphin-watching-tour' ||
+        currentPath === '/paket/swim-with-dolphin' ||
+        currentPath === '/paket/private-tour-guide';
+
+
+    const isAcaraActive = 
+        currentPath === '/acara'||
+        currentPath === '/acara/lengkap' ||
+        currentPath === '/acara/pemuteran-bay-festival' ||
+        currentPath === '/acara/buleleng-festival' ||
+        currentPath === '/acara/twin-lake-festival'
     
 
     return (
@@ -41,8 +63,8 @@ function NavbarBefore() {
                 {/* Navigasi Desktop */}
                 <div className='hidden lg:flex items-center space-x-10'>
                 <div className="flex items-center gap-[25px]">
-                    <NavLink to="/" end className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Beranda</NavLink>
-                    <NavLink to="/acara" className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold' : 'border-transparent text-gray-600 hover:border-primary'}`}>Acara</NavLink>
+                    <NavLink to="/" end className={`px-1 py-2.5 border-b-[2.50px] whitespace-nowrap ${isBerandaActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Beranda</NavLink>
+                    <NavLink to="/acara" end className={`px-1 py-2.5 border-b-[2.50px] whitespace-nowrap ${isAcaraActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Acara</NavLink>
                     <NavLink to="/rencana-perjalanan" className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold' : 'border-transparent text-gray-600 hover:border-primary'}`}>Rencana Perjalanan</NavLink>
                     {isAuthenticated && (
                             <NavLink to="/destinasi" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Destinasi</NavLink>

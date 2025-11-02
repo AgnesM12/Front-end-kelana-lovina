@@ -1,6 +1,6 @@
-import {React, useState} from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y } from "swiper/modules";
+import { Link } from "react-router-dom";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -10,11 +10,8 @@ import GaleriGrid from "../components/GaleriGrid";
 import HeroSection from "../components/HeroSection";
 import FestivalCard from "../components/FestivalCard";
 import Judul from "../components/Judul";
-import HalamanAcaraPenuh from "../components/HalamanAcaraPenuh";
 
 function Acara() {
-
-  const [tampilkanAcaraPenuh, setTampilkanAcaraPenuh] = useState(false);
     
     const acaraGallery = [
         { src: '/festival-1.png', alt: 'festival-1' },
@@ -29,24 +26,6 @@ function Acara() {
       altText: 'hero',
     };
 
-    const onShowMore = () => {
-      setTampilkanAcaraPenuh(true);
-    };
-
-    if(tampilkanAcaraPenuh) {
-      const dataHero = {
-        title: "Jelajahi Festival",
-        imageSrc: '/hero.png',
-        altText: 'hero',
-      };
-
-      return (
-        <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden">
-          <HeroSection hero={dataHero}/>
-          <HalamanAcaraPenuh />
-        </main>
-      )
-    } else {
     return (
       <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden">
         <HeroSection hero={dataHero}/>
@@ -62,64 +41,61 @@ function Acara() {
             images={acaraGallery}
             />
           <div className="text-center mt-12">
+            <Link to={"/acara/lengkap"} >
           <button 
-          onClick={onShowMore}
           className="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
             Selengkapnya
           </button>
+          </Link>
           </div>
         </div>
         </main>
     )
   };
-}
 
 export default Acara;
-
-
-
 
 
 // komponen FestivalLovina
 const eventData = [
   {
     id: 1,
-    imageSrc: "/festival-buleleng.png",
+    imageSrc: "/festival-buleleng.jpg",
     title: "Buleleng Festival",
     description:
       "Menghadirkan seni tradisional & modern, UMKM, kuliner lokal, digital expo, serta transportasi gratis dengan bemo dan dokar.",
   },
   {
     id: 2,
-    imageSrc: "/festival-pemutaran-bay.png",
+    imageSrc: "/festival-pemutaran-bay.jpg",
     title: "Pemuteran Bay Festival",
     description:
-      "Menampilkan pertunjukan seni budaya, kuliner, kemungkinan pameran & juga aktivitas laut di daerah pantai sekitar Pemuteran.",
+      "Menampilkan pertunjukan seni budaya, kuliner, kemungkinan pameran & aktivitas laut di daerah pantai Pemuteran.",
   },
   {
     id: 3,
-    imageSrc: "/festival-twin-lake.png",
+    imageSrc: "/festival-twin-lake.jpg",
     title: "Twin Lake Festival",
     description:
-      "Menampilkan pelepasan burung, lomba memancing, tracking, serta carving buah sebagai bagian dari hiburan dan atraksi wisata.",
+      "Menampilkan pelepasan burung, lomba memancing, tracking, serta carving buah sebagai bagian dari hiburan dan atraksi wisata",
   },
   {
     id: 4,
-    imageSrc: "/festival-buleleng.png",
+    imageSrc: "/festival-buleleng.jpg",
     title: "Buleleng Festival",
     description:
       "Menghadirkan seni tradisional & modern, UMKM, kuliner lokal, digital expo, serta transportasi gratis dengan bemo dan dokar.",
   },
   {
     id: 5,
-    imageSrc: "/festival-pemutaran-bay.png",
+    imageSrc: "/festival-pemutaran-bay.jpg",
     title: "Pemuteran Bay Festival",
     description:
       "Menampilkan pertunjukan seni budaya, kuliner, kemungkinan pameran & juga aktivitas laut di daerah pantai sekitar Pemuteran.",
   },
   {
     id: 6,
-    imageSrc: "/festival-twin-lake.png",
+    imageSrc: "/festival-twin-lake.jpg",
     title: "Twin Lake Festival",
     description:
       "Menampilkan pelepasan burung, lomba memancing, tracking, serta carving buah sebagai bagian dari hiburan dan atraksi wisata.",

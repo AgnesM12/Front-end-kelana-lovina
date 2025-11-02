@@ -1,9 +1,8 @@
-import React from "react";
-import { Link } from 'react-router-dom';
 import Judul from "./Judul";
-import PaketCard from "../components/PaketCard";
+import PaketCard from "./PaketCard";
 
 function HalamanPaketPenuh() {
+
     const paketData = [
         {
             id: 1,
