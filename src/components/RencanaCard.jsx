@@ -45,7 +45,7 @@ function RencanaCard({ pkg }) {
   const handleCopy = () => {
     navigator.clipboard.writeText(shareUrl).then(() => {
       setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000); // Reset ikon setelah 2 detik
+      setTimeout(() => setIsCopied(false), 2000); 
     });
   };
 

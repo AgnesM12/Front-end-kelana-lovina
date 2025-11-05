@@ -52,7 +52,7 @@ const ReviewCard = ({ review }) => {
             />
             ))}
         </div>
-        <p className="text-gray-700 leading-relaxed px-16 text-justify">{review.text}</p>
+        <p className="text-zinc-800 leading-relaxed px-16 text-justify">{review.text}</p>
         <div 
                 className={`flex items-center justify-end gap-1 cursor-pointer transition duration-150 ${heartColorClass}`}
                 onClick={handleLikeClick}

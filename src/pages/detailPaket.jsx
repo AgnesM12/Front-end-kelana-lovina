@@ -12,7 +12,7 @@ const paketData = [
         reviews: 68,
         duration: "3 Jam",
         capacity: "Maksimal 5 orang/perahu",
-        includes: [
+        desk: [
         "Pengalaman melihat lumba-lumba saat matahari terbit",
         "Sarapan ringan di atas perahu",
         "Pelampung keselamatan",
@@ -30,7 +30,7 @@ const paketData = [
         reviews: 44,
         duration: "2 Jam",
         capacity: "Maksimal 5 orang/perahu",
-        includes: [
+        desk: [
         "Pengalaman melihat lumba-lumba saat matahari terbit",
         "Sarapan ringan di atas perahu",
         "Pelampung keselamatan",
@@ -48,7 +48,7 @@ const paketData = [
         reviews: 39,
         duration: "2 Jam",
         capacity: "Maksimal 5 orang/perahu",
-        includes: [
+        desk: [
         "Satu botol air mineral untuk setiap penumpang",
         "Menikmati minuman selamat datang khas Bali (Teh atau Kopi) setibanya di Pantai Lovina",
         "Peralatan snorkeling",
@@ -67,7 +67,7 @@ const paketData = [
         reviews: 40,
         duration: "3 Jam",
         capacity: "Maksimal 5 orang/perahu",
-        includes: [
+        desk: [
         "Pengalaman melihat lumba-lumba saat matahari terbit",
         "Minuman hangat di atas perahu",
         "Pelampung keselamatan",
@@ -85,7 +85,7 @@ const paketData = [
         reviews: 36,
         duration: "1,5 Jam",
         capacity: "Maksimal 5 orang/perahu",
-        includes: [
+        desk: [
         "Pengalaman berenang dengan lumba-lumba saat matahari terbit",
         "Air mineral",
         "Pelampung keselamatan",
@@ -103,7 +103,7 @@ const paketData = [
         reviews: 40,
         duration: "2 Jam",
         capacity: "Maksimal 5 orang/perahu",
-        includes: [
+        desk: [
         "Satu perahu khusus pribadi hanya untuk Anda & rombongan",
         "Pengalaman eksklusif menyaksikan lumba-lumba",
         "Private guide lokal berpengalaman yang mendampingi penuh selama tur",
@@ -125,7 +125,7 @@ const paketData = [
 
     return (
         <div className="max-w-[1180px] mx-auto bg-white rounded-3xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-8 my-16 flex flex-col gap-14">
-        {/* Gambar utama */}
+        {/* Gambar latar */}
         <img
             src={paket.imageSrc}
             alt={paket.title}
@@ -144,7 +144,7 @@ const paketData = [
             </div>
         </div>
 
-        {/* Detail Durasi & Kapasitas */}
+        {/*  Durasi & Kapasitas */}
         <div className="text-2xl text-black">
             <p>
             <span className="font-bold ">Durasi: </span>{paket.duration}
@@ -158,7 +158,7 @@ const paketData = [
         <div>
             <h2 className="text-3xl font-bold text-black mb-2">Paket Termasuk</h2>
             <ul className="list-disc list-inside text-2xl font-normal text-black space-y-1">
-            {paket.includes.map((item, i) => (
+            {paket.desk.map((item, i) => (
                 <li key={i}>{item}</li>
             ))}
             </ul>

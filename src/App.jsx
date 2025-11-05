@@ -19,6 +19,9 @@ import Paket from "./pages/paket.jsx";
 import HalamanAcaraLengkap from "./pages/acara-lengkap.jsx";
 import DetailAcara from "./pages/detailAcara.jsx";
 import DetailPaket from "./pages/detailPaket.jsx";
+import RiwayatPemesanan from "./pages/riwayat-pemesanan.jsx";
+import ReviewRating from "./pages/review-rating.jsx";
+import Album from "./pages/album.jsx";
 
 // login page
 import Register from "./pages/register.jsx";
@@ -89,6 +92,9 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="riwayat-pemesanan" element={<RiwayatPemesanan />} />
+        <Route path="review-rating" element={<ReviewRating />} />
+        <Route path="unggah-foto-video" element={<Album />} />
       </Route>
     </Routes>
   );

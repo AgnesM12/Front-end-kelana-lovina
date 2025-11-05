@@ -28,3 +28,4 @@ const PaketCard = ({ paket }) => {
     )
 };
 export default PaketCard;
+

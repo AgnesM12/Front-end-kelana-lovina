@@ -6,7 +6,7 @@ import Footer from './footer';
 const Layout = ({ isLoggedIn, user, onLogout }) => {
     const location = useLocation();
     
-    const pageLogin = ["/login", "/register", "/lupa-password", "/verify-otp", "/reset-sandi", "/konfirmasi-selesai"];
+    const pageLogin = ["/login", "/register", "/lupa-password", "/verify-otp", "/reset-sandi"];
     const isLoginPage = pageLogin.includes(location.pathname);
     const mainPadding = !isLoginPage ? "pt-32" : "";
 

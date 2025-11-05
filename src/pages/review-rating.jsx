@@ -1,11 +1,25 @@
-import {React, useState} from "react";
-
+import React, {useState} from "react";
 import HeroSection from "../components/HeroSection";
-import Judul from "../components/Judul"
+import Judul from "../components/Judul";
 import FilterUlasan from "../components/FilterUlasan";
 import ReviewCard from "../components/ReviewCard";
 
-function Ulasan() {
+
+function ReviewRating() {
+    const beriUlasan = [
+        {
+            imageSrc:"/paket-sunrise-cruise.png",
+            title:"Sunrise Dolphin Cruise",
+            desk: "Durasi 2 jam - Termasuk snack & minum"
+        },
+        {
+            imageSrc:"/paket-snorkeling.png",
+            title:"Snorkeling Lovina",
+            desk: "Durasi 2 jam - Termasuk pelampung & guide"
+        },
+
+    ]
+
     const [filter, setFilter] = useState({});
     
     const reviews = [
@@ -88,20 +102,31 @@ function Ulasan() {
 })    
 
     return (
-    <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden">
-        <HeroSection hero={{
-            imageSrc: "/hero.png",
-            altText: "hero",
-            title: "Pengalaman Mereka"
-        }} />
-        <div className="my-16 "> 
-        <Judul header={{
-            title: "Kisah Perjalanan Pengunjung Lovina",
-            description: "Setiap orang punya cerita seru setelah berkunjung ke Pantai Lovina. Ada yang berbagi tentang indahnya sunrise, ada yang senang melihat lumba-lumba dari dekat. Di sini, kamu bisa temukan kisah nyata mereka yang sudah merasakan liburan di Lovina"
-        }}/>
-        </div>
-        <FilterUlasan onFilterChange={handleFilterChange} />
-        <div className="mt-8">
+        <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 mt-16 overflow-x-hidden">
+            <HeroSection hero={{
+                imageSrc: "/hero.png",
+                altText: "hero",
+                title: "Tambahkan Ulasanmu"
+            }} />
+            <div className="mt-16">
+                <Judul header={{
+                    title: "Cerita Perjalananmu di Lovina",
+                    description: "Lihat kembali aktivitas seru yang sudah kamu coba selama berada di Lovina. Berikan ulasan dan bagikan pengalamanmu, agar pengunjung lain bisa mendapatkan inspirasi dan informasi dari ceritamu."
+                }} />
+            </div>
+            <div className="my-16 ">
+                <p className="text-zinc-800 text-2xl font-bold">Jejak Perjalanan yang Belum Tertulis</p>
+                <div className="mt-10 flex flex-wrap gap-8">
+                    {beriUlasan.map((item,index) => (
+                        <UlasanCard
+                        key={index}
+                        aktivitas={item}
+                        />
+                    ))}
+                </div>
+            </div>
+            <FilterUlasan onFilterChange={handleFilterChange} />
+        <div className="mt-8 ">
             {filtered.length > 0 ? (
                 filtered.map((r,i) => <ReviewCard key={i} review={r} />)
             ):(
@@ -110,7 +135,31 @@ function Ulasan() {
                 </p>
             )}
         </div>
-    </main>
-    );
+        </main>
+    )
 }
-export default Ulasan;
+export default ReviewRating;
+
+
+const UlasanCard = ({ aktivitas }) => {
+    return (
+        <div className="w-96 p-6 bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] overflow-hidden  items-center gap-6 flex flex-col">
+            <img 
+            className="w-80 h-72 rounded-2xl object-cover" 
+            src={aktivitas.imageSrc} 
+            alt={aktivitas.title} 
+            />
+            <div className="flex flex-col gap-2">
+            <h3 className="w-80 text-zinc-700 text-2xl font-semibold">
+                {aktivitas.title}
+            </h3>
+            <p className="w-80 text-gray-600 text-xl font-normal pb-6">
+                {aktivitas.desk}
+            </p>
+            <button className="w-80 bg-primary text-white text-xl font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">
+                Tambahkan Cerita Anda
+            </button>
+            </div>
+        </div>
+        );
+    };
