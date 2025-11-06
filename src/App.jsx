@@ -28,6 +28,8 @@ import Register from "./pages/register.jsx";
 import LupaPassword from "./pages/lupa-password.jsx";
 import VerifyOTP from "./pages/verify-otp.jsx";
 import ResetSandi from "./pages/reset-sandi.jsx";
+import MenuPembayaran from "./pages/menuPembayaran.jsx";
+import Tiket from "./pages/tiket.jsx";
 
 
 import "./index.css";
@@ -41,7 +43,7 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true );
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -75,7 +77,8 @@ function App() {
         <Route path="destinasi" element={<Destinasi />} />
         <Route path="ulasan" element={<Ulasan />} />
         <Route path="/acara/:slug" element={<DetailAcara />} />
-        <Route path="/paket/:slug" element={<DetailPaket />} />
+        <Route path="/paket/:slug" element={<DetailPaket isLoggedIn={isLoggedIn} />} />
+
         <Route
           path="login"
           element={<Login onLoginSuccess={handleLoginSuccess} isLoggedIn={isLoggedIn} />}
@@ -95,7 +98,11 @@ function App() {
         <Route path="riwayat-pemesanan" element={<RiwayatPemesanan />} />
         <Route path="review-rating" element={<ReviewRating />} />
         <Route path="unggah-foto-video" element={<Album />} />
-      </Route>
+
+        <Route path="/paket/:slug/menuPembayaran" element={<MenuPembayaran />} />
+        <Route path="/paket/:slug/menuPembayaran/tiket" element={<Tiket />} />
+
+      </Route>  
     </Routes>
   );
 }
