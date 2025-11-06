@@ -32,6 +32,7 @@ function NavbarBefore() {
         currentPath === '/acara/pemuteran-bay-festival' ||
         currentPath === '/acara/buleleng-festival' ||
         currentPath === '/acara/twin-lake-festival'
+        
     
 
     return (
@@ -100,6 +101,9 @@ function NavbarBefore() {
                         <NavLink to="/" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `inline-block text-left border-b-2 pb-2 transition-all duration-200 ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Beranda</NavLink>
                         <NavLink to="/acara" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `inline-block text-left border-b-2 pb-2 transition-all duration-200 ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Acara</NavLink>
                         <NavLink to="/rencana-perjalanan" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `inline-block text-left border-b-2 pb-2 transition-all duration-200 ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Rencana Perjalanan</NavLink>
+                        {isAuthenticated && (
+                            <NavLink to="/destinasi" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Destinasi</NavLink>
+                        )}
                         <NavLink to="/ulasan" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `inline-block text-left border-b-2 pb-2 transition-all duration-200 ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Ulasan</NavLink>
                         {/* button masuk */}
                         {isAuthenticated ? (

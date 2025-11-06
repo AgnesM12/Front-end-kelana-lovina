@@ -1,6 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y } from "swiper/modules";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -12,6 +13,16 @@ import Judul from "../components/Judul";
 
 
 function Beranda() {
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  const handlePesanClick = () => {
+    const targetPath = isAuthenticated
+      ? `/paket/sunrise-dolphin-cruise`
+      : "/login";
+    navigate(targetPath);
+  };
+
   return (
     <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden ">
       {/* Hero */}
@@ -58,13 +69,13 @@ function Beranda() {
         <div className="w-full max-w-md flex flex-col gap-8">
           <div className="bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-4 flex flex-col gap-4">
             <img
-              src="/lumba.png"
+              src="/paket-sunrise-cruise.png"
               alt="Tur lumba-lumba"
               className="w-full h-60 object-cover rounded-2xl"
             />
             <div className="flex justify-between items-center gap-4 px-1">
               <h3 className="text-xl font-bold text-gray-900">
-                Paket sunrise dolphin tur
+                Paket Sunrise Dolphin Cruise
               </h3>
               <p className="text-sm font-semibold text-gray-900 whitespace-nowrap">
                 IDR 300.000
@@ -72,9 +83,9 @@ function Beranda() {
             </div>
             <div className="flex justify-between items-center gap-4 px-1">
               <p className="text-sm text-zinc-700">
-                Durasi 3 jam - Sudah termasuk sarapan dan snorkeling
+                Durasi 2 jam - Sudah termasuk sarapan dan snorkeling
               </p>
-              <button className="bg-blue-700 text-white font-bold text-base px-8 py-2.5 rounded-xl hover:bg-blue-800 transition-colors flex-shrink-0">
+              <button onClick={handlePesanClick} className="bg-blue-700 text-white font-bold text-base px-8 py-2.5 rounded-xl hover:bg-blue-800 transition-colors flex-shrink-0">
                 Pesan
               </button>
             </div>

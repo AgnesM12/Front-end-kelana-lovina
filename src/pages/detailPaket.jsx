@@ -122,7 +122,6 @@
         
         ];
 
-        // const DetailPaket = {(isLoggedIn)} => {
         const DetailPaket = ({ isLoggedIn }) => { 
         const { slug } = useParams();
         const navigate = useNavigate();
@@ -131,6 +130,14 @@
         if (!paket) {
             return <p className="text-center mt-40 text-gray-500">Paket tidak ditemukan.</p>;
         }
+
+        const handlePesanClick = () => {
+            if (isLoggedIn) {
+                navigate(`/paket/${paket.slug}/menuPembayaran`, { state: paket }); 
+            } else {
+                navigate('/login');
+            }
+        };
 
 
         return (
@@ -187,15 +194,9 @@
 
 
             {/* Tombol Pesan */}
-            { isLoggedIn ? (
-                <button onClick={() => navigate(`/paket/${paket.slug}/menuPembayaran`, { state: paket })} className="mt-4 w-full  h-16 px-6 py-3.5 bg-primary text-white text-3xl font-bold rounded-lg hover:bg-blue-700 transition">
+                <button onClick={handlePesanClick} className="mt-4 w-full  h-16 px-6 py-3.5 bg-primary text-white text-3xl font-bold rounded-lg hover:bg-blue-700 transition">
                     Pesan Sekarang
                 </button>
-                ) : (
-                <button  onClick={() => navigate('/login')} className="mt-4 w-full  h-16 px-6 py-3.5 bg-primary text-white text-3xl font-bold rounded-lg hover:bg-blue-700 transition">
-                    Pesan Sekarang
-                </button>
-            )}
             </div>
         );
     };

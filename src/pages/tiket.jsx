@@ -161,7 +161,7 @@ const TiketPdfContent = ({ paket, data }) => {
                     </div>
                 </div>
 
-                <div className="flex justify-center p-10 gap-5">  
+                <div className="flex justify-center p-10 gap-5"> 
                     <PDFDownloadLink document={<TiketPdfContent paket={paket} data={data} />}  fileName={fileName}>
                         {({loading}) => (
                             <button disabled={loading} style={{...buttonStyle, borderRadius: '8px'}} className="bg-[#005ED1] text-white font-semibold">
@@ -170,7 +170,7 @@ const TiketPdfContent = ({ paket, data }) => {
                     </PDFDownloadLink>
 
 
-                    <button onClick={() => navigate('/menuPaket')} style={{...buttonStyle, borderRadius: '8px'}} className="bg-[#005ED1] text-white font-semibold">
+                    <button onClick={() => navigate('/destinasi')} style={{...buttonStyle, borderRadius: '8px'}} className="bg-[#005ED1] text-white font-semibold">
                     Kembali
                     </button>
 
