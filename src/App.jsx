@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 
 // Layout
@@ -43,23 +43,19 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true );
-  const [user, setUser] = useState(null);
+  
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
 
+  // ambil data user dari localStorage hanya sekali saat app dibuka
   useEffect(() => {
-    const storedUserData = localStorage.getItem('user_data');
+    const storedUserData = localStorage.getItem("user_data");
     if (storedUserData) {
       const userData = JSON.parse(storedUserData);
-      setIsLoggedIn(true);
-      setUser(userData);
+      dispatch(loginSuccess(userData)); 
     }
-  }, []);
-
-  const handleLoginSuccess = (userData) => {
-    setIsLoggedIn(true);
-    setUser(userData);
-    localStorage.setItem('user_data', JSON.stringify(userData));
-  };
+  }, [dispatch]);
 
   return (
     <Routes>
@@ -70,18 +66,18 @@ function App() {
       >
         <Route index element={<Beranda />} />
         <Route path="galeri" element={<HalamanGaleriPenuh />} />
-        <Route path="paket" element={<Paket />} />
+        <Route path="paket" element={<Paket isLoggedIn={isAuthenticated} />} />
         <Route path="acara" element={<Acara />} />
         <Route path="acara/lengkap" element={<HalamanAcaraLengkap />} />
         <Route path="rencana-perjalanan" element={<RencanaPerjalanan />} />
         <Route path="destinasi" element={<Destinasi />} />
         <Route path="ulasan" element={<Ulasan />} />
         <Route path="/acara/:slug" element={<DetailAcara />} />
-        <Route path="/paket/:slug" element={<DetailPaket isLoggedIn={isLoggedIn} />} />
+        <Route path="/paket/:slug" element={<DetailPaket isLoggedIn={isAuthenticated} />} />
 
         <Route
           path="login"
-          element={<Login onLoginSuccess={handleLoginSuccess} isLoggedIn={isLoggedIn} />}
+          element={<Login isLoggedIn={isAuthenticated} />}
         />
         <Route path="register" element={<Register />} />
         <Route path="lupa-password" element={<LupaPassword />} />
@@ -90,7 +86,7 @@ function App() {
         <Route
           path="profil"
           element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <ProtectedRoute>
               <Profil user={user} />
             </ProtectedRoute>
           }
