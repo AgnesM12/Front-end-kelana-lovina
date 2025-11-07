@@ -17,22 +17,16 @@ function NavbarBefore() {
     const isBerandaActive =
         currentPath === '/' ||
         currentPath === '/paket' ||
-        currentPath === '/galeri'||
-        currentPath === '/paket/morning-dolphin-tour' ||
-        currentPath === '/paket/sunrise-dolphin-cruise' ||
-        currentPath === '/paket/snorkeling-lovina' ||
-        currentPath === '/paket/dolphin-watching-tour' ||
-        currentPath === '/paket/swim-with-dolphin' ||
-        currentPath === '/paket/private-tour-guide';
-
+        currentPath === '/galeri';
+        
 
     const isAcaraActive = 
-        currentPath === '/acara'||
-        currentPath === '/acara/lengkap' ||
-        currentPath === '/acara/pemuteran-bay-festival' ||
-        currentPath === '/acara/buleleng-festival' ||
-        currentPath === '/acara/twin-lake-festival'
-        
+        currentPath.startsWith('/acara');
+
+    const isDestinasiActive =
+        currentPath.startsWith('/destinasi') ||
+        /^\/paket\/[^/]+\/menuPembayaran(\/tiket)?$/.test(currentPath);
+
     
 
     return (
@@ -68,7 +62,7 @@ function NavbarBefore() {
                     <NavLink to="/acara" end className={`px-1 py-2.5 border-b-[2.50px] whitespace-nowrap ${isAcaraActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Acara</NavLink>
                     <NavLink to="/rencana-perjalanan" className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold' : 'border-transparent text-gray-600 hover:border-primary'}`}>Rencana Perjalanan</NavLink>
                     {isAuthenticated && (
-                            <NavLink to="/destinasi" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Destinasi</NavLink>
+                            <NavLink to="/destinasi" end className={`px-1 py-2.5 border-b-[2.50px] whitespace-nowrap ${isDestinasiActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Destinasi</NavLink>
                         )}
                     <NavLink to="/ulasan" className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold' : 'border-transparent text-gray-600 hover:border-primary'}`}>Ulasan</NavLink>
                 </div>

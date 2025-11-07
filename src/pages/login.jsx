@@ -2,10 +2,12 @@ import React, {useState} from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import validator from "validator";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/slice";
+
 
 const Login = () => {
   
@@ -28,6 +30,16 @@ const Login = () => {
     }
     if (!/[!@#$%^&*]/.test(value)) {
       return "Password setidaknya mengandung 1 simbol (!@#$%^&*)";
+    }
+    return true;
+  };
+
+  const validateEmail = (value) => {
+    if (!value) {
+      return "Email wajib diisi";
+    }
+    if (!validator.isEmail(value)) {
+      return "Format email tidak valid";
     }
     return true;
   };
@@ -85,10 +97,7 @@ const Login = () => {
                   placeholder="Masukan Alamat Email"
                   {...register("email", {
                     required: "Email wajib diisi",
-                    patern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Format email tidak valid",
-                    }
+                    validate: validateEmail,
                   })}
                   className={`${baseStyle} ${
                     errors.email ? errorStyle : defaultStyle

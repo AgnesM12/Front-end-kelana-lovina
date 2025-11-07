@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import EditProfil from '../components/EditProfil';
 import TiketSaya from '../components/TiketSaya';
 import UbahKataSandi from '../components/UbahKataSandi';
+import Bantuan from '../components/Bantuan';
+import { logout } from '../redux/slice';
 
 function Profil() {
+    const user = useSelector((state) => state.auth.user);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+    dispatch(logout());     
+    navigate('/');             
+    };
+
     const PreferensiButton = ({ label }) => (
         <button className="px-6 py-3.5 h-14 rounded-lg border-2 border-primary text-primary text-lg font-semibold transition-colors">
         {label}
@@ -12,7 +24,7 @@ function Profil() {
     );
 
     const [dataProfil, setDataProfil] = useState({
-        namaLengkap: "User",
+        namaLengkap: user?.name || user?.email?.split('@')[0] || "Pengguna Baru",
         bio: "Traveling buatku bukan sekadar liburan, tapi cara ngumpulin cerita & kenangan baru",
         preferensiWisata: ["Pantai", "Alam", "Snorkeling", "Paket Wisata"],
     });
@@ -20,6 +32,7 @@ function Profil() {
     const [tampilEdit, setTampilEdit] = useState(false);
     const [tampilTiket, setTampilTiket] = useState(false);
     const [tampilUbahSandi, setTampilUbahSandi] = useState(false);
+    const [tampilBantuan, setTampilBantuan] = useState(false);
 
     const handleUpdateProfil = (dataBaru) => {
         setDataProfil((prev) => ({
@@ -126,10 +139,10 @@ function Profil() {
             </section>
         </div>
         <div className="w-full max-w-6xl flex justify-end gap-4 my-16">
-            <button className="w-full sm:w-auto flex-1 sm:flex-none bg-primary text-white px-6 py-3.5 rounded-lg font-bold text-lg hover:bg-opacity-90 transition-colors">
+            <button onClick={() => setTampilBantuan(true)} className="w-full sm:w-auto flex-1 sm:flex-none bg-primary text-white px-6 py-3.5 rounded-lg font-bold text-lg hover:bg-opacity-90 transition-colors">
             Bantuan
             </button>
-            <button className="w-full sm:w-auto flex-1 sm:flex-none bg-red-600 text-white px-6 py-3.5 rounded-lg font-bold text-lg hover:bg-red-700 transition-colors">
+            <button onClick={handleLogout} className="w-full sm:w-auto flex-1 sm:flex-none bg-red-600 text-white px-6 py-3.5 rounded-lg font-bold text-lg hover:bg-red-700 transition-colors">
             Keluar
             </button>
         </div>
@@ -142,6 +155,7 @@ function Profil() {
         )}
         {tampilTiket && <TiketSaya onClose={() => setTampilTiket(false)} />}
         {tampilUbahSandi && <UbahKataSandi closeModal={() => setTampilUbahSandi(false)} />}
+        {tampilBantuan && <Bantuan closeModal={() => setTampilBantuan(false)} /> } 
         </div>
     );
 }

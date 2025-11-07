@@ -28,6 +28,19 @@ const ResetSandi = () => {
         console.log("Sandi baru telah diatur:", data.password);
         reset();
         setIsResetSuccess(true);
+    }; 
+
+    const validatePassword = (value) => {
+        if (value.length < 8) {
+            return "Password minimal 8 karakter";
+        }
+        if (!/\d/.test(value)) {
+            return "Password setidaknya mengandung satu angka";
+        }
+        if (!/[!@#$%^&*]/.test(value)) {
+            return "Password setidaknya mengandung 1 simbol (!@#$%^&*)";
+        }
+        return true;
     };
 
     if (isResetSuccess) {
@@ -93,7 +106,7 @@ const ResetSandi = () => {
                                     className={`${baseStyle} ${errors.password ? errorStyle : defaultStyle}`}
                                     {...register("password", { 
                                         required: "Kata sandi baru wajib diisi",
-                                        minLength: { value: 8, message: "Minimal 8 karakter" }
+                                        validate: validatePassword
                                     })}
                                 />
                                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
