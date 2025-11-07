@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import validator from "validator";
 
 const LupaPassword = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -10,6 +11,17 @@ const LupaPassword = () => {
         console.log("Email reset dikirim ke:", data.email);
         navigate("/verify-otp");
     };
+
+    const validateEmail = (value) => {
+        if (!value) {
+            return "Email wajib diisi";
+        }
+        if (!validator.isEmail(value)) {
+            return "Format email tidak valid";
+        }
+        return true;
+    };
+    
 
     const baseStyle =
         "w-full h-11 px-2.5 py-2 rounded-lg border-2 focus:ring-primary focus:border-primary placeholder-zinc-400 focus:outline-none";
@@ -46,7 +58,7 @@ const LupaPassword = () => {
                 <input
                     type="email"
                     placeholder="Masukkan Alamat Email"
-                    {...register("email", { required: "Email wajib diisi" })}
+                    {...register("email", { required: "Email wajib diisi", validate: validateEmail, })}
                     className={`${baseStyle} ${
                     errors.email ? errorStyle : defaultStyle
                     }`}

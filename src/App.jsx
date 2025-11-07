@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { loginSuccess } from "./redux/slice";
 
 
 // Layout
@@ -36,7 +37,10 @@ import "./index.css";
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  if (!isAuthenticated) {
+  const location = window.location.pathname;
+
+  const protectedPaths = ["/profil", "/destinasi"];
+  if (!isAuthenticated && protectedPaths.includes(location)) {
       return <Navigate to="/login" replace />;
   }
   return children;
@@ -59,18 +63,14 @@ function App() {
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <Layout/>}
-      >
+      <Route path="/"element={<Layout/>}>
         <Route index element={<Beranda />} />
         <Route path="galeri" element={<HalamanGaleriPenuh />} />
         <Route path="paket" element={<Paket isLoggedIn={isAuthenticated} />} />
         <Route path="acara" element={<Acara />} />
         <Route path="acara/lengkap" element={<HalamanAcaraLengkap />} />
         <Route path="rencana-perjalanan" element={<RencanaPerjalanan />} />
-        <Route path="destinasi" element={<Destinasi />} />
+        <Route path="destinasi" element={<ProtectedRoute> <Destinasi /> </ProtectedRoute>} />
         <Route path="ulasan" element={<Ulasan />} />
         <Route path="/acara/:slug" element={<DetailAcara />} />
         <Route path="/paket/:slug" element={<DetailPaket isLoggedIn={isAuthenticated} />} />
