@@ -31,6 +31,7 @@ import VerifyOTP from "./pages/verify-otp.jsx";
 import ResetSandi from "./pages/reset-sandi.jsx";
 import MenuPembayaran from "./pages/menuPembayaran.jsx";
 import Tiket from "./pages/tiket.jsx";
+import DetailTiketSaya from "./pages/detailTiketSaya.jsx";
 
 
 import "./index.css";
@@ -97,6 +98,8 @@ function App() {
 
         <Route path="/paket/:slug/menuPembayaran" element={<MenuPembayaran />} />
         <Route path="/paket/:slug/menuPembayaran/tiket" element={<Tiket />} />
+        <Route path="/detailTiketSaya" element={<DetailTiketSaya />} />
+        
 
       </Route>  
     </Routes>

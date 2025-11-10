@@ -1,13 +1,13 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom"; 
 import { Page, Text, View, Document, StyleSheet, PDFDownloadLink, Image } from '@react-pdf/renderer'; 
-
+import { useEffect } from "react";
 
 const TiketPdfContent = ({ paket, data }) => {
 
     // Fungsi untuk menghitung total harga
     const formatTotalHarga = () => {
-        const hargaPerOrang = parseInt(paket?.harga?.replace(/\D/g, "") || '0');
+        const hargaPerOrang = parseInt(paket?.price?.replace(/\D/g, "") || '0');
         const jumlahOrang = data?.jumlahOrang || 0; 
         const total = (jumlahOrang * hargaPerOrang) + 10000;
         return total.toLocaleString("id-ID");
@@ -75,7 +75,7 @@ const TiketPdfContent = ({ paket, data }) => {
             <Page size="A4" style={styles.page} orientation='landscape'>
                 <View style={styles.section}>
                     <Text style={styles.header}>TIKET WISATA ANDA</Text>
-                    <Image style={styles.barcodeImage} src="/barcode.png" /> {/* ✅ Perbaikan: hapus useLocation di sini */}
+                    <Image style={styles.barcodeImage} src="/barcode.png" /> 
                     
                     <Text style={styles.titlePaket} className='text-3xl'>{paket?.title || 'Paket Tidak Tersedia'}</Text>
                     <Text style={[styles.titlePaket, {marginBottom: 10}]}> {data?.fullName || 'Nama Pelanggan'}</Text>
@@ -87,7 +87,7 @@ const TiketPdfContent = ({ paket, data }) => {
                         </View>
                         <View>
                             <Text style={styles.label}>Waktu Keberangkatan</Text>
-                            <Text style={styles.value}>05.00 WITA</Text> 
+                            <Text style={styles.value}>{paket?.departurTime}</Text> 
                         </View>
                     </View>
 
@@ -114,17 +114,30 @@ const TiketPdfContent = ({ paket, data }) => {
 };
 
 
-    function Tiket(){
+    function Tiket() {
         const navigate = useNavigate();
         const { state } = useLocation();
-        const { paket, data } = state || {}; // ✅ Perbaikan: ambil state hanya di sini, di function component
+        const { paket, data } = state || {}; 
 
         const fileName = `tiket_${data?.fullName || 'pelanggan'}_${paket?.nama || 'paket'}.pdf`;
 
         const buttonStyle = {
             width: '200px', 
-            height: '50px'
+            height: '50px', 
+            borderRadius: '8px',
         }
+
+        // localStrorage untuk tiketSaya
+        useEffect(() => {
+            if (paket && data) {
+                const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];
+                const tiketAda = tiket.some(t => t.data.fullName === data.fullName && t.paket.title === paket.title && t.data.tanggalBerangkat === data.tanggalBerangkat);
+                if (!tiketAda) {
+                    tiket.push({paket, data}); 
+                    localStorage.setItem("tiketSaya", JSON.stringify(tiket))
+                }
+            }   
+        }, [paket, data]);
 
         return(
             <div>
@@ -145,9 +158,9 @@ const TiketPdfContent = ({ paket, data }) => {
                         <div>
                             <p className="text-sm font-semibold text-gray-300 mt-5">Waktu Keberangkatan</p>
                             <div className="flex justify-between">
-                                <p className="text-lg font-semibold mt-2">05.00</p>
+                                <p className="text-lg font-semibold mt-2">{paket?.departurTime}</p>
                                 <p className="text-lg font-semibold mt-2">
-                                    Rp.{(((data?.jumlahOrang || 0) * parseInt(paket?.harga?.replace(/\D/g, "") || '0')) + 10000).toLocaleString("id-ID")}
+                                    Rp.{(((data?.jumlahOrang || 0) * parseInt(paket?.price?.replace(/\D/g, "") || '0')) + 10000).toLocaleString("id-ID")}
                                 </p>
                             </div>
                         </div>
@@ -170,9 +183,7 @@ const TiketPdfContent = ({ paket, data }) => {
                     </PDFDownloadLink>
 
 
-                    <button onClick={() => navigate('/destinasi')} style={{...buttonStyle, borderRadius: '8px'}} className="bg-[#005ED1] text-white font-semibold">
-                    Kembali
-                    </button>
+                    <button onClick={() => navigate('/destinasi')} style={buttonStyle} className="bg-[#005ED1] text-white font-semibold"> Kembali </button>
 
                 </div>
             </div>

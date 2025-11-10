@@ -22,6 +22,7 @@
             schedule: "Setiap hari, pukul 05.30 WITA",
             location: "Pantai Lovina, Bali",
             tagLine: "Durasi 1 jam – Termasuk minuman ringan",
+            departurTime: "05.30 WITA",
         },
         {   id: 2,
             title: "Sunrise Dolphin Cruise",
@@ -41,6 +42,7 @@
             schedule: "Setiap hari, pukul 05.30 WITA",
             location: "Pantai Lovina, Bali",
             tagLine: "Durasi 2 jam - Termasuk snack & minum",
+            departurTime:"05.30 WITA",
         },
         {   id: 3,
             title: "Snorkeling Lovina",
@@ -61,6 +63,7 @@
             schedule: "Setiap hari, pukul 05.30 WITA",
             location: "Pantai Lovina, Bali",
             tagLine: "Durasi 2 jam - Termasuk pelampung & guide",
+            departurTime: "05.30 WITA",
         },
         {   id: 4,
             title: "Dolphin Watching Tour",
@@ -80,6 +83,7 @@
             schedule: "Setiap hari, pukul 05.30 WITA",
             location: "Pantai Lovina, Bali",
             tagLine: "Durasi 3 jam – Termasuk minuman hangat",
+            departurTime: "05.30 WITA",
         },
         {   id: 5,
             title: "Swim with Dolphin",
@@ -98,7 +102,8 @@
             ],
             schedule: "Setiap hari, pukul 05.30 WITA",
             location: "Pantai Lovina, Bali",
-            tagLine: "Durasi 1,5 jam – Termasuk  pelampung  ",
+            tagLine: "Durasi 1,5 jam – Termasuk  pelampung ",
+            departurTime: "05.30 WITA"
         },
         {   id: 6,
             title: "Private Tour Guide",
@@ -118,6 +123,7 @@
             schedule: "Setiap hari, pukul 05.30 WITA",
             location: "Pantai Lovina, Bali",
             tagLine: "Durasi 2 jam - Termasuk satu perahu khusus",
+            departurTime: "05.30 WITA"
         },
         
         ];
@@ -133,7 +139,7 @@
 
         const handlePesanClick = () => {
             if (isLoggedIn) {
-                navigate(`/paket/${paket.slug}/menuPembayaran`, { state: paket }); 
+                navigate(`/paket/${slug}/menuPembayaran`, { state: paket });
             } else {
                 navigate('/login');
             }
