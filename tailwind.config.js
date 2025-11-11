@@ -14,6 +14,12 @@ export default {
         xl: '5rem',
       },
     },
+    screens: {
+      'mobile': {'max': '481px'},  
+      'tablet': {'max': '768px'}, 
+      'lg': '1024px',              
+      '2xl': '1536px',
+    },
     extend: {
       colors: {
         primary: "#005ED1", 
