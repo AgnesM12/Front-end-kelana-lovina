@@ -82,7 +82,7 @@
             ],
             schedule: "Setiap hari, pukul 05.30 WITA",
             location: "Pantai Lovina, Bali",
-            tagLine: "Durasi 3 jam – Termasuk minuman hangat",
+            tagLine: "Durasi 3 jam - Termasuk minuman hangat",
             departurTime: "05.30 WITA",
         },
         {   id: 5,
@@ -102,7 +102,7 @@
             ],
             schedule: "Setiap hari, pukul 05.30 WITA",
             location: "Pantai Lovina, Bali",
-            tagLine: "Durasi 1,5 jam – Termasuk  pelampung ",
+            tagLine: "Durasi 1,5 jam - Termasuk  pelampung ",
             departurTime: "05.30 WITA"
         },
         {   id: 6,

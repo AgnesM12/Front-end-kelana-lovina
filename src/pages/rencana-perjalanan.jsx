@@ -1,34 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPackage, deletePackage } from "../redux/rencanaSlice";
 import HeroSection from "../components/HeroSection";
 import RencanaPerjalanan from "../components/AturRencana";
 import RencanaCard from "../components/RencanaCard";
 import Judul from "../components/Judul";
 
 function Rencana() {
+  const dispatch = useDispatch();
+  const packages = useSelector((state) => state.rencana.packages);
+
   const dataHero1 = {
     title: "Atur  Rencana Perjalanan Sesukamu",
     imageSrc: "/hero.png",
     altText: "hero",
   };
 
-  const [packages, setPackages] = useState([]);
-
-  const handleAddPackage = (newPackage) => {
-    const packageWithAction = {
-      ...newPackage,
-      onDelete: () => handleDelete(newPackage.id),
-    };
-    setPackages((prev) => [...prev, packageWithAction])
-  };
-
-  const handleDelete = (id) => {
-    setPackages((prev) => prev.filter((pkg) => pkg.id !== id));
-  };
-
   const judulItenary = {
     title: "Rencana Perjalanan",
     description: "Atur dan pantau rencana liburanmu dengan lebih mudah, mulai dari memilih tanggal, paket wisata, hingga perkiraan biaya yang sesuai. Nikmati ringkasan perjalanan yang jelas agar liburanmu di Lovina semakin terencana, nyaman, dan tak terlupakan.",
   };
+
+
+  const handleAddPackage = (newPackage) => {
+    dispatch(addPackage(newPackage));
+  };
+
+  const handleDelete = (id) => {
+    dispatch(deletePackage(id));
+  };
+
 
   return (
     <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16">
@@ -41,7 +42,7 @@ function Rencana() {
       {/* Card yang ditampilkan */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-16">
         {packages.map((pkg) => (
-          <RencanaCard key={pkg.id} pkg={pkg} />
+          <RencanaCard key={pkg.id} pkg={pkg} onDelete={() => handleDelete(pkg.id)} />
         ))}
       </div>
       {packages.length > 0 && (
