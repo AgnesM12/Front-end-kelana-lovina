@@ -3,7 +3,9 @@ function Footer() {
     <footer>
         <div className="bg-primary py-12 text-center" >
             <h3 className="text-4xl mb-12 text-white">Kontak kami</h3>
-            <ul className="flex flex-wrap justify-center items-center gap-12 text-xl text-white">
+            <ul className="flex flex-wrap justify-center items-center gap-12 text-xl text-white md:flex md:flex-row md:flex-nowrap
+            sm:grid sm:grid-cols-2 sm:gap-8 sm:justify-items-center
+            mobile:grid mobile:grid-cols-2 mobile:gap-6 mobile:justify-items-center">
           <li className="flex items-center space-x-3">
             <img
               src="/ic_baseline-facebook.svg"
