@@ -41,13 +41,13 @@ function Beranda() {
       </div>
 
       {/* Tentang Lovina & Paket*/}
-      <section className="mt-16 flex min-h-screen justify-center content-center  flex-wrap lg:gap-16">
+      <section className="mt-16 flex min-h-screen w-full content-center justify-center px-4 py-8 flex-col items-center gap-8 lg:flex-row lg:items-start lg:gap-16 lg:px-8">
         {/*Tentang Lovina */}
-        <div className="w-full max-w-2xl bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-8 flex flex-col gap-6">
-          <h2 className="text-3xl py-15 font-bold text-gray-900 pt-14">
+        <div className="w-full max-w-2xl bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-6 lg:p-8 flex flex-col gap-6">
+          <h2 className="text-2xl py-15 lg:text-3xl font-bold text-gray-900 pt-14">
             Tentang Kelana Lovina
           </h2>
-          <p className="text-zinc-700 leading-relaxed pt-8">
+          <p className="text-zinc-700 leading-relaxed pt-10">
             Selamat datang di Kelana Lovina! Di sini, Kamu bisa merencanakan
             liburan di Pantai Lovina dengan mudah dan menyenangkan. Pesan tiket
             paket wisata yang tersedia, dapatkan informasi terbaru tentang
@@ -58,13 +58,12 @@ function Beranda() {
             pengguna lain, sehingga perjalananmu tidak hanya berkesan untukmu,
             tapi juga bermanfaat bagi orang lain.
           </p>
-          <Link to={'/rencana-perjalanan'}>
-          <button className="bg-blue-700 text-white font-bold text-base mt-8 px-6 py-3 rounded-xl self-start hover:bg-blue-800 transition-colors ">
-            Atur Rencana Perjalananmu
-          </button>
+          <Link to={'/rencana-perjalanan'} className="my-16">
+            <button className="bg-blue-700 text-white font-bold text-base px-6 py-3 rounded-xl self-start hover:bg-blue-800 transition-colors ">
+              Atur Rencana Perjalananmu
+            </button>
           </Link>
-        </div>
-
+        </div> 
         {/*Paket & Informasi Cepat */}
         <div className="w-full max-w-md flex flex-col gap-8">
           <div className="bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-4 flex flex-col gap-4">
@@ -187,14 +186,13 @@ function RekomendasiPaket() {
         pagination={false}
         centeredSlides={true}
         loop={true}
-        slidesPerView={3}
         breakpoints={{
           320: {
             slidesPerView: 1,
             spaceBetween: 20,
           },
           768: {
-            slidesPerView: 2,
+            slidesPerView: 1,
             spaceBetween: 30,
           },
           1024: {
@@ -284,3 +282,26 @@ function LokasiLovina() {
     </section>
   );
 }
+
+
+<div className="w-full max-w-2xl bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-8 flex flex-col gap-6">
+          <h2 className="text-3xl py-15 font-bold text-gray-900 pt-14">
+            Tentang Kelana Lovina
+          </h2>
+          <p className="text-zinc-700 leading-relaxed pt-8">
+            Selamat datang di Kelana Lovina! Di sini, Kamu bisa merencanakan
+            liburan di Pantai Lovina dengan mudah dan menyenangkan. Pesan tiket
+            paket wisata yang tersedia, dapatkan informasi terbaru tentang
+            berbagai acara, dan susun rencana perjalanan sesuai keinginanmu.
+          </p>
+          <p className="text-zinc-700 leading-relaxed pt-4">
+            Setelah liburan, bagikan pengalaman, cerita, dan tipsmu dengan
+            pengguna lain, sehingga perjalananmu tidak hanya berkesan untukmu,
+            tapi juga bermanfaat bagi orang lain.
+          </p>
+          <Link to={'/rencana-perjalanan'}>
+          <button className="bg-blue-700 text-white font-bold text-base mt-8 px-6 py-3 rounded-xl self-start hover:bg-blue-800 transition-colors ">
+            Atur Rencana Perjalananmu
+          </button>
+          </Link>
+        </div>
