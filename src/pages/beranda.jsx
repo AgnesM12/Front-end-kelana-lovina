@@ -175,7 +175,7 @@ function RekomendasiPaket() {
       "Temukan pilihan paket wisata lengkap mulai dari tur lumba-lumba saat matahari terbit, snorkeling di laut jernih, hingga penginapan nyaman di sekitar Lovina. Setiap paket sudah termasuk transportasi dan akomodasi sesuai kebutuhan Anda — cocok untuk keluarga, pasangan, maupun solo traveler.",
   };
   return (
-    <section className="mt-16 w-full">
+    <section className="mt-10 sm:mt-12 lg:mt-16 w-full">
       <Judul header={judulRekomendasi} />
 
       {/* Swiper Slider */}
@@ -186,14 +186,15 @@ function RekomendasiPaket() {
         pagination={false}
         centeredSlides={true}
         loop={true}
+        slidesPerView={3}
         breakpoints={{
-          320: {
+          0: {
             slidesPerView: 1,
             spaceBetween: 20,
           },
           768: {
-            slidesPerView: 1,
-            spaceBetween: 30,
+            slidesPerView: 2,
+            spaceBetween: 0,
           },
           1024: {
             slidesPerView: 3,
@@ -211,10 +212,10 @@ function RekomendasiPaket() {
       </Swiper>
 
       {/* Lihat paket lainnya*/}
-      <div className="text-center mt-12">
+      <div className="text-center mt-6 sm:mt-8 lg:mt-12">
         <Link to={"/paket"} >
         <button 
-        className="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
+        className="bg-blue-600 text-white font-bold py-3 px-6 lg:px-8 rounded-lg hover:bg-blue-700 transition-colors">
           Lihat paket lainnya
         </button>
         </Link>
@@ -239,13 +240,13 @@ export function GaleriPengunjung() {
   };
 
   return (
-    <section className="mt-16">
+    <section className="mt-10 sm:mt-12 lg:mt-16">
       <div className="mx-auto px-6 ">
         {/* Header */}
         <Judul header={judulGaleri} />
         <GaleriGrid images={GalleryData} />
         {/* Button */}
-        <div className="text-center mt-12">
+        <div className="text-center mt-8 sm:mt-8 lg:mt-14">
           <Link to={"/galeri"} >
           <button 
           className="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors">
@@ -266,42 +267,22 @@ function LokasiLovina() {
       "Pantai Lovina terletak di Bali Utara, tepatnya di Kabupaten Buleleng. Kawasan ini terkenal dengan pantai berpasir hitam, suasana tenang, serta menjadi spot populer untuk menyaksikan lumba-lumba di laut lepas.",
   };
   return (
-    <section className="w-full max-w-[1200px] h-auto rounded-[30px] py-10 mt-16 mx-auto">
+    <section className="w-full max-w-[1200px] mx-auto my-10 sm:my-12 lg:my-16 px-4 sm:px-6">
       {/* Header Section */}
       <Judul header={judulLokasi} />
-      <div className="w-full h-[547px] bg-white rounded-3xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] overflow-hidden flex items-center justify-center sm:p-6">
+      <div className="bg-white rounded-3xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] overflow-hidden p-3 sm:p-5 md:p-6">
+        <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden">
         <iframe
           title="Peta Lokasi Pantai Lovina"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15802.71987588526!2d115.0139886475704!3d-8.157884240751147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd19b1747c4e511%3A0x1b2b87565a440123!2sPantai%20Lovina!5e0!3m2!1sid!2sid!4v1729199208076!5m2!1sid!2sid"
-          className="w-full h-[500px] border-0 rounded-2xl"
+          className="absolute inset-0 w-full h-full border-0"
           allowFullScreen=""
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
+        </div>
       </div>
     </section>
   );
 }
 
-
-<div className="w-full max-w-2xl bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-8 flex flex-col gap-6">
-          <h2 className="text-3xl py-15 font-bold text-gray-900 pt-14">
-            Tentang Kelana Lovina
-          </h2>
-          <p className="text-zinc-700 leading-relaxed pt-8">
-            Selamat datang di Kelana Lovina! Di sini, Kamu bisa merencanakan
-            liburan di Pantai Lovina dengan mudah dan menyenangkan. Pesan tiket
-            paket wisata yang tersedia, dapatkan informasi terbaru tentang
-            berbagai acara, dan susun rencana perjalanan sesuai keinginanmu.
-          </p>
-          <p className="text-zinc-700 leading-relaxed pt-4">
-            Setelah liburan, bagikan pengalaman, cerita, dan tipsmu dengan
-            pengguna lain, sehingga perjalananmu tidak hanya berkesan untukmu,
-            tapi juga bermanfaat bagi orang lain.
-          </p>
-          <Link to={'/rencana-perjalanan'}>
-          <button className="bg-blue-700 text-white font-bold text-base mt-8 px-6 py-3 rounded-xl self-start hover:bg-blue-800 transition-colors ">
-            Atur Rencana Perjalananmu
-          </button>
-          </Link>
-        </div>

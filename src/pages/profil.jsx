@@ -18,7 +18,7 @@ function Profil() {
     };
 
     const PreferensiButton = ({ label }) => (
-        <button className="px-6 py-3.5 h-14 rounded-lg border-2 border-primary text-primary text-lg font-semibold transition-colors">
+        <button className="px-4 py-2.5 h-12 sm:px-6 sm:py-3.5 sm:h-14 rounded-lg border-2 border-primary text-primary text-base sm:text-lg font-semibold transition-colors">
         {label}
         </button>
     );
@@ -83,9 +83,9 @@ function Profil() {
 
         {/* 1. Preferensi Wisata */}
         <div className="w-full max-w-6xl p-8 bg-white rounded-lg shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] flex flex-col gap-10">
-            <section className="w-full">
-            <h2 className="text-black text-3xl font-bold mb-6">Preferensi Wisata</h2>
-            <div className="flex flex-wrap gap-4">
+            <section>
+            <h2 className="text-black text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Preferensi Wisata</h2>
+            <div className="flex flex-wrap justify-center sm:justify-start gap-3 sm:gap-4">
             {Array.isArray(dataProfil.preferensiWisata) && dataProfil.preferensiWisata.map((pref, i) => (
                 <PreferensiButton key={i} label={pref} />
                 ))}
@@ -94,11 +94,11 @@ function Profil() {
 
             {/* 2. Galeri Pengguna */}
             <section className="w-full">
-            <h2 className="text-black text-3xl font-bold mb-6">Galeri Pengguna</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <img className="w-96 h-60 object-cover rounded-2xl" src="/galeri-pengguna1.jpg" alt="Galeri Pengguna 1" />
-                <img className="w-96 h-60 object-cover rounded-2xl" src="galeri-pengguna2.jpg" alt="Galeri Pengguna 2" />
-                <img className="w-96 h-60 object-cover rounded-2xl" src="galeri-pengguna3.png" alt="Galeri Pengguna 3" />
+            <h2 className="text-black text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Galeri Pengguna</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <img className="w-full h-48 sm:h-60 object-cover rounded-2xl" src="/galeri-pengguna1.jpg" alt="Galeri Pengguna 1" />
+                <img className="w-full h-48 sm:h-60 object-cover rounded-2xl" src="galeri-pengguna2.jpg" alt="Galeri Pengguna 2" />
+                <img className="w-full h-48 sm:h-60 object-cover rounded-2xl" src="galeri-pengguna3.png" alt="Galeri Pengguna 3" />
             </div>
             </section>
 
@@ -106,43 +106,43 @@ function Profil() {
             <section className="w-full">
             <h2 className="text-black text-3xl font-bold mb-3">Pemesanan</h2>
             <div className="flex flex-col gap-3">
-                <Link to="/riwayat-pemesanan" className="text-primary text-2xl font-semibold hover:underline">
+                <Link to="/riwayat-pemesanan" className="text-primary text-lg sm:text-2xl font-semibold hover:underline">
                 Riwayat Pemesanan
                 </Link>
             </div>
             </section>
 
             {/* 4. Aktivitas & Riwayat */}
-            <section className="w-full">
-            <h2 className="text-black text-3xl font-bold mb-3">Aktivitas & Riwayat</h2>
+            <section>
+            <h2 className="text-black text-2xl sm:text-3xl font-bold mb-3">Aktivitas & Riwayat</h2>
             <div className="flex flex-col gap-3">
-                <button onClick={() => setTampilTiket(true)} className="text-primary text-2xl font-semibold hover:underline text-left">
+                <button onClick={() => setTampilTiket(true)} className="text-primary text-lg sm:text-2xl font-semibold hover:underline text-left">
                 Tiket Saya
                 </button>
-                <Link to="/review-rating" className="text-primary text-2xl font-semibold hover:underline">
+                <Link to="/review-rating" className="text-primary text-lg sm:text-2xl font-semibold hover:underline">
                 Review/Rating
                 </Link>
-                <Link to="/unggah-foto-video" className="text-primary text-2xl font-semibold hover:underline">
+                <Link to="/unggah-foto-video" className="text-primary text-lg sm:text-2xl font-semibold hover:underline">
                 Foto/Video Diunggah
                 </Link>
             </div>
             </section>
 
             {/* 5. Keamanan & Pengaturan */}
-            <section className="w-full">
-            <h2 className="text-black text-3xl font-bold mb-3">Keamanan & Pengaturan</h2>
+            <section>
+            <h2 className="text-black text-2xl sm:text-3xl font-bold mb-3">Keamanan & Pengaturan</h2>
             <div className="flex flex-col gap-3">
-                <button  onClick={() => setTampilUbahSandi(true)} className="text-primary text-2xl font-semibold hover:underline text-left">
+                <button  onClick={() => setTampilUbahSandi(true)} className="text-primary text-lg sm:text-2xl font-semibold hover:underline text-left">
                 Ubah Kata Sandi
                 </button>
             </div>
             </section>
         </div>
-        <div className="w-full max-w-6xl flex justify-end gap-4 my-16">
-            <button onClick={() => setTampilBantuan(true)} className="w-full sm:w-auto flex-1 sm:flex-none bg-primary text-white px-6 py-3.5 rounded-lg font-bold text-lg hover:bg-opacity-90 transition-colors">
+        <div className="w-full max-w-6xl flex flex-col sm:flex-row justify-end items-center gap-4 my-10">
+            <button onClick={() => setTampilBantuan(true)} className="w-full sm:w-auto bg-primary text-white px-6 py-3.5 rounded-lg font-bold text-base sm:text-lg hover:bg-opacity-90 transition-colors">
             Bantuan
             </button>
-            <button onClick={handleLogout} className="w-full sm:w-auto flex-1 sm:flex-none bg-red-600 text-white px-6 py-3.5 rounded-lg font-bold text-lg hover:bg-red-700 transition-colors">
+            <button onClick={handleLogout} className="w-full sm:w-auto bg-red-600 text-white px-6 py-3.5 rounded-lg font-bold text-base sm:text-lg hover:bg-red-700 transition-colors">
             Keluar
             </button>
         </div>
