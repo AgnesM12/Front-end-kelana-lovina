@@ -29,53 +29,59 @@ const acaraData = [
     for (let i = 0; i<acaraData.length; i += 2) {
         rows.push(acaraData.slice(i, i+2));
     }
+    const ukuranGambar = (barisPertama, barisKedua) => {
+        if (barisKedua) {
+            return barisPertama ? "w-2/5" : "w-3/5";
+        } else {
+            return barisPertama ? "w-3/5" : "w-2/5";
+        }
+    };
 
     return (
-        <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden ">
+        <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16">
             <HeroSection hero={dataHero} />
         <section className="flex flex-col items-center px-4 my-16">
         <Judul
             header={{
-            title: "Galeri Acara",
+            title: "Galeri Pengunjung",
             description:
                 "Galeri foto penuh warna yang menghadirkan cerita dari setiap event dan festival di Lovina",
             }}
         />
         <div className="flex flex-col gap-6 w-full items-center">
-            {rows.slice(0, 6).map((row, index) => (
-            <div
-                key={index}
-                className="flex flex-col lg:flex-row gap-4 w-full max-w-[1191px]"
-            >
-                {/* Gambar kiri */}
-                <div
-                className={`w-full lg:w-[${
-                    index % 2 === 0 ? "40%" : "60%"
-                }] h-[306px] overflow-hidden rounded-2xl shadow-lg`}
-                >
-                <img
-                    src={row[0]?.src}
-                    alt={row[0]?.alt}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
+                    {rows.map((row, index) => {
+                        const barisAktif = index % 2 === 0;
+                        return (
+                            <div
+                                key={index}
+                                className="flex flex-row gap-4 w-full max-w-[1191px]"
+                            >
+                                {/* Gambar kiri */}
+                                <div
+                                    className={`${ukuranGambar(barisAktif, true)} h-[180px] sm:h-[220px] md:h-[260px] lg:h-[306px] overflow-hidden rounded-2xl shadow-lg`}
+                                >
+                                    <img
+                                        src={row[0]?.src}
+                                        alt={row[0]?.alt}
+                                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                    />
+                                </div>
+                                {/* Gambar kanan */}
+                                {row[1] && (
+                                    <div
+                                        className={`${ukuranGambar(barisAktif, false)} h-[180px] sm:h-[220px] md:h-[260px] lg:h-[306px] overflow-hidden rounded-2xl shadow-lg`}
+                                    >
+                                        <img
+                                            src={row[1]?.src}
+                                            alt={row[1]?.alt}
+                                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
-                {/* Gambar kanan */}
-                {row[1] && (
-                <div
-                    className={`w-full lg:w-[${
-                    index % 2 === 0 ? "60%" : "40%"
-                    }] h-[306px] overflow-hidden rounded-2xl shadow-lg`}
-                >
-                    <img
-                    src={row[1]?.src}
-                    alt={row[1]?.alt}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                    />
-                </div>
-                )}
-            </div>
-            ))}
-        </div>
     </section>
     </main>
     );

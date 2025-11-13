@@ -83,16 +83,16 @@ const getPriceLabel = () => {
 }
 
   return (
-    <div className="bg-white shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-8 px-6 py-4 mt-[-40px] mx-auto w-[90%] sm:w-[80%] relative z-10">
+    <div className="bg-white shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] rounded-2xl flex flex-row flex-wrap items-center justify-between gap-3 sm:gap-4 md:gap-6 px-3 sm:px-6 lg:px-10 py-3 sm:py-4 mt-[-30px] sm:mt-[-40px] mx-auto w-[95%] sm:w-[90%] lg:w-[80%] relative z-10">
       {/* Pilih tanggal */}
-      <div className="flex flex-col w-full sm:w-1/3">
-        <span className="text-primary font-semibold">Tanggal</span>
+      <div className="flex flex-col flex-1 min-w-[140px]">
+        <span className="text-primary font-semibold text-sm sm:text-base">Tanggal</span>
         <div className="flex items-center justify-between mt-1 border-b-2 border-primary pb-1">
           <DatePicker
             selected={selectedDate}
             onChange={(date) => setSelectedDate(date)}
             dateFormat="dd MMMM yyyy"
-            className="bg-transparent outline-none text-gray-700 w-full"
+            className="bg-transparent outline-none text-gray-700 text-sm sm:text-base"
           />
           <Calendar
             className="text-primary w-5 h-5 cursor-pointer"
@@ -104,11 +104,11 @@ const getPriceLabel = () => {
       </div>
 
       {/* Filter harga */}
-      <div className="flex flex-col w-full sm:w-[30%] relative z-20">
-        <span className="text-primary font-semibold">Biaya</span>
+      <div className="flex flex-col flex-1 min-w-[120px] relative z-20">
+        <span className="text-primary font-semibold text-sm sm:text-base">Biaya</span>
         <button
           onClick={() => toggleDropdown('price')}
-          className=" flex items-center justify-between mt-1 border-b-2 border-primary pb-1 bg-white text-gray-700 outline-none"
+          className=" flex items-center justify-between mt-1 border-b-2 border-primary pb-1 bg-white text-gray-700 outline-none text-sm sm:text-base"
         >
           <span className="truncate"> {getPriceLabel()} </span>
           {openDropdown === "price" ? (
@@ -123,7 +123,7 @@ const getPriceLabel = () => {
               <div 
               key={option.value}
               onClick={()=> handelPriceSelect(option.value)}
-              className="px-3 py-2 cursor-pointer hover:bg-blue-100 text-gray-700">
+              className="px-3 py-2 cursor-pointer hover:bg-blue-100 text-gray-700 text-sm sm:text-base">
                 {option.label}
               </div>
             ))}
@@ -132,12 +132,12 @@ const getPriceLabel = () => {
       </div>
 
       {/* Pilihan paket */}
-      <div className="flex flex-col w-full sm:w-1/3 relative z-10">
-        <span className="text-primary font-semibold">Pilihan paket</span>
+      <div className="flex flex-col flex-1 min-w-[140px] relative z-10">
+        <span className="text-primary font-semibold text-sm sm:text-base">Pilihan paket</span>
         <div className="flex items-center justify-between mt-1 border-b-2 border-primary pb-1">
           <button
           onClick={() => toggleDropdown('package')}
-          className="flex items-center justify-between bg-white text-gray-700 outline-none w-full"
+          className="flex items-center justify-between bg-white text-gray-700 outline-none w-full text-sm sm:text-base"
           >
             <span className="truncate">{selectedPackage}</span>
             {openDropdown === 'package' ? (
@@ -154,18 +154,18 @@ const getPriceLabel = () => {
                 <div
                 key={paket.id}
                 onClick={() => handlePackageSelect(paket.title)}
-                className="px-3 py-2 cursor-pointer hover:bg-blue-100 text-gray-700"
+                className="px-3 py-2 cursor-pointer hover:bg-blue-100 text-gray-700 text-sm sm:text-base"
                 >
                   {paket.title}
                 </div>
               ))
             ) : (
-              <div className="px-3 py-2 text-gray-500 italic">Tidak ada paket tersedia</div>
+              <div className="px-3 py-2 text-gray-500 italic text-sm sm:text-base">Tidak ada paket tersedia</div>
             )}
           </div>
         )}
       </div>
-      <div className="flex flex-col justify-end w-full sm:w-[50px] h-[56px]">
+      <div className="flex justify-center items-center flex-none h-[56px]">
       <Plus
             className="text-primary w-8 h-8 cursor-pointer"
             onClick={handleAddClick}

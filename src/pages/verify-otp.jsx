@@ -38,18 +38,18 @@ const VerifyOTP = () => {
     };
 
     return (
-        <div className="flex w-full h-screen bg-white">
-        <div className="relative hidden h-full items-center justify-center bg-gray-500 md:flex md:w-3/5">
+        <div className="flex w-full h-screen bg-white flex-col md:flex-row">
+        <div className="relative hidden md:flex h-full items-center justify-center bg-gray-500 md:w-3/5">
             <img src="/login.png" alt="Verify OTP" className="absolute inset-0 h-full w-full object-cover" />
         </div>
 
-        <div className="flex w-full items-center justify-center md:w-2/5">
+        <div className="flex w-full h-full items-center justify-center md:w-2/5 px-6 sm:px-10 py-10 md:py-0">
             <div className="w-full max-w-md text-center">
-            <h2 className="text-4xl font-bold text-zinc-800 mb-4">Masukkan kode verifikasi</h2>
-            <p className="text-zinc-800 text-base font-medium mb-12">Kode 4 digit telah dikirim ke email Anda, silakan masukkan untuk verifikasi</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-zinc-800 mb-4">Masukkan kode verifikasi</h2>
+            <p className="text-zinc-800 text-sm sm:text-base font-medium mb-10">Kode 4 digit telah dikirim ke email Anda, silakan masukkan untuk verifikasi</p>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
-                <div className="flex justify-between px-14 mb-12">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
+                <div className="flex justify-center gap-4 sm:gap-6 mb-10">
                 {[1, 2, 3, 4].map((_, i) => (
                     <input
                     key={i}
@@ -60,18 +60,18 @@ const VerifyOTP = () => {
                     onKeyDown={(e) => handleKeyDown(e, i)}
                     inputMode="numeric"
                     pattern="[0-9]*"
-                    className="w-14 h-14 bg-primary  rounded-lg text-center text-4xl font-bold text-white focus:outline-none"
+                    className="w-12 h-12 sm:w-14 sm:h-14 bg-primary  rounded-lg text-center text-4xl font-bold text-white focus:outline-none"
                     />
                 ))}
                 </div>
 
-                <button type="submit" className="w-[340px] py-3 bg-primary text-white text-xl font-semibold rounded-lg hover:bg-blue-700">
+                <button type="submit" className="w-full sm:w-[340px] py-3 bg-primary text-white text-lg sm:text-xl font-semibold rounded-lg hover:bg-blue-700 transition-colors">
                 Verifikasi
                 </button>
 
-                <p className="mt-6">
+                <p className="mt-6 text-sm sm:text-base">
                 Belum menerima kode?{" "}
-                <button onClick={handleResendCode} type="button" className="text-blue-600 text-sm font-medium hover:underline">
+                <button onClick={handleResendCode} type="button" className="text-blue-600 font-medium hover:underline">
                     Kirim ulang kode baru
                 </button>
                 </p>

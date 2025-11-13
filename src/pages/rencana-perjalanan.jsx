@@ -46,7 +46,7 @@ function Rencana() {
         ))}
       </div>
       {packages.length > 0 && (
-      <div className="mt-16 font-semibold flex justify-center items-center text-xl p-4 bg-white rounded-xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] max-w-2xl mx-auto">
+      <div className="mt-16 font-semibold flex justify-center items-center text-sm sm:text-lg lg:text-xl p-4 bg-white rounded-xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] max-w-2xl mx-auto">
         <p>Selesaikan perjalananmu dan siapkan rencana berikutnya </p>
       </div>
       )}
