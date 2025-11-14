@@ -35,6 +35,7 @@ import DetailTiketSaya from "./pages/detailTiketSaya.jsx";
 
 
 import "./index.css";
+import TambahUlasan from "./components/TambahUlasan.jsx";
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -99,7 +100,7 @@ function App() {
         <Route path="/paket/:slug/menuPembayaran" element={<MenuPembayaran />} />
         <Route path="/paket/:slug/menuPembayaran/tiket" element={<Tiket />} />
         <Route path="/detailTiketSaya" element={<DetailTiketSaya />} />
-        
+        <Route path="/TambahUlasan" element={<TambahUlasan />} />
 
       </Route>  
     </Routes>
