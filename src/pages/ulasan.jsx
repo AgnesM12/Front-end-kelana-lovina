@@ -1,4 +1,4 @@
-import {React, useState} from "react";
+import {React, useEffect, useState} from "react";
 
 import HeroSection from "../components/HeroSection";
 import Judul from "../components/Judul"
@@ -7,7 +7,19 @@ import ReviewCard from "../components/ReviewCard";
 
 function Ulasan() {
     const [filter, setFilter] = useState({});
-    
+    const [userReview, setUserReview] = useState([]);
+
+    useEffect(() => {
+        const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+      
+        const normalizedReviews = savedReviews.map((review) => ({
+          ...review,
+          date: review.date || review.tanggal,
+        }));
+      
+        setUserReview(normalizedReviews);
+      }, []);
+      
     const reviews = [
         {
         id : 1,
@@ -47,9 +59,11 @@ function Ulasan() {
             },
     ];
 
+    const gabunganReview = [...reviews, ...userReview];
+
     const handleFilterChange = (value) => setFilter(value);
 
-    const filtered = reviews.filter((r) => {
+    const filtered = gabunganReview.filter((r) => {
         return (
             (!filter.rating || r.rating === Number(filter.rating)) &&
             (!filter.kategori || r.kategori === filter.kategori) &&
@@ -76,12 +90,12 @@ function Ulasan() {
             };
             // ubah format dari string ke object
             const parseDate = (str) => {
+                if (!str) return new Date(0);
                 const [tanggal, bulan, tahun] = str.split(" ");
-                return new Date(tahun, bulanMap[bulan], tanggal);
+                return new Date(Number(tahun), bulanMap[bulan], Number(tanggal));
             };
-    
-            const dateA = parseDate(a.date);
-            const dateB = parseDate(b.date);
+            const dateA = parseDate(a.date || a.tanggal);
+            const dateB = parseDate(b.date || b.tanggal);
     
             return dateB - dateA;
         }
@@ -103,7 +117,7 @@ function Ulasan() {
         <FilterUlasan onFilterChange={handleFilterChange} />
         <div className="mt-8">
             {filtered.length > 0 ? (
-                filtered.map((r,i) => <ReviewCard key={i} review={r} />)
+                filtered.map((r,id) => <ReviewCard key={id} review={r} />)
             ):(
                 <p className="text-center text-gray-500 mt-60">
                     Tidak ada ulasan yang cocok

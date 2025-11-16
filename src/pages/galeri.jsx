@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect, useState} from "react";
 import Judul from "../components/Judul"; 
 import HeroSection from "../components/HeroSection";
 
 
 function HalamanGaleriPenuh() {
+const [items, setItems] = useState([]);
+
+useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("album")) || [];
+    setItems(data);
+}, []);
+
 const dataHero = {
     title: "Temukan Paket Terbaik untuk Perjalananmu",
     imageSrc: '/hero.png',
@@ -25,9 +32,9 @@ const acaraData = [
     { src: "/galeriP-12.png", alt: "galeriP 12" },
     ];
 
-    const rows = [];
+    const itemRows = [];
     for (let i = 0; i<acaraData.length; i += 2) {
-        rows.push(acaraData.slice(i, i+2));
+        itemRows.push(acaraData.slice(i, i+2));
     }
     const ukuranGambar = (barisPertama, barisKedua) => {
         if (barisKedua) {
@@ -48,40 +55,55 @@ const acaraData = [
                 "Galeri foto penuh warna yang menghadirkan cerita dari setiap event dan festival di Lovina",
             }}
         />
+
         <div className="flex flex-col gap-6 w-full items-center">
-                    {rows.map((row, index) => {
-                        const barisAktif = index % 2 === 0;
-                        return (
-                            <div
-                                key={index}
-                                className="flex flex-row gap-4 w-full max-w-[1191px]"
-                            >
-                                {/* Gambar kiri */}
-                                <div
-                                    className={`${ukuranGambar(barisAktif, true)} h-[180px] sm:h-[220px] md:h-[260px] lg:h-[306px] overflow-hidden rounded-2xl shadow-lg`}
-                                >
-                                    <img
-                                        src={row[0]?.src}
-                                        alt={row[0]?.alt}
-                                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                                    />
-                                </div>
-                                {/* Gambar kanan */}
-                                {row[1] && (
-                                    <div
-                                        className={`${ukuranGambar(barisAktif, false)} h-[180px] sm:h-[220px] md:h-[260px] lg:h-[306px] overflow-hidden rounded-2xl shadow-lg`}
-                                    >
-                                        <img
-                                            src={row[1]?.src}
-                                            alt={row[1]?.alt}
-                                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                                        />
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })}
+            {itemRows.slice(0, 6).map((row, index) => (
+            <div
+                key={index}
+                className="flex flex-col lg:flex-row gap-4 w-full max-w-[1191px]"
+            >
+                {/* Gambar kiri */}
+                <div
+                className={`w-full lg:w-[${
+                    index % 2 === 0 ? "40%" : "60%"
+                }] h-[306px] overflow-hidden rounded-2xl shadow-lg`}
+                >
+                <img
+                    src={row[0]?.src}
+                    alt={row[0]?.alt}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                />
                 </div>
+                {/* Gambar kanan */}
+                {row[1] && (
+                <div
+                    className={`w-full lg:w-[${
+                    index % 2 === 0 ? "60%" : "40%"
+                    }] h-[306px] overflow-hidden rounded-2xl shadow-lg`}
+                >
+                    <img
+                    src={row[1]?.src}
+                    alt={row[1]?.alt}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                </div>
+                )}
+            </div>
+            ))}
+
+            <div className="flex flex-wrap justify-center gap-4">
+                {items.map((item, index) => (
+                    <div key={index} className="w-64 h-64 overflow-hidden rounded-2xl shadow-lg">
+                        <img
+                            src={item.imageSrc}
+                            alt={item.alt}
+                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                        />
+                    </div>
+                ))}
+            </div>
+
+        </div>
     </section>
     </main>
     );
