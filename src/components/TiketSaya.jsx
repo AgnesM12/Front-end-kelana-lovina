@@ -56,7 +56,7 @@ const TiketSaya = ({ onClose }) => {
                 </div>
 
                 <ChevronRight onClick={() => navigate ("/detailTiketSaya", {state: {paket: tiket.paket, data: tiket.data} })} style={{cursor: 'pointer'}} className="text-black w-7 h-7" />
-                
+                    
                 </div>
             ))}
         </div>

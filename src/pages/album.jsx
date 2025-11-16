@@ -34,11 +34,6 @@ function Album () {
                             alt={`Album Item ${index + 1}`}
                             className="w-full h-60 object-cover"
                         />
-                        <div className="p-4">
-                            <p className="text-black text-base font-medium">
-                                {item.description}
-                            </p>
-                        </div>
                     </div>
                 ))
             ) : (
