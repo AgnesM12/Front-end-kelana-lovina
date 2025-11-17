@@ -36,14 +36,21 @@ const acaraData = [
     for (let i = 0; i<acaraData.length; i += 2) {
         itemRows.push(acaraData.slice(i, i+2));
     }
+    const ukuranGambar = (barisPertama, barisKedua) => {
+        if (barisKedua) {
+            return barisPertama ? "w-2/5" : "w-3/5";
+        } else {
+            return barisPertama ? "w-3/5" : "w-2/5";
+        }
+    };
 
     return (
-        <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden ">
+        <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16">
             <HeroSection hero={dataHero} />
         <section className="flex flex-col items-center px-4 my-16">
         <Judul
             header={{
-            title: "Galeri Acara",
+            title: "Galeri Pengunjung",
             description:
                 "Galeri foto penuh warna yang menghadirkan cerita dari setiap event dan festival di Lovina",
             }}

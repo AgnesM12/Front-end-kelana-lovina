@@ -24,15 +24,15 @@ const LupaPassword = () => {
     
 
     const baseStyle =
-        "w-full h-11 px-2.5 py-2 rounded-lg border-2 focus:ring-primary focus:border-primary placeholder-zinc-400 focus:outline-none";
+        "w-full h-11 px-2.5 py-2 rounded-lg border-2 focus:ring-primary focus:border-primary placeholder-zinc-400 focus:outline-none text-sm sm:text-base";
     const defaultStyle = "border-primary";
     const errorStyle = "border-red-500 focus:border-red-500 focus:ring-red-500";
-    const errorMessage = "mt-1 text-sm text-red-500";
+    const errorMessage = "mt-1 text-xs sm:text-sm text-red-500";
 
     return (
-        <div className="flex w-full h-screen bg-white focus:outline-none">
+        <div className="flex flex-col md:flex-row w-full h-screen bg-white">
         {/* Bagian Kiri : latar */}
-        <div className="relative hidden h-full items-center justify-center bg-gray-500 md:flex md:w-3/5">
+        <div className="relative hidden md:flex md:w-1/2 lg:w-3/5 items-center justify-center bg-gray-500">
             <img
             src="/login.png"
             alt="Forgot Password"
@@ -41,18 +41,18 @@ const LupaPassword = () => {
         </div>
 
         {/* Bagian Kanan: form */}
-        <div className="flex w-full items-center justify-center md:w-2/5">
+        <div className="flex w-full  h-full md:w-1/2 lg:w-2/5 items-center justify-center bg-white p-6 sm:p-10">
             <div className="w-full max-w-md text-center">
-            <h2 className="text-4xl font-bold text-zinc-800 mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold text-zinc-800 mb-4 sm:mb-6">
                 Lupa Kata Sandi
             </h2>
-            <p className="text-base font-medium mb-11">
+            <p className="text-sm sm:text-base font-medium mb-8 sm:mb-11 text-zinc-700">
                 Atur ulang kata sandi dan lanjutkan perjalanan
             </p>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 sm:space-y-6 w-full">
                 <div className="text-left mb-6">
-                <label className="text-zinc-800 text-base font-semibold ">
+                <label className="text-zinc-800 text-sm sm:text-base font-semibold ">
                     Alamat Email
                 </label>
                 <input
