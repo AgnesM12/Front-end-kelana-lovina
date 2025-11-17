@@ -72,18 +72,18 @@ const eventData = [
     }
 
     return (
-        <main className="max-w-[1200px] mx-auto my-16 px-9 py-14 bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] flex flex-col gap-14">
+        <main className="max-w-full mx-auto bg-white flex flex-col gap-8 p-4 sm:p-6 md:p-8 lg:max-w-[1200px] lg:my-16 lg:px-9 lg:py-14 lg:rounded-[30px] lg:shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)]">
         {/* Gambar */}
         <img
             src={event.imageSrc}
             alt={event.title}
-            className="w-[1132px] h-[560px] object-cover rounded-2xl"
+            className="w-full h-[220px] sm:h-[300px] md:h-[400px] lg:w-[1132px] lg:h-[560px] object-cover rounded-xl lg:rounded-2xl"
         />
 
         {/* waktu */}
-        <div>
-            <h1 className="text-4xl font-bold text-zinc-700 mb-4">{event.title}</h1>
-            <p className="text-2xl text-zinc-800 font-normal">
+        <div className="text-left">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-zinc-700 mb-3 md:mb-4">{event.title}</h1>
+            <p className="text-base sm:text-lg md:text-2xl text-zinc-800 font-normal leading-relaxed">
             📅 Tanggal: {event.date} <br />
             📍 Lokasi: {event.location}
             </p>
@@ -91,18 +91,18 @@ const eventData = [
 
         {/* deskripsi */}
         <div>
-            <h2 className="text-3xl font-bold text-zinc-700 mb-3">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-zinc-700 mb-2 md:mb-3">
             Apa itu {event.title}?
             </h2>
-            <p className="whitespace-pre-line text-2xl font-normal text-zinc-800 text-justify">{event.desk}</p>
+            <p className="whitespace-pre-line text-base sm:text-lg md:text-2xl font-normal text-zinc-800 text-justify leading-relaxed">{event.desk}</p>
         </div>
 
         {/* jadwal */}
         <div>
-            <h2 className="text-3xl font-bold text-zinc-700 mb-3">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-zinc-700 mb-2 md:mb-3">
             Jadwal / Agenda
             </h2>
-            <ul className="list-none list-inside text-2xl font-normal text-zinc-800">
+            <ul className="list-none list-inside text-base sm:text-lg md:text-2xl font-normal text-zinc-800 leading-relaxed">
             {event.agenda.map((item, index) => (
                 <li key={index}>{item}</li>
             ))}

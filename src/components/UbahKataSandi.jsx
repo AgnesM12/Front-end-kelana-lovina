@@ -61,6 +61,15 @@ const UbahKataSandi = ({ closeModal }) => {
         newErrors.confirmPassword = "Konfirmasi kata sandi tidak cocok";
         }
 
+        if (
+            formData.currentPassword &&
+            formData.newPassword &&
+            formData.currentPassword === formData.newPassword
+        ) {
+            newErrors.newPassword =
+                "Kata sandi baru tidak boleh sama dengan kata sandi saat ini";
+        }
+
         // Jika ada error → hentikan submit
         if (Object.keys(newErrors).length > 0) {
         setErrors(newErrors);

@@ -82,7 +82,7 @@
             ],
             schedule: "Setiap hari, pukul 05.30 WITA",
             location: "Pantai Lovina, Bali",
-            tagLine: "Durasi 3 jam – Termasuk minuman hangat",
+            tagLine: "Durasi 3 jam - Termasuk minuman hangat",
             departurTime: "05.30 WITA",
         },
         {   id: 5,
@@ -102,7 +102,7 @@
             ],
             schedule: "Setiap hari, pukul 05.30 WITA",
             location: "Pantai Lovina, Bali",
-            tagLine: "Durasi 1,5 jam – Termasuk  pelampung ",
+            tagLine: "Durasi 1,5 jam - Termasuk  pelampung ",
             departurTime: "05.30 WITA"
         },
         {   id: 6,
@@ -147,28 +147,28 @@
 
 
         return (
-            <div className="max-w-[1180px] mx-auto bg-white rounded-3xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-8 my-16 flex flex-col gap-14">
+            <div className="max-w-full mx-auto bg-white flex flex-col gap-8 p-4 sm:p-6 md:p-8 lg:max-w-[1200px] lg:my-16 lg:px-9 lg:py-14 lg:rounded-[30px] lg:shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)]">
             {/* Gambar latar */}
             <img
                 src={paket.imageSrc}
                 alt={paket.title}
-                className="w-full h-[560px] md:h-[560px] object-cover rounded-2xl"
+                className="w-full h-[220px] sm:h-[300px] md:h-[400px] lg:h-[560px] object-cover rounded-xl lg:rounded-2xl"
             />
 
             {/* Judul & price */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                <h1 className="text-4xl font-bold text-zinc-700">{paket.title}</h1>
-                <div className="flex items-center gap-3 mt-2 md:mt-0">
-                <p className="text-zinc-700 text-3xl font-bold">{paket.price}</p>
-                <div className="flex items-center text-zinc-500 text-xl font-semibold">
-                    <HiStar className="mr-1 h-7 w-7 text-yellow-400" /> {paket.rating}
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-zinc-700">{paket.title}</h1>
+                <div className="flex flex-wrap items-center gap-3 mt-2 md:mt-0">
+                <p className="text-lg sm:text-2xl md:text-3xl font-bold text-zinc-700">{paket.price}</p>
+                <div className="flex items-center text-sm sm:text-lg md:text-xl font-semibold text-zinc-500">
+                    <HiStar className="mr-1 h-5 w-5 sm:h-6 sm:w-6 text-yellow-400" /> {paket.rating}
                     <span className="ml-2">({paket.reviews})</span>
                 </div>
                 </div>
             </div>
 
             {/*  Durasi & Kapasitas */}
-            <div className="text-2xl text-black">
+            <div className="text-base sm:text-lg md:text-2xl text-zinc-800 leading-relaxed">
                 <p>
                 <span className="font-bold ">Durasi: </span>{paket.duration}
                 </p>
@@ -179,8 +179,8 @@
 
             {/* Paket Termasuk */}
             <div>
-                <h2 className="text-3xl font-bold text-black mb-2">Paket Termasuk</h2>
-                <ul className="list-disc list-inside text-2xl font-normal text-black space-y-1">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-zinc-700 mb-2 md:mb-3">Paket Termasuk</h2>
+                <ul className="list-disc list-inside text-base sm:text-lg md:text-2xl text-zinc-800 leading-relaxed space-y-1">
                 {paket.desk.map((item, i) => (
                     <li key={i}>{item}</li>
                 ))}
@@ -189,18 +189,18 @@
 
             {/* Jadwal & Lokasi */}
             <div>
-                <h2 className="text-3xl font-bold text-black mb-2.5">Jadwal & Lokasi</h2>
-                <p className="text-2xl text-black">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-zinc-700 mb-2 md:mb-3">Jadwal & Lokasi</h2>
+                <p className="text-base sm:text-lg md:text-2xl text-zinc-800">
                 <span className="font-bold">Waktu Keberangkatan: </span>{paket.schedule}
                 </p>
-                <p className="text-2xl text-black">
+                <p className="text-base sm:text-lg md:text-2xl text-zinc-800">
                 <span className="font-bold">Lokasi: </span>{paket.location}
                 </p>
             </div>
 
 
             {/* Tombol Pesan */}
-                <button onClick={handlePesanClick} className="mt-4 w-full  h-16 px-6 py-3.5 bg-primary text-white text-3xl font-bold rounded-lg hover:bg-blue-700 transition">
+                <button onClick={handlePesanClick} className="mt-4 w-full h-14 sm:h-16 px-6 py-3 bg-primary text-white text-lg sm:text-2xl md:text-3xl font-bold rounded-lg hover:bg-blue-700 transition">
                     Pesan Sekarang
                 </button>
             </div>

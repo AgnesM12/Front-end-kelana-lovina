@@ -7,7 +7,7 @@ const ResetSandi = () => {
     const baseStyle = "w-full h-11 px-2.5 py-2 rounded-lg border-2 focus:ring-blue-600 focus:border-blue-600 placeholder-zinc-400 focus:outline-none";
     const defaultStyle = "border-blue-600";
     const errorStyle = "border-red-500 focus:border-red-500 focus:ring-red-500";
-    const errorMessage = "mt-1 text-sm text-red-500";
+    const errorMessage = "mt-1 text-xs sm:text-sm text-red-500";
 
     const {
         register,
@@ -45,7 +45,7 @@ const ResetSandi = () => {
 
     if (isResetSuccess) {
         return (
-            <div className="flex w-full h-screen bg-white">
+            <div className="flex w-full h-screen bg-white flex-col md:flex-row">
         {/* Kolom Kiri: latar*/}
         <div className="relative hidden h-full items-center justify-center bg-gray-500 md:flex md:w-3/5">
             <img
@@ -56,20 +56,20 @@ const ResetSandi = () => {
         </div>
                 
                 {/* Kolom Kanan: Pesan Sukses */}
-                <div className="flex w-full items-center justify-center md:w-2/5 p-8">
-                    <div className="w-full max-w-sm text-center">
+                <div className="flex w-full md:w-2/5 items-center justify-center h-full px-6 sm:px-10 py-10 md:py-0">
+                    <div className="w-full max-w-sm text-center flex flex-col justify-center">
                         <FiCheckCircle className="w-20 h-20 text-blue-600 mx-auto mb-6" />
                         
-                        <h2 className="text-3xl font-bold text-zinc-800 mb-3">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-zinc-800 mb-3">
                             Kata sandi berhasil diatur ulang
                         </h2>
                         
-                        <p className="text-zinc-600 text-base font-medium mb-8">
+                        <p className="text-zinc-600 text-sm sm:text-base font-medium mb-8">
                             Gunakan kata sandi baru untuk masuk.
                         </p>
                         <Link to={"/login"} >
                         <button 
-                            className="w-full py-3 bg-blue-600 text-white text-xl font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                            className="w-full py-3 bg-blue-600 text-white text-lg sm:text-xl font-semibold rounded-lg hover:bg-blue-700 transition-colors"
                         >
                             Masuk
                         </button>
@@ -80,7 +80,7 @@ const ResetSandi = () => {
         );
     }
     return (
-        <div className="flex w-full h-screen bg-white">
+        <div className="flex w-full h-screen bg-white flex-col md:flex-row">
       {/* Kolom Kiri: latar */}
         <div className="relative hidden h-full items-center justify-center bg-gray-500 md:flex md:w-3/5">
             <img
@@ -90,10 +90,10 @@ const ResetSandi = () => {
             />
         </div>
             {/* Kolom Kanan: Form */}
-            <div className="flex w-full items-center justify-center md:w-2/5 p-8">
-                <div className="w-full max-w-sm">
-                    <h2 className=" text-center text-4xl font-bold text-zinc-800 mb-3.5">Atur ulang kata sandi</h2>
-                    <p className="text-zinc-600 text-base font-medium text-center mb-[50px]">Masukkan dan konfirmasi kata sandi baru Anda.</p>
+            <div className="flex w-full items-center justify-center md:w-2/5 h-full px-6 sm:px-10 py-10 md:py-0">
+                <div className="w-full max-w-sm flex flex-col justify-center">
+                    <h2 className=" text-center text-3xl sm:text-4xl font-bold text-zinc-800 mb-3.5">Atur ulang kata sandi</h2>
+                    <p className="text-zinc-600 text-sm sm:text-base font-medium text-center mb-10">Masukkan dan konfirmasi kata sandi baru Anda.</p>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         {/* Field Kata Sandi Baru */}
@@ -137,7 +137,7 @@ const ResetSandi = () => {
                         </div>
 
                         {/* Tombol Submit */}
-                        <button type="submit" className="w-full py-3 bg-blue-600 text-white text-xl font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                        <button type="submit" className="w-full py-3 bg-blue-600 text-white text-lg  sm:text-xl font-semibold rounded-lg hover:bg-blue-700 transition-colors">
                             Atur ulang
                         </button>
                     </form>
