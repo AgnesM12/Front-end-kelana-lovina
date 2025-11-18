@@ -1,9 +1,12 @@
 import React, { useState, useEffect} from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Menu, Dialog } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
-import { X } from "lucide-react";
+import { Rows, X } from "lucide-react";
+import { pdf } from "@react-pdf/renderer";
+import KodeBayarPDF from "../components/kodeBayar.jsx";
+
 
 function MenuPembayaran() {
     const { state } = useLocation();
@@ -112,6 +115,24 @@ function MenuPembayaran() {
         setIsOpenNested(true);
     };
 
+
+    //download kode pembayaran PDF
+        const handleDownloadPDF = async () => {  
+            if (!formData){
+                alert("Form data is missing!");
+            };
+
+            const blob = await pdf(
+                <KodeBayarPDF data={formData} paket={paket} />
+            ).toBlob();
+        
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "tiket_wisata.pdf";
+            a.click();
+            URL.revokeObjectURL(url);
+        };
     
     const cardContainerStyle = {
         display: "flex",
@@ -395,7 +416,7 @@ function MenuPembayaran() {
                       
                             <div className="p-3 bg-white rounded-b-xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)]">
                                 <div className="flex justify-center">
-                                    <button onClick={() => setIsOpenNested(false)} className="bg-[#005ED1]  text-white font-semibold text-lg px-6 py-3 rounded-xl w-48" style={{borderRadius: '8px'}}>Unduh QRIS</button>
+                                    <button onClick={handleDownloadPDF} className="bg-[#005ED1]  text-white font-semibold text-lg px-6 py-3 rounded-xl w-48" style={{borderRadius: '8px'}}>Unduh QRIS</button>
                                 </div>
 
                                 <div className="flex justify-center mt-3">
@@ -408,6 +429,7 @@ function MenuPembayaran() {
             </div>
         </div>
     );
+
 }
 
 export default MenuPembayaran;
