@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { X, ChevronRight } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 const TiketSaya = ({ onClose }) => {
 
     const navigate = useNavigate();
-    const {state} = useLocation(); 
     const [tiketList, setTiketList] = useState([]);
 
     useEffect(() => {
@@ -54,9 +53,7 @@ const TiketSaya = ({ onClose }) => {
                     </p>
                     </div>
                 </div>
-                <div className="flex justify-end sm:justify-center items-start sm:items-center mt-[-8px] sm:mt-0">
-                <ChevronRight onClick={() => navigate ("/detailTiketSaya", {state: {paket: tiket.paket, data: tiket.data} })} style={{cursor: 'pointer'}} className="text-black w-6 sm:w-7 h-6 sm:h-7 cursor-pointer hover:text-blue-600 transition" />
-                </div>
+                <ChevronRight onClick={() => navigate ("/detailTiketSaya", {state: {paket: tiket.paket, data: tiket.data} })} style={{cursor: 'pointer'}} className="text-black w-7 h-7" />
                 </div>
             ))}
         </div>
