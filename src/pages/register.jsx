@@ -15,10 +15,35 @@ const Register = () => {
 
     const password = watch("password");
 
-    const onSubmit = (data) => {
-        console.log("Register berhasil:", data);
+    //integrate backend
+    const onSubmit = async (data) => {
+        try {
+        const response = await fetch("http://localhost:4000/api/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: data.email,
+                password: data.password
+            }),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            alert(result.message);
+            return;
+        }
+
+        alert("Registrasi berhasil!");
         reset();
-    };
+        window.location.href = "/login";
+
+    } catch (error) {
+        console.error("REGISTER ERROR:", error);
+        alert("Terjadi kesalahan server");
+    }
+};
+
 
     const baseStyle =
         "w-full h-11 px-2.5 py-2 rounded-lg border-2 focus:ring-primary focus:border-primary placeholder-zinc-400 focus:outline-none";
@@ -60,6 +85,10 @@ const Register = () => {
                     {...register("password", {
                         required: "Password wajib diisi",
                         minLength: { value: 8, message: "Minimal 8 karakter" },
+                        pattern: {
+                            value: /^(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                            message: "Password harus mengandung simbol (!@#$%^&*)"
+                        }
                     })}
                     className={`${baseStyle} pr-10 ${errors.password ? errorStyle : defaultStyle}`}
                     />
