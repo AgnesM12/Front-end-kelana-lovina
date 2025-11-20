@@ -34,11 +34,11 @@ function NavbarBefore() {
             <nav className="max-w-[1220px] mx-auto flex items-center justify-between h-20 px-4 md:px-6 w-full">
                 <div className='flex-shrink-0'>
                 {/* Logo */}
-                    <img className="h-14 sm:h-12 md:h-12 w-auto" src="/KELANA 1.png" alt="logo-aplikasi"/>
+                    <img className="h-14 sm:h-12 md:h-12 lg:h-14 w-auto" src="/KELANA 1.png" alt="logo-aplikasi"/>
                 </div>
                 {/* Search Bar */}
-                <div className='flex-grow flex justify-center mx-3 sm:mx-5 md:mx-6 '>
-                    <div className="relative w-[180px] sm:w-[260px] md:w-[320px] lg:w-[380px]">
+                <div className='flex-grow flex justify-center mx-3 sm:mx-5 md:mx-6 lg:mx-8 '>
+                    <div className="relative w-full max-w-[400px] md:max-w-[480px] lg:max-w-[520px] xl:max-w-[560px] transition-all duration-300">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <FiSearch className="h-5 w-5 text-primary" strokeWidth={2.5} />
                         </div>
@@ -56,7 +56,7 @@ function NavbarBefore() {
                     </button>
                 </div>
                 {/* Navigasi Desktop */}
-                <div className='hidden lg:flex items-center space-x-10'>
+                <div className='hidden lg:flex lg:space-x-2 items-center space-x-10'>
                 <div className="flex items-center gap-[25px]">
                     <NavLink to="/" end className={`px-1 py-2.5 border-b-[2.50px] whitespace-nowrap ${isBerandaActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Beranda</NavLink>
                     <NavLink to="/acara" end className={`px-1 py-2.5 border-b-[2.50px] whitespace-nowrap ${isAcaraActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Acara</NavLink>
@@ -79,7 +79,7 @@ function NavbarBefore() {
                             </div>
                     ) : (
                     <Link to="/login">
-                        <div className='w-44 h-14 px-6 py-3.5 bg-primary rounded-lg flex justify-center items-center hover:bg-blue-700 transition duration-150'>
+                        <div className='w-44 h-14 px-6 py-3.5 bg-primary rounded-lg flex justify-center items-center hover:bg-blue-700 transition duration-150 ml-10'>
                             <button className='text-white text-lg font-bold'>
                                 Masuk
                             </button>

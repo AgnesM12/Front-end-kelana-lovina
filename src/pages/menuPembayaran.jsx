@@ -1,15 +1,37 @@
-import React, { useState } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect} from "react";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Menu, Dialog } from "@headlessui/react";
-import { ChevronDownIcon } from '@heroicons/react/16/solid';
+import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
+import { Rows, X } from "lucide-react";
+import { pdf } from "@react-pdf/renderer";
+import KodeBayarPDF from "../components/kodeBayar.jsx";
 
 
 function MenuPembayaran() {
     const { state } = useLocation();
-    const paket = state || {};
-
     const navigate = useNavigate();
+    const {slug} = useParams(); 
+    
+    const paket = state; 
+
+    if (!paket) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white">
+                <div className="text-center p-10 bg-white rounded-3xl shadow-2xl">
+                    <p className="text-5xl mb-4">Paket Hilang!</p>
+                    <p className="text-xl text-gray-600 mb-8">Mungkin lumba-lumbanya lagi berenang jauh</p>
+                    <button 
+                        onClick={() => navigate('/paket')}
+                        className="px-10 py-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white text-lg rounded-full hover:shadow-lg transition"
+                    >
+                        Kembali ke Paket
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     const [selectedIdentitas, setSelectedIdentitas] = useState("Pilih Identitas");
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [formData, setFormData] = useState(null);
@@ -19,7 +41,7 @@ function MenuPembayaran() {
     const open = () => setIsOpen(true);
     const close = () => setIsOpen(false);
     const openNested = () => setIsOpenNested(true);
-    const closeNested = () => setIsOpenNested(false);
+    // const closeNested = () => setIsOpenNested(false);
 
     const onSubmit = (data) => {
         console.log(data);
@@ -32,6 +54,86 @@ function MenuPembayaran() {
     const subTotal = jumlahOrang * hargaPerTiket;
     const total = subTotal + 10000;
 
+    //hitungan mundur dan booking (gagal/berhasil)
+    const [seconds, setSeconds] = useState(15);
+    const [statusBooking, setStatusBooking ] = useState(null);
+
+    useEffect(() => {
+        let timer;
+
+        if (isOpenNested && seconds > 0) {
+            timer = setInterval(() => {
+                setSeconds((prev) => prev - 1);
+            }, 1000);
+        }
+        if (seconds === 0) {
+            clearInterval(timer);
+        }
+        
+        return () => clearInterval(timer);
+    }, [isOpenNested, seconds]);
+
+    const closeNested = () => {
+        const status = seconds <= 0 ? "berhasil" : "gagal";
+    
+        const riwayatLama = JSON.parse(localStorage.getItem("riwayat")) || [];
+        const riwayatBaru = {
+            paket: paket.title,
+            tanggal: new Date().toLocaleDateString("id-ID"),
+            status,
+            imageSrc: paket.imageSrc,
+            deskripsi: paket.tagLine,
+        };
+        localStorage.setItem("riwayat", JSON.stringify([...riwayatLama, riwayatBaru]));
+    
+        if (status === "berhasil") {
+            const tiketSebelumnya = JSON.parse(localStorage.getItem("tiketSaya")) || [];
+            const tiketBaru = {
+                paket: paket,
+                data: formData,
+                status,
+            };
+            localStorage.setItem("tiketSaya", JSON.stringify([...tiketSebelumnya, tiketBaru]));
+        } else {
+            alert("Pembayaran Gagal!");
+        }
+    
+        setIsOpenNested(false);
+        navigate("/riwayat-pemesanan", { state: { status } });
+    };
+
+    const formatTime = (seconds) => {
+        const hour = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secondsRemaining = seconds % 60;
+        return [hour, minutes, secondsRemaining].map((v) => v.toString().padStart(2, "0")).join(":");
+    }
+
+    const handleOpenNested = () => {
+        setSeconds(15);
+        close();
+        setIsOpenNested(true);
+    };
+
+
+    //download kode pembayaran PDF
+        const handleDownloadPDF = async () => {  
+            if (!formData){
+                alert("Form data is missing!");
+            };
+
+            const blob = await pdf(
+                <KodeBayarPDF data={formData} paket={paket} />
+            ).toBlob();
+        
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "tiket_wisata.pdf";
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+    
     const cardContainerStyle = {
         display: "flex",
         justifyContent: "center",
@@ -112,9 +214,9 @@ function MenuPembayaran() {
                                 <label htmlFor="fullName" className="block text-lg font-bold text-gray-900">Nama Pengguna</label>
                                 <div className="mt-2">
                                     <div>
-                                        <input id="fullName" type="text" {...register("fullName", { required: "Nama lengkap pengguna wajib diisi" })} placeholder="Masukan nama lengkap Anda" className="block w-full rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
+                                        <input id="fullName" size={100} type="text" {...register("fullName", { required: "Nama lengkap pengguna wajib diisi" })} placeholder="Masukan nama lengkap Anda" className="block w-full rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 max-w-[480px]"/>
                                     </div>
-                                    <p className="mt-2 pl-3 text-sm text-red-500 min-h-[20px]">{errors.fullName?.message}</p>
+                                    <p className="mt-2 pl-3 text-sm text-red-500 min-h-[24px]">{errors.fullName?.message}</p>
                                 </div>
                             </div>
 
@@ -138,15 +240,15 @@ function MenuPembayaran() {
 
                                         <input id="nomorIdentitas" type="text" {...register('nomorIdentitas', { required: "Nomor identitas wajib di isi" })} placeholder={selectedIdentitas === "KTP" ? "Masukan Nomor KTP Anda" : selectedIdentitas === "Passpord" ? "Masukkan Nomor Passpord Anda" : "Isi sesuai identitas pilihan Anda"} className="block w-full  rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
                                 </div>
-                                <p className="mt-2 pl-3 text-sm text-red-500 min-h-[20px]">{errors.nomorIdentitas?.message}</p>
+                                <p className="mt-2 pl-3 text-sm text-red-500 min-h-[24px]">{errors.nomorIdentitas?.message}</p>
                             </div>
 
                             {/* Jumlah Orang */}
                             <div className="sm:col-span-12">
                                 <label htmlFor="jumlahOrang" className="block text-lg font-bold text-gray-900">Jumlah Orang</label>
                                 <div className="mt-2">
-                                        <input id="jumlahOrang" type="number" {...register("jumlahOrang", { required: "Jumlah orang wajib diisi", min: { value: 1 } })} placeholder="5" className="block w-screen     rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
-                                    <p className="mt-2 pl-3 text-sm text-red-500 min-h-[20px]">{errors.jumlahOrang?.message}</p>
+                                        <input id="jumlahOrang" type="number" {...register("jumlahOrang", { required: "Jumlah orang wajib diisi", min: { value: 1 } })} placeholder="5" className="block w-full rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
+                                    <p className="mt-2 pl-3 text-sm text-red-500 min-h-[24px]">{errors.jumlahOrang?.message}</p>
                                 </div>
                             </div>
 
@@ -155,7 +257,7 @@ function MenuPembayaran() {
                                 <label htmlFor="nomorTelpon" className="block text-lg font-bold text-gray-900">Nomor Telepon</label>
                                 <div className="mt-2">
                                     <input id="nomorTelpon" type="text" {...register("nomorTelpon", { required: "Nomor telepon wajib diisi", pattern:{value: /^(?:\+?\d{1,3})?[ -]?(?:0)?8\d{7,11}$/, message: "Format nomor telepon tidak valid"} })} placeholder="Masukan nomor aktif Anda" className="block w-full  rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
-                                    <p className="mt-2 pl-3 text-sm text-red-500 min-h-[20px]">{errors.nomorTelpon?.message}</p>
+                                    <p className="mt-2 pl-3 text-sm text-red-500 min-h-[24px]">{errors.nomorTelpon?.message}</p>
                                 </div>
                             </div>
 
@@ -166,14 +268,12 @@ function MenuPembayaran() {
                                     <div>
                                     <input id="tanggalBerangkat" type="date" {...register("tanggalBerangkat", { required: "Tanggal berangkat wajib diisi" })} className="block w-full  rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
                                     </div>
-                                    <p className="mt-2 pl-3 text-sm text-red-500 min-h-[20px]">{errors.tanggalBerangkat?.message}</p>
+                                    <p className="mt-2 pl-3 text-sm text-red-500 min-h-[24px]">{errors.tanggalBerangkat?.message}</p>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
-
-
 
                 {/* Card Detail Pesanan */}
                 <div style={cardPesananStyle}>
@@ -205,7 +305,7 @@ function MenuPembayaran() {
                             <p style={{fontSize: '18px'}}>Rp. 10.000</p>
                         </div>
 
-                        <p style={{color: '#B3B3B3', paddingTop: '15px'}}>-----------------------------------------------------</p>
+                        <p style={{color: '#B3B3B3', padding: '10px 0px'}}>-----------------------------------------------------</p>
 
                         <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '98%', fontFamily: 'poppins, sans-serif', marginTop: '2px'}}>
                             <p style={{fontSize: '22px'}}>Total</p>
@@ -224,7 +324,10 @@ function MenuPembayaran() {
                 <div className="fixed inset-0 flex items-center justify-center">
                 <Dialog.Panel className="bg-[#005ED1] rounded-2xl w-full max-w-md mx-auto">
                     <div className="p-3 bg-white rounded-t-2xl">
-                    <Dialog.Title className="text-lg font-medium text-gray-900">Info Pembayaran</Dialog.Title>
+                        <div className="flex items-center gap-48">
+                            <Dialog.Title className="text-2xl font-bold text-gray-900">Info Pembayaran</Dialog.Title>     
+                            <button onClick={close}> <X size={28} className="text-black hover:text-red-500" /></button>          
+                        </div>
                     <p className="text-gray-600">Paket Wisata</p>
                     </div>
 
@@ -240,7 +343,7 @@ function MenuPembayaran() {
                     </div>
 
                     <div className="p-3 bg-white text-gray-800">
-                    <p className="text-center font-bold text-xl mb-1">Kamis, 17 September 2025</p>
+                    <p className="text-center font-bold text-xl mb-1"> {new Date().toLocaleDateString("id-ID", {weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
                     <hr className="my-2" />
                     <div className="flex justify-between text-base">
                         <p>Total</p>
@@ -251,7 +354,6 @@ function MenuPembayaran() {
                         <p className="font-bold">Rp. 10.000</p>
                     </div>
 
-                    {/* Metode Pembayaran */}
                     <div className="p-3 border-2 border-gray-300 rounded-lg w-4/5 mx-auto mt-5">
                         <p className="font-semibold mb-3">Pilih metode pembayaran</p>
                         <div className="flex justify-center gap-6">
@@ -276,55 +378,58 @@ function MenuPembayaran() {
                         <p className="font-bold text-3xl">Rp. {total.toLocaleString("id-ID")}</p>
                     </div>
 
-                    <button onClick={() => { close(); navigate('/paket/:slug/menuPembayaran/tiket', { state: { paket, data: formData } }) }} className="bg-[#005ED1] w-[200px] text-white py-5 px-6 rounded-lg font-bold text-lg hover:bg-blue-800"> Bayar </button>
-                    
+                    <button onClick={() => { close(); setIsOpenNested(true)}} className="bg-[#005ED1] w-[200px] text-white py-5 px-6 rounded-lg font-bold text-lg hover:bg-blue-800"> 
+                    Bayar </button>
                     </div>
                 </Dialog.Panel>
                 </div>
             </Dialog>
 
             {/* Pop up Kode Pembayaran */}
-            {/* <div className="p-6">
-                        <Dialog open={isOpenNested} onClose={closeNested} className="relative z-51">
-                        <div className="fixed inset-0 bg-black/70" aria-hidden="true" />
-                        <div className="fixed inset-0 flex items-center justify-center">
-                            <DialogPanel className="bg-blue-600 rounded-2xl w-full max-w-lg mx-auto">
+            <div className="p-6">
+                <Dialog open={isOpenNested} onClose={closeNested} className="relative z-[100]">
+                    <div className="fixed inset-0 bg-black/70" aria-hidden="true" />
+                    <div className="fixed inset-0 flex items-center justify-center">
+                        <Dialog.Panel className="bg-blue-600 rounded-2xl w-full max-w-lg mx-auto">
                             
                             <div className="p-3 bg-white rounded-t-2xl tracking-normal">
-                                <DialogTitle className="text-lg font-medium text-gray-900">Rp. {( ((watch("jumlahOrang") || 0) * parseInt(paket.price.replace(/\D/g, ""))) + 10000).toLocaleString("id-ID") }</DialogTitle>
+                                <div className="flex items-center gap-80">
+                                    <Dialog.Title className="text-2xl font-bold text-gray-900">Rp. {( ((watch("jumlahOrang") || 0) * parseInt(paket.price.replace(/\D/g, ""))) + 10000).toLocaleString("id-ID") }</Dialog.Title>
+                                    <button onClick={closeNested}> <X size={28} className="text-black hover:text-red-500" /></button>
+                                </div>
                                 <p className="mt-2 text-gray-600">Kode transaksi #648274898402</p>
                             </div>
 
                             <div className="flex items-center justify-center bg-blue-600 gap-10">
                                 <p className="text-white text-center">Waktu Tersisa</p>
-                                <p className="text-white text-center"> 00:15:00</p>
+                                <p className="text-white text-center">{formatTime(seconds)}</p>
                             </div>
 
-                            
                             <div className="p-3 bg-white">
                                 <div className="flex justify-end-safe">
-                                    <img src="/src/assets/gopay.png" alt="logo gopay" className="h-10"/>
+                                    <img src="/gopay.png" alt="logo gopay" className="h-10"/>
                                 </div>
                                 <div className="flex justify-center">
-                                    <img src="/src/assets/qrcode.png" alt="QR Code" className="w-90"/>
+                                    <img src="/qrcode.png" alt="QR Code" className="h-[300px] w-[300px]"/>
                                 </div>
                             </div>
                       
                             <div className="p-3 bg-white rounded-b-xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)]">
                                 <div className="flex justify-center">
-                                    <button onClick={() => setIsOpenNested(false)} className="bg-[#005ED1]  text-white font-semibold px-6 py-3 rounded-xl w-48" style={{borderRadius: '8px'}}>Unduh QRIS</button>
+                                    <button onClick={handleDownloadPDF} className="bg-[#005ED1]  text-white font-semibold text-lg px-6 py-3 rounded-xl w-48" style={{borderRadius: '8px'}}>Unduh QRIS</button>
                                 </div>
 
                                 <div className="flex justify-center mt-3">
-                                    <button onClick={() => setIsOpenNested(false)} className="bg-[#005ED1]  text-white font-semibold text-2xl px-6 py-3 rounded-md w-48" style={{borderRadius: '8px'}}>Cek status</button>
+                                    <button onClick={closeNested} className="bg-[#005ED1]  text-white font-semibold text-lg px-6 py-3 rounded-md w-48" style={{borderRadius: '8px'}}>Cek status</button>
                                 </div>
                             </div>
-                            </DialogPanel>
-                        </div>
-                        </Dialog>
-                    </div> */}
+                        </Dialog.Panel>
+                    </div>
+                </Dialog>
+            </div>
         </div>
     );
+
 }
 
 export default MenuPembayaran;
