@@ -41,59 +41,59 @@ function Beranda() {
       </div>
 
       {/* Tentang Lovina & Paket*/}
-      <section className="mt-16 flex min-h-screen w-full content-center justify-center px-4 py-8 flex-col items-center gap-8 lg:flex-row lg:items-start lg:gap-16 lg:px-8">
+      <section className="mt-8 lg:mt-16 flex min-h-screen w-full content-center justify-center px-4 py-6 lg:py-8 flex-row items-center gap-6 lg:items-star lg:items-start lg:gap-16 lg:px-8">
         {/*Tentang Lovina */}
-        <div className="w-full max-w-2xl bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-6 lg:p-8 flex flex-col gap-6">
-          <h2 className="text-2xl py-15 lg:text-3xl font-bold text-gray-900 pt-14">
+        <div className="w-full max-w-2xl bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-6 lg:p-8 flex flex-col gap-4">
+          <h2 className="text-sm sm:text-xl md:text-2xl lg:py-15 lg:text-3xl font-bold text-gray-900 lg:pt-14">
             Tentang Kelana Lovina
           </h2>
-          <p className="text-zinc-700 leading-relaxed pt-10">
+          <p className="text-xs sm:text-sm md:text-base text-zinc-700 leading-relaxed pt-2 lg:pt-16">
             Selamat datang di Kelana Lovina! Di sini, Kamu bisa merencanakan
             liburan di Pantai Lovina dengan mudah dan menyenangkan. Pesan tiket
             paket wisata yang tersedia, dapatkan informasi terbaru tentang
             berbagai acara, dan susun rencana perjalanan sesuai keinginanmu.
           </p>
-          <p className="text-zinc-700 leading-relaxed pt-4">
+          <p className=" text-xs sm:text-sm md:text-base text-zinc-700 leading-relaxed pt-4">
             Setelah liburan, bagikan pengalaman, cerita, dan tipsmu dengan
             pengguna lain, sehingga perjalananmu tidak hanya berkesan untukmu,
             tapi juga bermanfaat bagi orang lain.
           </p>
-          <Link to={'/rencana-perjalanan'} className="my-16">
+          <Link to={'/rencana-perjalanan'} className="my-6 lg:my-16">
             <button className="bg-blue-700 text-white font-bold text-base px-6 py-3 rounded-xl self-start hover:bg-blue-800 transition-colors ">
               Atur Rencana Perjalananmu
             </button>
           </Link>
         </div> 
         {/*Paket & Informasi Cepat */}
-        <div className="w-full max-w-md flex flex-col gap-8">
+        <div className="w-full max-w-md flex flex-col gap-6 lg:gap-8">
           <div className="bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-4 flex flex-col gap-4">
             <img
               src="/paket-sunrise-cruise.png"
               alt="Tur lumba-lumba"
-              className="w-full h-60 object-cover rounded-2xl"
+              className="w-full h-28 lg:h-60 object-cover rounded-2xl"
             />
-            <div className="flex justify-between items-center gap-4 px-1">
-              <h3 className="text-xl font-bold text-gray-900">
+            <div className="flex justify-between items-start lg:items-center gap-4 px-1">
+              <h3 className="text-xs sm:text-lg lg:text-xl font-bold text-gray-900">
                 Paket Sunrise Dolphin Cruise
               </h3>
-              <p className="text-sm font-semibold text-gray-900 whitespace-nowrap">
+              <p className="text-xs sm:text-sm font-semibold text-gray-900 whitespace-nowrap flex-shrink-0">
                 IDR 300.000
               </p>
             </div>
             <div className="flex justify-between items-center gap-4 px-1">
-              <p className="text-sm text-zinc-700">
+              <p className="text-xs sm:text-sm text-zinc-700">
                 Durasi 2 jam - Sudah termasuk sarapan dan snorkeling
               </p>
-              <button onClick={handlePesanClick} className="bg-blue-700 text-white font-bold text-base px-8 py-2.5 rounded-xl hover:bg-blue-800 transition-colors flex-shrink-0">
+              <button onClick={handlePesanClick} className="bg-blue-700 text-white font-bold text-sm sm:text-base px-6 sm:px-8 py-2.5 rounded-xl hover:bg-blue-800 transition-colors flex-shrink-0">
                 Pesan
               </button>
             </div>
           </div>
-          <div className="bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+          <div className="bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-6 lg:p-8">
+            <h3 className="text-xs sm:text-lg lg:text-xl font-bold text-gray-900 mb-4">
               Informasi cepat
             </h3>
-            <ul className="text-zinc-700 list-disc list-inside space-y-2">
+            <ul className="text-zinc-700 list-disc list-inside space-y-2 text-xs sm:text-sm lg:text-base">
               <li>Lokasi: Kabupaten Buleleng, Bali Utara</li>
               <li>Waktu terbaik: 05:30 — 08:00</li>
               <li>Bawalah sunblock & topi</li>
