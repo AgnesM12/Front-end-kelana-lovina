@@ -58,7 +58,7 @@ function Profil() {
 
             {/* Info Profil & Tombol Edit */}
             <div className="w-full flex flex-col sm:flex-row md:flex-row justify-between items-start gap-4">
-                <div className="flex flex-col justify-start items-start">
+                <div className="flex flex-col justify-center items-center sm:justify-start sm:items-start">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black ">
                     {dataProfil.namaLengkap}
                 </h2>
