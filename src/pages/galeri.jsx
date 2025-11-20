@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect, useState} from "react";
 import Judul from "../components/Judul"; 
 import HeroSection from "../components/HeroSection";
 
 
 function HalamanGaleriPenuh() {
+const [items, setItems] = useState([]);
+
+useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("album")) || [];
+    setItems(data);
+}, []);
+
 const dataHero = {
     title: "Temukan Paket Terbaik untuk Perjalananmu",
     imageSrc: '/hero.png',
@@ -25,24 +32,32 @@ const acaraData = [
     { src: "/galeriP-12.png", alt: "galeriP 12" },
     ];
 
-    const rows = [];
+    const itemRows = [];
     for (let i = 0; i<acaraData.length; i += 2) {
-        rows.push(acaraData.slice(i, i+2));
+        itemRows.push(acaraData.slice(i, i+2));
     }
+    const ukuranGambar = (barisPertama, barisKedua) => {
+        if (barisKedua) {
+            return barisPertama ? "w-2/5" : "w-3/5";
+        } else {
+            return barisPertama ? "w-3/5" : "w-2/5";
+        }
+    };
 
     return (
-        <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden ">
+        <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16">
             <HeroSection hero={dataHero} />
         <section className="flex flex-col items-center px-4 my-16">
         <Judul
             header={{
-            title: "Galeri Acara",
+            title: "Galeri Pengunjung",
             description:
                 "Galeri foto penuh warna yang menghadirkan cerita dari setiap event dan festival di Lovina",
             }}
         />
+
         <div className="flex flex-col gap-6 w-full items-center">
-            {rows.slice(0, 6).map((row, index) => (
+            {itemRows.slice(0, 6).map((row, index) => (
             <div
                 key={index}
                 className="flex flex-col lg:flex-row gap-4 w-full max-w-[1191px]"
@@ -75,6 +90,19 @@ const acaraData = [
                 )}
             </div>
             ))}
+
+            <div className="flex flex-wrap justify-center gap-4">
+                {items.map((item, index) => (
+                    <div key={index} className="w-64 h-64 overflow-hidden rounded-2xl shadow-lg">
+                        <img
+                            src={item.imageSrc}
+                            alt={item.alt}
+                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                        />
+                    </div>
+                ))}
+            </div>
+
         </div>
     </section>
     </main>

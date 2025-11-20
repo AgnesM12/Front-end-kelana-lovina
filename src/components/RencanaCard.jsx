@@ -1,16 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MoreHorizontal, X, Copy} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-function RencanaCard({ pkg }) {
+function RencanaCard({ pkg, onDelete }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const detailsRef = useRef(null);
+  const navigate = useNavigate();
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const journeyId = pkg.id || '123';
   const titleSlug = (pkg.title || 'rencana-baru')
     .toLowerCase()                   
     .replace(/\s+/g, '-')            
     .replace(/[^a-z0-9-]/g, ''); 
+
   const shareUrl = `https://example.com/perjalanan/${journeyId}-${titleSlug}`;
   const shareText = `Cek rencana perjalanan saya: ${pkg.title}`;
 
@@ -49,6 +55,14 @@ function RencanaCard({ pkg }) {
     });
   };
 
+  const handlePesanSekarang = () => {
+    if (!isAuthenticated) {
+      navigate("/login"); 
+    } else {
+      navigate(`/paket/${titleSlug}`);
+    }
+  };
+
   useEffect(() => {
     if (isModalOpen) {
       setIsCopied(false);
@@ -74,7 +88,7 @@ function RencanaCard({ pkg }) {
               Unduh Rencana Perjalanan
             </button>
             <button
-              onClick={pkg.onDelete}
+              onClick={onDelete}
               className="block w-full text-left p-2.5 hover:bg-red-100 hover:rounded-[5px] text-base text-red-600"
             >
               Hapus
@@ -106,7 +120,7 @@ function RencanaCard({ pkg }) {
         })}
         <p className="text-base text-black-500">{pkg.description}</p>
       </p>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-6 py-2.5 rounded-lg  tetx-lg font-bold shrink-0 ml-2 gapl-2.5">
+        <button onClick={handlePesanSekarang} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-6 py-2.5 rounded-lg  tetx-lg font-bold shrink-0 ml-2 gapl-2.5">
           Pesan Sekarang
         </button>
       </div>
