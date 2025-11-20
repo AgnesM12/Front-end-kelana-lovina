@@ -44,15 +44,40 @@ const Login = () => {
     return true;
   };
 
-  const handleLogin = (data) => {
-    console.log("Login Berhasil (Lolos Validasi):", data);
-    const userData = {
-      name: data.email.split('@')[0], 
-      profilePic: null
+  const handleLogin = async (data) => {
+    try {
+      const response = await fetch("http://localhost:4000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        alert(result.message || "Login gagal");
+        return;
+      }
+
+      // Simpan token ke localStorage
+      localStorage.setItem("token", result.token);
+
+      // Simpan user ke Redux
+      dispatch(
+        loginSuccess({
+          id: result.user.id,
+          email: result.user.email,
+        })
+      );
+
+      // Redirect ke beranda
+      navigate("/");
+    } catch (error) {
+      console.error("Login Error:", error);
+      alert("Terjadi kesalahan saat login");
+    }
   };
-  dispatch(loginSuccess(userData));
-    navigate('/')
-  };
+
     
 
   const baseStyle = "w-full h-11 px-2.5 py-2 rounded-lg border-2 focus:ring-primary focus:border-primary placeholder-zinc-400 focus:outline-none";
