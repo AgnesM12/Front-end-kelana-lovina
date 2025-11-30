@@ -68,7 +68,7 @@ function Beranda() {
         <div className="w-full max-w-md flex flex-col gap-6 lg:gap-8">
           <div className="bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-4 flex flex-col gap-4">
             <img
-              src="/paket-sunrise-cruise.png"
+              src="/paket-sunrise-dolphine-tur.png"
               alt="Tur lumba-lumba"
               className="w-full h-28 lg:h-60 object-cover rounded-2xl"
             />
@@ -114,58 +114,77 @@ export default Beranda;
 const paketData = [
   {
     id: 1,
-    imageSrc: "/paket-morning-dolphin.png",
-    title: "Morning Dolphin Tour",
-    description: "Durasi 3 jam - Termasuk sarapan",
-    price: "Rp. 150.000",
-    rating: 4.3,
-    reviews: 68,
-  },
-  {
-    id: 2,
-    imageSrc: "/paket-sunrise-cruise.png",
-    title: "Sunrise Dolphin Cruise",
-    description: "Durasi 2 jam - Termasuk snack & minum",
+    imageSrc: "/paket-rafatour-dolphine-snorkling.png",
+    title: "Rafatour dolphin snorkeling",
+    description: "Durasi 3-4 jam",
     price: "Rp. 300.000",
     rating: 4.7,
     reviews: 44,
   },
   {
-    id: 3,
-    imageSrc: "/paket-snorkeling.png",
-    title: "Snorkeling Lovina",
-    description: "Durasi 2 jam - Termasuk pemandu & guide",
+    id: 2,
+    imageSrc: "/paket-seadolphine-lovina.png",
+    title: "Seadolphine Lovina",
+    description: "Durasi 2-3 Jam",
     price: "Rp. 350.000",
-    rating: 4.2,
-    reviews: 39,
+    rating: 4.5,
+    reviews: 45,
   },
   {
-    id: 4,
-    imageSrc: "/paket-dolphin-watching.png",
-    title: "Dolphin Watching Tour",
-    description: "Durasi 3 jam - Termasuk minuman hangat",
-    price: "Rp. 200.000",
+    id: 3,
+    imageSrc: "/paket-watching-dolphine-only.png",
+    title: "Watching Dolphin Only",
+    description: "Durasi 2 Jam",
+    price: "Rp. 100.000",
     rating: 4.4,
-    reviews: 40,
-  },
-  {
+    reviews: 54,
+},
+{
+    id: 4,
+    imageSrc: "/paket-snorkling-tur.png",
+    title: "Snorkeling & Dolphin Tur",
+    description: "Durasi 2 jam",
+    price: "Rp. 350.000",
+    rating: 4.4,
+    reviews: 54,
+},
+{
     id: 5,
-    imageSrc: "/paket-swim-with.png",
-    title: "Swim with Dolphin",
-    description: "Durasi 1,5 jam - Termasuk pelampung",
+    imageSrc: "/dolphinWatchingTour.jpg",
+    title: "Dolphin Watching Tur",
+    description: "Durasi 3 jam",
     price: "Rp. 200.000",
-    rating: 4.6,
-    reviews: 36,
-  },
-  {
-    id: 6,
-    imageSrc: "/paket-privat-tour.png",
-    title: "Private Tour Guide",
-    description: "Durasi 2 jam - Termasuk satu perahu khusus",
-    price: "Rp. 400.000",
     rating: 4.5,
     reviews: 40,
-  },
+},
+{
+    id: 6,
+    imageSrc: "/swimWithDolphin.jpg",
+    title: "Swim with Dolphin",
+    description: "Durasi 1,5 jam",
+    price: "Rp. 200.000",
+    rating: 4.6,
+    reviews: 38,
+},
+{
+    id: 7,
+    imageSrc: "/privateTourGuide.png",
+    title: "Private Tour Guide",
+    description: "Durasi 2 jam",
+    price: "Rp. 200.000",
+    rating: 4.5,
+    reviews: 40,
+},
+{
+    id: 8,
+    imageSrc: "/paket-snorkeling-lovina.png",
+    title: "Snorkeling Lovina",
+    description: "Durasi 2 jam",
+    price: "Rp. 150.000",
+    rating: 4.2,
+    reviews: 38,
+},
+
 ];
 
 function RekomendasiPaket() {
