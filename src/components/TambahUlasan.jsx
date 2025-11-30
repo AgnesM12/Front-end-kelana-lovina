@@ -17,7 +17,7 @@ const TambahUlasan = () => {
 
   const user = useSelector((state) => state.auth.user);
   const username = user?.name || user?.email?.split('@')[0] || localStorage.getItem("username") || "Pengguna Anonim";
-  const profileImage = user?.photo || "/default-profile.png";
+  const profileImage = user?.photo || localStorage.getItem("profileImage") || "/default-profile.png";
 
   const tanggalSekarang = new Date();
   const bulanList = [
@@ -70,7 +70,6 @@ const TambahUlasan = () => {
     }
 
     const ulasanData = {
-      profileImage: localStorage.getItem("profileImage") || "/default-profile.png",
       rating,
       text: ulasan,
       images: previewImages,

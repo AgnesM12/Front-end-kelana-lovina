@@ -4,7 +4,7 @@ import { X, Headset, Mail, ChevronRight } from "lucide-react";
 const Bantuan = ({ closeModal }) => {
     const handleChatClick = () => {
         console.log("Navigating to chat...");
-        alert("Memulai chat dengan layanan pelanggan.");
+        alert("Memulai chat dengan layanan ");
     };
 
     const handleEmailClick = () => {
@@ -29,23 +29,23 @@ const Bantuan = ({ closeModal }) => {
             </h1>
 
             {/* Opsi Bantuan */}
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4 sm:gap-6 p-4">
             {/* Chat dengan Kami */}
             <button
                 onClick={handleChatClick}
-                className="w-full py-5 px-4 flex justify-between items-center border-b-2 border-gray-200 hover:bg-blue-50/50 rounded-lg group transition-all focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full py-4 sm:py-5 px-3 sm:px-4 flex justify-between items-center border-b-2 border-gray-200 hover:bg-blue-50/50 rounded-lg group transition-all focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4 sm:gap-6">
                 <Headset
-                    size={32}
-                    className="text-zinc-800 group-hover:text-blue-700 transition-colors"
+                    size={28}
+                    className=" text-zinc-800 group-hover:text-blue-700 transition-colors"
                 />
                 <span className="text-zinc-800 text-xl md:text-2xl font-semibold">
                     Chat dengan kami!
                 </span>
                 </div>
                 <ChevronRight
-                size={30}
+                size={28}
                 className="text-zinc-800 group-hover:text-blue-700 transition-transform group-hover:translate-x-1"
                 />
             </button>
@@ -53,18 +53,18 @@ const Bantuan = ({ closeModal }) => {
             {/*Bantuan Email */}
             <button
                 onClick={handleEmailClick}
-                className="w-full py-5 px-4 flex justify-between items-center hover:bg-blue-50/50 rounded-lg group transition-all focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full py-4 sm:py-5 px-3 sm:px-4 flex justify-between items-center hover:bg-blue-50/50 rounded-lg group transition-all focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4 sm:gap-6">
                 <Mail
                     size={32}
                     className="text-zinc-800 group-hover:text-blue-700 transition-colors"
                 />
                 <div className="text-left">
-                    <p className="text-zinc-800 text-xl md:text-2xl font-semibold">
+                    <p className="text-zinc-800 text-lg sm:text-xl md:text-2xl font-semibold">
                     Bantuan Email
                     </p>
-                    <p className="text-zinc-600 text-base">
+                    <p className="text-zinc-600 text-sm sm:text-base">
                     Kelananusantara@gmail.com
                     </p>
                 </div>

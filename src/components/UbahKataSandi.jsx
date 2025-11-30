@@ -80,27 +80,27 @@ const UbahKataSandi = ({ closeModal }) => {
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800/75 z-50 p-4 overflow-x-hidden">
-        <div className="w-full max-w-4xl bg-white rounded-[30px] shadow-2xl p-6 md:p-12 relative overflow-y-auto max-h-[90vh]">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800/75 z-50 p-4 overflow-y-auto">
+        <div className="w-full max-w-2xl lg:max-w-4xl bg-white rounded-[25px] shadow-2xl p-4 lg:p-10 relative">
             {/* Tombol X */}
             <button
             onClick={closeModal}
-            className="absolute right-6 top-6 text-3xl font-bold text-black hover:text-red-500"
+            className="absolute right-4 top-4 sm:right-6 sm:top-6 text-2xl lg:text-3xl font-bold text-black hover:text-red-500"
             >
             <X />
             </button>
 
             {/* Judul */}
-            <h1 className="text-zinc-800 text-4xl font-bold mb-3">Ubah Kata Sandi</h1>
-            <p className="text-zinc-800 text-lg font-normal mb-2">
+            <h1 className="text-zinc-800 text-2xl lg:text-4xl font-bold mb-2 sm:mb-3">Ubah Kata Sandi</h1>
+            <p className="text-zinc-800 text-sm sm:text-base lg:text-lg font-normal mb-4 sm:mb-6">
             Kata sandi Anda harus paling tidak 8 karakter dan harus menyertakan kombinasi huruf dan simbol
             </p>
 
             {/* Form */}
-            <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+            <form className="flex flex-col gap-6 lg:gap-8" onSubmit={handleSubmit}>
             {/* Kata sandi saat ini */}
             <div>
-                <label className="block text-zinc-800 text-lg font-semibold mb-2">
+                <label className="block text-zinc-800 text-base lg:text-lg font-semibold mb-2">
                 Kata sandi saat ini
                 </label>
                 <div className="relative">
@@ -110,14 +110,14 @@ const UbahKataSandi = ({ closeModal }) => {
                     value={formData.currentPassword}
                     onChange={handleChange}
                     placeholder="Masukan kata sandi anda saat ini"
-                    className={`w-full h-12 px-4 py-2 border-2 rounded-lg text-xl font-normal focus:outline-none ${
+                    className={`w-full h-11 lg:h-12 px-4 py-2 border-2 rounded-lg text-base lg:text-xl font-normal focus:outline-none ${
                     errors.currentPassword ? "border-red-500" : "border-blue-700"
                     }`}
                 />
                 <button
                     type="button"
                     onClick={() => togglePassword("current")}
-                    className="absolute right-4 top-4 text-gray-600"
+                    className="absolute right-3 top-3 sm:right-4 sm:top-4 text-gray-600"
                 >
                     {showPassword.current ? <FiEye size={22} /> : <FiEyeOff size={22} />}
                 </button>
@@ -129,7 +129,7 @@ const UbahKataSandi = ({ closeModal }) => {
 
             {/* Kata sandi baru */}
             <div>
-                <label className="block text-zinc-800 text-lg font-semibold mb-2">
+                <label className="block text-zinc-800 text-base lg:text-lg font-semibold mb-2">
                 Kata sandi baru
                 </label>
                 <div className="relative">
@@ -139,14 +139,14 @@ const UbahKataSandi = ({ closeModal }) => {
                     value={formData.newPassword}
                     onChange={handleChange}
                     placeholder="Masukkan kata sandi baru anda"
-                    className={`w-full h-12 px-4 py-2 border-2 rounded-lg font-normal text-lg focus:outline-none ${
+                    className={`w-full h-11 lg:h-12 px-4 py-2 border-2 rounded-lg font-normal text-base lg:text-lg focus:outline-none ${
                     errors.newPassword ? "border-red-500" : "border-blue-700"
                     }`}
                 />
                 <button
                     type="button"
                     onClick={() => togglePassword("new")}
-                    className="absolute right-4 top-4 text-gray-600"
+                    className="absolute right-3 top-3 sm:right-4 sm:top-4 text-gray-600"
                 >
                     {showPassword.new ? <FiEye size={22} /> : <FiEyeOff size={22} />}
                 </button>
@@ -158,7 +158,7 @@ const UbahKataSandi = ({ closeModal }) => {
 
             {/* Konfirmasi kata sandi baru */}
             <div>
-                <label className="block text-zinc-800 text-lg font-semibold mb-2">
+                <label className="block text-zinc-800 text-base lg:text-lg font-semibold mb-2">
                 Konfirmasi kata sandi baru
                 </label>
                 <div className="relative">
@@ -168,14 +168,14 @@ const UbahKataSandi = ({ closeModal }) => {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     placeholder="Tulis ulang kata sandi baru anda"
-                    className={`w-full h-12 px-4 py-2 border-2 rounded-lg font-normal text-lg focus:outline-none ${
+                    className={`w-full h-11 lg:h-12 px-4 py-2 border-2 rounded-lg font-normal text-base lg:text-lg focus:outline-none ${
                     errors.confirmPassword ? "border-red-500" : "border-blue-700"
                     }`}
                 />
                 <button
                     type="button"
                     onClick={() => togglePassword("confirm")}
-                    className="absolute right-4 top-4 text-gray-600"
+                    className="absolute right-3 top-3 sm:right-4 sm:top-4 text-gray-600"
                 >
                     {showPassword.confirm ? <FiEye size={22} /> : <FiEyeOff size={22} />}
                 </button>
@@ -188,7 +188,7 @@ const UbahKataSandi = ({ closeModal }) => {
             {/* Tombol Simpan */}
             <button
                 type="submit"
-                className="self-end w-60 h-14 px-6 py-3.5 bg-blue-700 rounded-lg text-white text-lg font-extrabold hover:bg-blue-800"
+                className="self-end w-30 lg:w-60 h-12 lg:h-14 px-4 lg:px-6 py-3 bg-blue-700 rounded-lg text-white text-base sm:text-lg font-bold hover:bg-blue-800 transition"
             >
                 Ubah Kata Sandi
             </button>
