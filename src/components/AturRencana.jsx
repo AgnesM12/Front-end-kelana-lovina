@@ -4,12 +4,15 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const paketData = [
-    { id: 1, imageSrc: "/paket-morning-dolphin.png", title: "Morning Dolphin Tour", price: "Rp. 150.000" },
-    { id: 2, imageSrc: "/paket-sunrise-cruise.png", title: "Sunrise Dolphin Cruise", price: "Rp. 300.000" },
-    { id: 3, imageSrc: "/paket-snorkeling.png", title: "Snorkeling Lovina", price: "Rp. 350.000" },
-    { id: 4, imageSrc: "/paket-dolphin-watching.png", title: "Dolphin Watching Tour", price: "Rp. 200.000" },
-    { id: 5, imageSrc: "/paket-swim-with.png", title: "Swim with Dolphin", price: "Rp. 200.000" },
-    { id: 6, imageSrc: "/paket-privat-tour.png", title: "Private Tour Guide", price: "Rp. 400.000" },
+    { id: 1, imageSrc: "/paket-rafatour-dolphine-snorkling.png", title: "Rafatour dolphin & snorkeling", price: "Rp. 300.000" },
+    { id: 2, imageSrc: "/paket-seadolphine-lovina.png", title: "Seadolphine Lovina", price: "Rp. 350.000" },
+    { id: 3, imageSrc: "/paket-watching-dolphine-only.png", title: "Watching Dolphin Only", price: "Rp. 100.000" },
+    { id: 4, imageSrc: "/paket-snorkling-tur.png", title: "Snorkeling & Dolphin Tur", price: "Rp. 350.000" },
+    { id: 5, imageSrc: "/dolphinWatchingTour.jpg", title: "Dolphin Watching Tur", price: "Rp. 200.000" },
+    { id: 6, imageSrc: "/swimWithDolphin.jpg", title: "Swim with Dolphin", price: "Rp. 200.000" },
+    { id: 7, imageSrc: "/privateTourGuide.png", title: "Private Tour Guide", price: "Rp. 400.000" },
+    { id: 8, imageSrc: "/paket-snorkeling-lovina.png", title: "Snorkeling Lovina", price: "Rp. 150.000" },
+
 ];
 
 const priceOptions = [

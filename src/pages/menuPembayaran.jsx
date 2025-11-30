@@ -117,14 +117,14 @@ function MenuPembayaran() {
 
 
     //download kode pembayaran PDF
-        const handleDownloadPDF = async () => {  
-            if (!formData){
+    const handleDownloadPDF = async () => {  
+        if (!formData){
                 alert("Form data is missing!");
-            };
+        };
 
-            const blob = await pdf(
-                <KodeBayarPDF data={formData} paket={paket} />
-            ).toBlob();
+        const blob = await pdf(
+            <KodeBayarPDF data={formData} paket={paket} />
+        ).toBlob();
         
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -160,7 +160,7 @@ function MenuPembayaran() {
     };
 
     const cardPesananStyle = {
-        width: '400px',
+        width: '480px',
         height: '730px',
         borderRadius: '20px',
         boxShadow: '0 4px 12px rgba(0, 94, 209, 0.3)',
@@ -200,7 +200,7 @@ function MenuPembayaran() {
     return (
         <div>
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', marginTop: '50px', gap: '140px'}}>
-                <p style={{width: '600px', fontSize: '30px', fontWeight: 'bold', fontFamily: 'poppins, sans-serif'}}>Detail Pengunjung</p>
+                <p style={{width: '680px', fontSize: '30px', fontWeight: 'bold', fontFamily: 'poppins, sans-serif'}}>Detail Pengunjung</p>
                 <p style={{width: '220px', fontSize: '30px', fontWeight: 'bold', fontFamily: 'poppins, sans-serif'}}>Detail Pesanan</p>
             </div>
 
@@ -282,32 +282,32 @@ function MenuPembayaran() {
                     <p style={{fontSize: '15px', color: '#878787'}}>{paket.tagLine}</p> <br/>
 
                     <div style={{lineHeight: '20px'}}>
-                        <div style={{display:'flex', justifyContent: 'space-between', alignItems: 'center', width: '98%', fontFamily:'poppins, sans-serif'}}>   
+                        <div style={{display:'flex', justifyContent: 'space-between', alignItems: 'center', width: '115%', fontFamily:'poppins, sans-serif'}}>   
                             <p>Tiket</p>
                             <p>Jumlah</p>
                         </div>
 
-                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '98%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '115%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
                             <p style={{fontSize: '22px'}}>{paket.title}</p>
                             <p style={{fontSize: '22px'}}>x {watch("jumlahOrang") || 0}</p>
                         </div>
 
                         <p style={{fontSize: '22px', fontWeight: 'bold', fontFamily:'poppins, sans-serif',paddingTop: '15px'}}>{paket.price}</p>
 
-                        <p style={{color: '#B3B3B3', paddingTop: '10px'}}>-----------------------------------------------------</p>
+                        <p style={{color: '#B3B3B3', paddingTop: '10px'}}>------------------------------------------------------</p>
 
-                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '98%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '115%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
                             <p style={{fontSize: '20px'}}>Total</p><p style={{fontSize: '20px'}}>Rp. {subTotal.toLocaleString("id-ID")}</p>
                         </div>
 
-                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '98%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '115%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
                             <p style={{fontSize: '18px'}}>Biaya Layanan</p>
                             <p style={{fontSize: '18px'}}>Rp. 10.000</p>
                         </div>
 
                         <p style={{color: '#B3B3B3', padding: '10px 0px'}}>-----------------------------------------------------</p>
 
-                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '98%', fontFamily: 'poppins, sans-serif', marginTop: '2px'}}>
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '115%', fontFamily: 'poppins, sans-serif', marginTop: '2px'}}>
                             <p style={{fontSize: '22px'}}>Total</p>
                             <p style={{fontSize: '22px'}}><b>Rp. {total.toLocaleString("id-ID")}</b></p>
                         </div>
