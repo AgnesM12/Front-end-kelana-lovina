@@ -15,9 +15,9 @@ const PaketCard = ({ paket }) => {
             <div className="flex flex-row justify-between sm:flex-row sm:justify-between sm:items-center gap-2">
                 <p className="text-lg sm:text-xl font-bold text-black">{paket.price}</p>
                 <div className="flex items-center justify-center sm:justify-end gap-1 text-gray-500">
-                    <HiStar className="h-5 w-5 text-yellow-400" />
-                    <span className="text-zinc-500 text-base font-medium">{paket.rating}</span>
-                    <span className='text-zinc-500 text-base font-medium'>({paket.reviews})</span>
+                    <HiStar className="h-5 w-5 sm:w-6 sm:h-6 text-yellow-400" />
+                    <span className="text-zinc-500 text-sm sm:text-lg md:text-xl font-medium">{paket.rating}</span>
+                    <span className='text-zinc-500 text-sm sm:text-lg md:text-xl font-medium'>({paket.reviews})</span>
                 </div>
             </div>
             <Link to={`/paket/${slug}`} >
