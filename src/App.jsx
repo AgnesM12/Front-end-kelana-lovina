@@ -37,6 +37,8 @@ import DetailTiketSaya from "./pages/detailTiketSaya.jsx";
 import "./index.css";
 import TambahUlasan from "./components/TambahUlasan.jsx";
 import KodeBayarPDF from "./components/kodeBayar.jsx";
+import RencanaPDF from "./components/rencanaPDF.jsx";
+
 
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -103,6 +105,7 @@ function App() {
         <Route path="/detailTiketSaya" element={<DetailTiketSaya />} />
         <Route path="/TambahUlasan" element={<TambahUlasan />} />
         <Route path="/kodeBayarPDF" element={<KodeBayarPDF />} />
+        <Route path="/unduhRencana" element={<RencanaPDF/>} />
       </Route>  
     </Routes>
   );
