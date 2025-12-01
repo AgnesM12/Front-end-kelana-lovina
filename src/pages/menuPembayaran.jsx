@@ -247,7 +247,7 @@ function MenuPembayaran() {
                             <div className="sm:col-span-12">
                                 <label htmlFor="jumlahOrang" className="block text-lg font-bold text-gray-900">Jumlah Orang</label>
                                 <div className="mt-2">
-                                        <input id="jumlahOrang" type="number" {...register("jumlahOrang", { required: "Jumlah orang wajib diisi", min: { value: 1 } })} placeholder="5" className="block w-full rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
+                                        <input id="jumlahOrang" type="number" {...register("jumlahOrang", { required: "Jumlah orang wajib diisi", min: { value: 1 } })} placeholder="0" className="block w-full rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
                                     <p className="mt-2 pl-3 text-sm text-red-500 min-h-[24px]">{errors.jumlahOrang?.message}</p>
                                 </div>
                             </div>
@@ -266,7 +266,8 @@ function MenuPembayaran() {
                                 <label htmlFor="tanggalBerangkat" className="block text-lg font-bold text-gray-900">Tanggal Keberangkatan</label>
                                 <div className="mt-2">
                                     <div>
-                                    <input id="tanggalBerangkat" type="date" {...register("tanggalBerangkat", { required: "Tanggal berangkat wajib diisi" })} className="block w-full  rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
+                                    <input id="tanggalBerangkat" type="date" min ={new Date().toISOString().split("T")[0]}  
+                                    {...register("tanggalBerangkat", { required: "Tanggal berangkat wajib diisi" })} className="block w-full  rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
                                     </div>
                                     <p className="mt-2 pl-3 text-sm text-red-500 min-h-[24px]">{errors.tanggalBerangkat?.message}</p>
                                 </div>
@@ -334,9 +335,9 @@ function MenuPembayaran() {
                     <div className="flex items-center bg-[#005ED1] p-3">
                     <div className="flex items-center bg-white rounded-xl p-2 shadow-md w-full">
                         <img src={paket.imageSrc} className="h-20 w-28 rounded-sm" alt="" />
-                        <div className="ml-5">
-                        <h4 className="text-2xl font-bold">{paket.title}</h4>
-                        <p className="mt-2 text-xs text-gray-400">{paket.tagLine}</p>
+                        <div className="ml-4">
+                        <h4 className="text-lg font-bold">{paket.title}</h4>
+                        <p className="text-xs text-gray-400">{paket.tagLine}</p>
                         <p className="text-sm text-gray-500 mt-2">{paket.location}</p>
                         </div>
                     </div>

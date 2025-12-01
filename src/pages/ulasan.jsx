@@ -99,7 +99,7 @@ function Ulasan() {
     
             return dateB - dateA;
         }
-})    
+    })    
 
     return (
     <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden">

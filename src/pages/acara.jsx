@@ -67,14 +67,14 @@ const eventData = [
   },
   {
     id: 2,
-    imageSrc: "/festival-pemutaran-bay.jpg",
+    imageSrc: "/pemutaran-bay-festival.png",
     title: "Pemuteran Bay Festival",
     description:
       "Menampilkan pertunjukan seni budaya, kuliner, kemungkinan pameran & aktivitas laut di daerah pantai Pemuteran.",
   },
   {
     id: 3,
-    imageSrc: "/festival-twin-lake.jpg",
+    imageSrc: "/twin-lake-festival.png",
     title: "Twin Lake Festival",
     description:
       "Menampilkan pelepasan burung, lomba memancing, tracking, serta carving buah sebagai bagian dari hiburan dan atraksi wisata",
@@ -95,7 +95,7 @@ const eventData = [
   },
   {
     id: 6,
-    imageSrc: "/festival-twin-lake.jpg",
+    imageSrc: "/twin-lake-festival.png",
     title: "Twin Lake Festival",
     description:
       "Menampilkan pelepasan burung, lomba memancing, tracking, serta carving buah sebagai bagian dari hiburan dan atraksi wisata.",
