@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const paketData = [
-    { id: 1, imageSrc: "/paket-rafatour-dolphine-snorkling.png", title: "Rafatour dolphin & snorkeling", price: "Rp. 300.000" },
+    { id: 1, imageSrc: "/paket-rafatour-dolphine-snorkling.png",  title: "Rafatour dolphin snorkeling",  price: "Rp. 300.000" },
     { id: 2, imageSrc: "/paket-seadolphine-lovina.png", title: "Seadolphine Lovina", price: "Rp. 350.000" },
     { id: 3, imageSrc: "/paket-watching-dolphine-only.png", title: "Watching Dolphin Only", price: "Rp. 100.000" },
     { id: 4, imageSrc: "/paket-snorkling-tur.png", title: "Snorkeling & Dolphin Tur", price: "Rp. 350.000" },
@@ -92,6 +92,7 @@ const getPriceLabel = () => {
         <span className="text-primary font-semibold text-sm sm:text-base">Tanggal</span>
         <div className="flex items-center justify-between mt-1 border-b-2 border-primary pb-1">
           <DatePicker
+            minDate= {new Date().toISOString().split("T")[0]}
             selected={selectedDate}
             onChange={(date) => setSelectedDate(date)}
             dateFormat="dd MMMM yyyy"

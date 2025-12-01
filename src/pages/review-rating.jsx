@@ -10,7 +10,6 @@ function ReviewRating() {
   const [tiketList, setTiketList] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [filter, setFilter] = useState({});
-  const newReview = state?.newReview;
 
   useEffect(() => {
     const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
@@ -37,6 +36,7 @@ function ReviewRating() {
         title: t.paket.title || "Paket tidak diketahui",
         desk: t.paket.tagLine || "Tidak ada tagline paket",
         kategori : t.paket.kategori,
+        tanggalBerangkat : t.tanggalBerangkat,
         username: t.user?.name || "Pengguna Anonim",
         profileImage: t.user?.photo || "/default-profile.png",
         
@@ -85,6 +85,7 @@ function ReviewRating() {
       }
       return 0;
     });
+
 
   return (
     <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 mt-16 overflow-x-hidden">
@@ -138,27 +139,57 @@ export default ReviewRating;
 const UlasanCard = ({ aktivitas }) => {
   const navigate = useNavigate();
 
+  // const [year, month, day] = aktivitas.tanggalBerangkat.split('-');
+  // const bookingDate = new Date(year, month - 1, day);
+  // bookingDate.setHours(0, 0, 0, 0);
+  let bookingDate = new Date();
+  if (aktivitas.tanggalBerangkat) {
+    bookingDate = new Date(aktivitas.tanggalBerangkat);
+    bookingDate.setHours(0, 0, 0, 0);
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const isBookingTodayOrPast = today.getTime() >= bookingDate.getTime();
+
+  const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+  const hasReviews = savedReviews.some((r) => r.tripId === aktivitas.id);
+
+  const disabled = !isBookingTodayOrPast || hasReviews;
+
+  const buttonText = hasReviews
+    ? "Cerita telah diberikan"
+    : "Tambahkan cerita anda";
+
   return (
-    <div className="w-96 p-6 bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] overflow-hidden  items-center gap-6 flex flex-col">
+    <div className="w-96 p-6 bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] flex flex-col items-center gap-6">
       <img
-        className="w-80 h-72 rounded-2xl object-cover"
+        className="w-[340px] h-72 rounded-2xl object-cover"
         src={aktivitas.imageSrc}
         alt={aktivitas.title}
       />
       <div className="flex flex-col gap-2">
-        <h3 className="w-80 text-zinc-700 text-2xl font-semibold">
+        <h3 className="w-[340px] text-zinc-700 text-2xl font-semibold">
           {aktivitas.title}
         </h3>
         <p className="w-80 text-gray-600 text-xl font-normal pb-6">
           {aktivitas.desk}
         </p>
+
         <button
+          disabled={disabled}
           onClick={() =>
+            !disabled &&
             navigate("/TambahUlasan", { state: { trip: aktivitas } })
           }
-          className="w-80 bg-primary text-white text-xl font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
+          className={`w-80 text-white text-xl font-bold py-2 px-6 rounded-lg transition-colors ${
+            disabled
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-primary hover:bg-blue-700"
+          }`}
         >
-          Tambahkan Cerita Anda
+          {buttonText}
         </button>
       </div>
     </div>
