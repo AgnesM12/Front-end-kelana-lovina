@@ -1,12 +1,65 @@
-import React, { useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { FiSearch, FiMenu, FiX } from 'react-icons/fi';
 import {  useSelector } from 'react-redux';
 
+const paketData = [
+    { title: "Rafatour dolphin & snorkeling", slug: "rafatour-dolphin-snorkeling" },
+    { title: "Seadolphine Lovina", slug: "seadolphine-lovina" },
+    { title: "Watching Dolphin Only", slug: "watching-dolphin-only" },
+    { title: "Snorkeling & Dolphin Tur", slug: "snorkeling-dolphin-tur" },
+    { title: "Dolphin Watching Tur", slug: "dolphin-watching-tur" },
+    { title: "Swim with Dolphin", slug: "swim-with-dolphin" },
+    { title: "Private Tour Guide", slug: "private-tour-guide" },
+    { title: "Snorkeling Lovina", slug: "snorkeling-lovina" },
+];
 
 
 function NavbarBefore() {
+    const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const [search, setSearch] = useState("");
+    const [filtered, setFiltered] = useState([]);
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    const searchRef = useRef(null);
+
+    // Close dropdown ketika klik di luar search box
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (searchRef.current && !searchRef.current.contains(e.target)) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearch(value);
+
+        if (value.trim() === "") {
+            setFiltered([]);
+            setShowDropdown(false);
+            return;
+        }
+
+        const results = paketData.filter((p) =>
+            p.title.toLowerCase().includes(value.toLowerCase())
+        );
+
+        setFiltered(results);
+        setShowDropdown(true);
+    };
+
+    const handleSelect = (slug) => {
+        setSearch("");
+        setShowDropdown(false);
+        navigate(`/paket/${slug}`);
+    };
+
 
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const user = useSelector((state) => state.auth.user);
@@ -45,8 +98,28 @@ function NavbarBefore() {
                         <input
                             type="text"
                             placeholder="Pencarian"
+                            value={search}
+                            onChange={handleSearchChange}
                             className="w-full py-2.5 px-10 pr-4 border-2 border-primary rounded-full focus:outline-none focus:ring-1 focus:ring-primary placeholder:text-primary placeholder:text-sm text-medium md:text-base"
                         />
+                        {showDropdown && filtered.length > 0 && (
+                                <div className="absolute left-0 mt-2 w-full bg-white shadow-lg border border-gray-200 rounded-lg z-50">
+                                    {filtered.map((item, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => handleSelect(item.slug)}
+                                            className="w-full text-left px-4 py-2 hover:bg-gray-100 text-gray-700"
+                                        >
+                                            {item.title}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        {showDropdown && filtered.length === 0 && (
+                                <div className="absolute left-0 mt-2 w-full bg-white shadow-lg border border-gray-200 rounded-lg z-50 px-4 py-2 text-gray-500">
+                                    Tidak ada hasil
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className='lg:hidden flex items-center'>
