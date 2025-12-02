@@ -11,53 +11,16 @@ function Ulasan() {
 
     useEffect(() => {
         const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-      
+
         const normalizedReviews = savedReviews.map((review) => ({
-          ...review,
-          date: review.date || review.tanggal,
+            ...review,
+            date: review.date || review.tanggal,
         }));
-      
+
         setUserReview(normalizedReviews);
-      }, []);
-      
-    const reviews = [
-        {
-        id : 1,
-        avatar: "/Alenty.svg",
-        username: 'Alenty M',
-        rating: 5,
-        kategori: "snorkeling",
-        date: "1 September 2025",
-        tripTitle: "Snorkeling dan Dolphine Tur",
-        text: "Snorkeling menjangan sangat cocok di tempat ini layanan very good. Guide sangat ramah makan siang enak harga terjangkau sangat cocok di rekomendasi kan.",
-        likes: 8,
-        images: ["/reviewA-1.png", "/reviewA-2.png", "/reviewA-3.png"],
-        },
-        {
-        id : 2,
-        avatar: "/Allena.svg",
-        username: 'Allena',
-        rating: 5,
-        kategori: "sunrise",
-        date: "13 Agustus 2025",
-        tripTitle: "Sunrise Dolphine Tur",
-        text: "Penyedia wisata lumba-lumba terbaik di area ini. Harga terjangkau untuk penduduk lokal dan terjangkau untuk wisatawan asing. Sebagian besar kapal mengakhiri wisata pukul 08.00, sementara tur yang disediakan oleh Dolphin Sunrise Lovina berlangsung lebih lama hingga sedikit lebih dari pukul 09.00, memberikan kesempatan untuk melihat lumba-lumba dengan perahu yang lebih sedikit. Juru mudi kapal sangat ramah dan cakap, ia tahu cara mendekati lumba-lumba dan memastikan pemandangan terbaik.",
-        likes: 10,
-        images: ["/reviewAl-1.png", "/reviewAl-2.png", "/reviewAl-3.png"],
-        },
-        {
-            id: 3,
-            avatar: "/sanjaya.svg",
-            username: 'Sanjaya William',
-            rating: 4,
-            kategori: "sunrise",
-            date: "13 September 2025",
-            tripTitle: "Sunrise Dolphin Cruise",
-            text: "Seruuu bangettt!!! Berenang sama dolphin yang rame seruu, terus dikasih tips yang detail sama guidenya, bener2 save bangett. Selalu ditanyain udh puas blm liat dolphinnya klo belum bakalan diajak liat terus sampe udh puas bgttt!!! Bapak guide nya juga baik sekali kasih kita gorengan krn blm sarapan🥺 sehat2 selalu ya pak👍🏻 nama guide nya pak Dolet👍🏻👍🏻👍🏻👍🏻Nanti klo mau balik lagi pastiii bakalan book disini lagi dan req pak Doket guidenya klo bisaa hihi👍🏻",
-            likes: 10,
-            images: ["/reviewS-1.png", "/reviewS-2.png", "/reviewS-3.png"],
-            },
-    ];
+    }, []);
+
+    const reviews = [];
 
     const gabunganReview = [...reviews, ...userReview];
 
