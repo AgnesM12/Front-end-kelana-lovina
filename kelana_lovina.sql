@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2025 at 03:37 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.3.22
+-- Waktu pembuatan: 03 Des 2025 pada 05.57
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `destinations`
+-- Struktur dari tabel `destinations`
 --
 
 CREATE TABLE `destinations` (
@@ -38,7 +38,7 @@ CREATE TABLE `destinations` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `events`
+-- Struktur dari tabel `events`
 --
 
 CREATE TABLE `events` (
@@ -54,7 +54,7 @@ CREATE TABLE `events` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `itinerary`
+-- Struktur dari tabel `itinerary`
 --
 
 CREATE TABLE `itinerary` (
@@ -70,7 +70,7 @@ CREATE TABLE `itinerary` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- Struktur dari tabel `orders`
 --
 
 CREATE TABLE `orders` (
@@ -93,7 +93,7 @@ CREATE TABLE `orders` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payments`
+-- Struktur dari tabel `payments`
 --
 
 CREATE TABLE `payments` (
@@ -109,7 +109,7 @@ CREATE TABLE `payments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tickets`
+-- Struktur dari tabel `tickets`
 --
 
 CREATE TABLE `tickets` (
@@ -122,7 +122,7 @@ CREATE TABLE `tickets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tour_packages`
+-- Struktur dari tabel `tour_packages`
 --
 
 CREATE TABLE `tour_packages` (
@@ -136,7 +136,7 @@ CREATE TABLE `tour_packages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Struktur dari tabel `users`
 --
 
 CREATE TABLE `users` (
@@ -147,7 +147,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data untuk tabel `users`
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `created_at`) VALUES
@@ -155,26 +155,28 @@ INSERT INTO `users` (`id`, `email`, `password`, `created_at`) VALUES
 (3, 'tes@mail.com', '$2b$10$ksDa.NoalEGfF.ZLI9jRUuj/80PYbrstwkl8lrU5ScfRUcf4T0Cm.', '2025-11-18 11:28:12'),
 (4, 'user1@mail.com', '$2b$10$nRvgXfH53QK3wRJrbnnB9OApdYxPduVrhYzOb4czylzii9KjIlRLK', '2025-11-18 12:23:22'),
 (5, 'user2@mail.com', '$2b$10$OmdiLTTmnzJimgz/DSiJY.WkLrkzkENXxVbdWh1Z9wjQF4pBbrv9y', '2025-11-18 12:44:35'),
-(6, 'user3@mail.com', '$2b$10$IoEWskDVZ7Fn2/VUGlmTeePLVowMwIvd2PDJcwP/BgY9LnL4OPZyS', '2025-11-18 13:08:53');
+(6, 'user3@mail.com', '$2b$10$IoEWskDVZ7Fn2/VUGlmTeePLVowMwIvd2PDJcwP/BgY9LnL4OPZyS', '2025-11-18 13:08:53'),
+(7, 'ifanipatanduk@gmail.com', '$2a$10$aqTKxfmF2YIY5ATnYRrlTuVvopD9kGYZIEBW5TCioMAr2YRi4/aMm', '2025-11-20 03:24:15'),
+(9, 'usertesting1@gmail.com', '$2a$10$zPmTIslH.ZwtdrbiWtvQa.xkuFJUT1n5j.Rsi8RgavccnecRirCB.', '2025-11-20 03:57:01');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `destinations`
+-- Indeks untuk tabel `destinations`
 --
 ALTER TABLE `destinations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `events`
+-- Indeks untuk tabel `events`
 --
 ALTER TABLE `events`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `itinerary`
+-- Indeks untuk tabel `itinerary`
 --
 ALTER TABLE `itinerary`
   ADD PRIMARY KEY (`id`),
@@ -182,7 +184,7 @@ ALTER TABLE `itinerary`
   ADD KEY `package_id` (`package_id`);
 
 --
--- Indexes for table `orders`
+-- Indeks untuk tabel `orders`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
@@ -190,110 +192,110 @@ ALTER TABLE `orders`
   ADD KEY `package_id` (`package_id`);
 
 --
--- Indexes for table `payments`
+-- Indeks untuk tabel `payments`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`),
   ADD KEY `order_id` (`order_id`);
 
 --
--- Indexes for table `tickets`
+-- Indeks untuk tabel `tickets`
 --
 ALTER TABLE `tickets`
   ADD PRIMARY KEY (`id`),
   ADD KEY `order_id` (`order_id`);
 
 --
--- Indexes for table `tour_packages`
+-- Indeks untuk tabel `tour_packages`
 --
 ALTER TABLE `tour_packages`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `destinations`
+-- AUTO_INCREMENT untuk tabel `destinations`
 --
 ALTER TABLE `destinations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `events`
+-- AUTO_INCREMENT untuk tabel `events`
 --
 ALTER TABLE `events`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `itinerary`
+-- AUTO_INCREMENT untuk tabel `itinerary`
 --
 ALTER TABLE `itinerary`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `orders`
+-- AUTO_INCREMENT untuk tabel `orders`
 --
 ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `payments`
+-- AUTO_INCREMENT untuk tabel `payments`
 --
 ALTER TABLE `payments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tickets`
+-- AUTO_INCREMENT untuk tabel `tickets`
 --
 ALTER TABLE `tickets`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tour_packages`
+-- AUTO_INCREMENT untuk tabel `tour_packages`
 --
 ALTER TABLE `tour_packages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `itinerary`
+-- Ketidakleluasaan untuk tabel `itinerary`
 --
 ALTER TABLE `itinerary`
   ADD CONSTRAINT `itinerary_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `itinerary_ibfk_2` FOREIGN KEY (`package_id`) REFERENCES `tour_packages` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `orders`
+-- Ketidakleluasaan untuk tabel `orders`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`package_id`) REFERENCES `tour_packages` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `payments`
+-- Ketidakleluasaan untuk tabel `payments`
 --
 ALTER TABLE `payments`
   ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `tickets`
+-- Ketidakleluasaan untuk tabel `tickets`
 --
 ALTER TABLE `tickets`
   ADD CONSTRAINT `tickets_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
