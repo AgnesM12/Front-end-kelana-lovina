@@ -32,7 +32,7 @@ function Rencana() {
 
 
   return (
-    <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16">
+    <main className="w-full max-w-[500] mx-auto px-6 sm:px-8 my-16">
       <HeroSection hero={dataHero1} />
       <RencanaPerjalanan onAddPackage={handleAddPackage} />
       <div className="mt-16">
