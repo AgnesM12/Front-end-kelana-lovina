@@ -13,9 +13,10 @@ function RencanaCard({ pkg, onDelete }) {
 
   const journeyId = pkg.id || '123';
   const titleSlug = (pkg.title || 'rencana-baru')
-    .toLowerCase()                   
-    .replace(/\s+/g, '-')            
-    .replace(/[^a-z0-9-]/g, ''); 
+  .toLowerCase()
+  .replace(/\s+/g, '-')  
+  .replace(/&/g, '&')
+  .replace(/[^a-z0-9-&()]/g, '');
 
   const shareUrl = `https://example.com/perjalanan/${journeyId}-${titleSlug}`;
   const shareText = `Cek rencana perjalanan saya: ${pkg.title}`;
@@ -106,7 +107,7 @@ function RencanaCard({ pkg, onDelete }) {
     <div className="flex flex-col gap-1">
     <div className="flex justify-between items-center">
         <h3 className="font-bold text-black-800 text-xl">{pkg.title}</h3>
-        <p className="font-bold text-base text-black/80">{pkg.price}</p>
+        <p className="font-bold text-lg text-black/80">{pkg.price}</p>
       </div>
     </div>
 
@@ -120,7 +121,7 @@ function RencanaCard({ pkg, onDelete }) {
         })}
         <p className="text-base text-black-500">{pkg.description}</p>
       </p>
-        <button onClick={handlePesanSekarang} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-6 py-2.5 rounded-lg  tetx-lg font-bold shrink-0 ml-2 gapl-2.5">
+        <button onClick={handlePesanSekarang} className="mt-2 bg-blue-600 hover:bg-blue-700 text-white text-lg px-6 py-2.5 rounded-lg  tetx-lg font-bold shrink-0 ml-2 gapl-2.5">
           Pesan Sekarang
         </button>
       </div>

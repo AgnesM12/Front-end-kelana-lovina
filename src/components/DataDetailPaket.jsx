@@ -173,6 +173,7 @@ const paketData = [
     
     {   id: 9,
         title: "Bali Surga Private Tour Lovina With Dolphin Tour",
+        shortTitle : "Bali Surga Private Tour Dolphin",
         slug: "bali-surga-private-tour-lovina-with-dolphin-tour",
         imageSrc: "/paket-bali-surga(1).webp",
         price: "Rp. 600.000",
@@ -195,6 +196,7 @@ const paketData = [
     
     {   id: 10,
         title: "Sharing Tour Lovina Ocean Tour Sunrise Dolphin Tour",
+        shortTitle : "Sharing Tour Lovina Ocean Tour",
         slug: "sharing-tour-lovina-ocean-tour-sunrise-dolphin-tour",
         imageSrc: "/paket-lovina-ocean-tour.webp",
         price: "Rp. 100.000",
@@ -217,6 +219,7 @@ const paketData = [
     
     {   id: 11,
         title: "Private Tour Lovina Ocean Tour Sunrise Dolphin Tour",
+        shortTitle : "Private Tour Lovina Ocean Tour",
         slug: "private-tour-lovina-ocean-tour-sunrise-dolphin-tour",
         imageSrc: "/paket-lovina-ocean-private-tour.webp",
         price: "Rp. 150.000",
@@ -261,6 +264,7 @@ const paketData = [
     
     {   id: 13,
         title: "Private Tour Paket Dolphin Watching Swim & Snorkling",
+        shortTitle : "Private Tour Paket Dolphin Watching",
         slug: "private-tour-paket-dolphin-watching-swim-&-snorkling",
         imageSrc: "/paket-dolphin-watching-swim-snorkling-private.webp",
         price: "Rp. 350.000",
@@ -283,6 +287,7 @@ const paketData = [
 
     {   id: 14,
         title: "Paon Happy Sharing Boat Watching Dolphin Only",
+        shortTitle : "Paon Happy Sharing Boat Dolphin",
         slug: "paon-happy-sharing-boat-watching-dolphin-only",
         imageSrc: "/paket-paon-happy-sharing-boat-watching-dolphin.webp",
         price: "Rp. 200.000",
@@ -304,6 +309,7 @@ const paketData = [
 
     { id: 15, 
       title: "Paon Happy Sharing Boat Watching Dolphin (Breakfast)",
+      shortTitle : "Paon Happy Sharing Boat Breakfast",
       slug: "paon-happy-sharing-boat-watching-dolphin-(breakfast)", 
       imageSrc: "/paket-paon-happy-watching-dolphin-breakfast.jpg",
       price: "Rp. 130.000", 
@@ -326,6 +332,7 @@ const paketData = [
     
     { id: 16, 
       title: "Paon Happy Sharing Boat Watching Dolphin (Swimming)",
+      shortTitle : "Paon Happy Sharing Boat Swimming",
       slug: "paon-happy-sharing-boat-watching-dolphin-(swimming)", 
       imageSrc: "/paon-happy-watching-dolphin-swimming.jpg",
       price: "Rp. 350.000", 
@@ -348,6 +355,7 @@ const paketData = [
 
     { id: 17, 
       title: "Paon Happy Private Boat Watching Dolphin (Snorkling)",
+      shortTitle : "Paon Happy Private Boat Snorkling",
       slug: "paon-happy-private-boat-watching-dolphin-(snorkling)", 
       imageSrc: "/paket-paon-happy-watching-dolphin-snorkling.jpg",
       price: "Rp. 200.000", 

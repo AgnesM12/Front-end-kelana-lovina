@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { Rows, X } from "lucide-react";
 import { pdf } from "@react-pdf/renderer";
 import KodeBayarPDF from "../components/kodeBayar.jsx";
+import DataDetailPaket from "../components/DataDetailPaket.jsx";
 
 
 function MenuPembayaran() {
@@ -14,6 +15,7 @@ function MenuPembayaran() {
     const {slug} = useParams(); 
     
     const paket = state; 
+    const displayTitle = paket.shortTitle || paket.titleT || paket.title;
 
     if (!paket) {
         return (
@@ -32,7 +34,7 @@ function MenuPembayaran() {
         );
     }
 
-    const [selectedIdentitas, setSelectedIdentitas] = useState("Pilih Identitas");
+    // const [selectedIdentitas, setSelectedIdentitas] = useState("Pilih Identitas");
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [formData, setFormData] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -221,7 +223,7 @@ function MenuPembayaran() {
                             </div>
 
                             {/* Identitas */}
-                            <div className="sm:col-span-12">
+                            {/* <div className="sm:col-span-12">
                                 <label htmlFor="identitas" className="block text-lg font-bold text-gray-900">Identitas</label>
                                 <div className="mt-2 flex items-center gap-10">
                                     <Menu as="div" className="relative w-3/5 overflow-visible">
@@ -241,7 +243,18 @@ function MenuPembayaran() {
                                         <input id="nomorIdentitas" type="text" {...register('nomorIdentitas', { required: "Nomor identitas wajib di isi" })} placeholder={selectedIdentitas === "KTP" ? "Masukan Nomor KTP Anda" : selectedIdentitas === "Passpord" ? "Masukkan Nomor Passpord Anda" : "Isi sesuai identitas pilihan Anda"} className="block w-full  rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
                                 </div>
                                 <p className="mt-2 pl-3 text-sm text-red-500 min-h-[24px]">{errors.nomorIdentitas?.message}</p>
+                            </div> */}
+
+                            
+                            {/* Email */}
+                            <div className="sm:col-span-12">
+                                <label htmlFor="email" className="block text-lg font-bold text-gray-900">Email</label>
+                                <div className="mt-2">
+                                    <input id="nomorTelpon" type="email" {...register("Email", { required: "Email wajib diisi", pattern:{value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/, message: "Format nomor telepon tidak valid"} })} placeholder="Masukan nomor aktif Anda" className="block w-full  rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
+                                    <p className="mt-2 pl-3 text-sm text-red-500 min-h-[24px]">{errors.Email?.message}</p>
+                                </div>
                             </div>
+
 
                             {/* Jumlah Orang */}
                             <div className="sm:col-span-12">
@@ -279,36 +292,36 @@ function MenuPembayaran() {
                 {/* Card Detail Pesanan */}
                 <div style={cardPesananStyle}>
                     <img src={paket.imageSrc} alt="" style={imageStyle}/> <br/>
-                    <p style={{fontSize: '28px', fontWeight: 'bold', fontFamily: 'poppins, sans-serif'}}>{paket.title}</p>
+                    <p style={{fontSize: '25px', fontWeight: 'bold', fontFamily: 'poppins, sans-serif'}}>{paket.title}</p>
                     <p style={{fontSize: '15px', color: '#878787'}}>{paket.tagLine}</p> <br/>
 
                     <div style={{lineHeight: '20px'}}>
-                        <div style={{display:'flex', justifyContent: 'space-between', alignItems: 'center', width: '115%', fontFamily:'poppins, sans-serif'}}>   
+                        <div style={{display:'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', fontFamily:'poppins, sans-serif'}}>   
                             <p>Tiket</p>
                             <p>Jumlah</p>
                         </div>
 
-                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '115%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
-                            <p style={{fontSize: '22px'}}>{paket.title}</p>
-                            <p style={{fontSize: '22px'}}>x {watch("jumlahOrang") || 0}</p>
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
+                            <p style={{fontSize: '18px'}}>{paket.shortTitle || paket.titleT || paket.title} </p>
+                            <p style={{fontSize: '18px'}}>x {watch("jumlahOrang") || 0}</p>
                         </div>
 
                         <p style={{fontSize: '22px', fontWeight: 'bold', fontFamily:'poppins, sans-serif',paddingTop: '15px'}}>{paket.price}</p>
 
-                        <p style={{color: '#B3B3B3', paddingTop: '10px'}}>------------------------------------------------------</p>
+                        <p style={{color: '#B3B3B3', paddingTop: '10px'}}>---------------------------------------------------------------</p>
 
-                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '115%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
                             <p style={{fontSize: '20px'}}>Total</p><p style={{fontSize: '20px'}}>Rp. {subTotal.toLocaleString("id-ID")}</p>
                         </div>
 
-                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '115%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', paddingTop: '15px', fontFamily: 'poppins, sans-serif'}}>
                             <p style={{fontSize: '18px'}}>Biaya Layanan</p>
                             <p style={{fontSize: '18px'}}>Rp. 10.000</p>
                         </div>
 
-                        <p style={{color: '#B3B3B3', padding: '10px 0px'}}>-----------------------------------------------------</p>
+                        <p style={{color: '#B3B3B3', padding: '10px 0px'}}>---------------------------------------------------------------</p>
 
-                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '115%', fontFamily: 'poppins, sans-serif', marginTop: '2px'}}>
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', fontFamily: 'poppins, sans-serif', marginTop: '2px'}}>
                             <p style={{fontSize: '22px'}}>Total</p>
                             <p style={{fontSize: '22px'}}><b>Rp. {total.toLocaleString("id-ID")}</b></p>
                         </div>
@@ -361,7 +374,7 @@ function MenuPembayaran() {
                         <div className="flex flex-col gap-2">
                             <div className="flex items-center gap-3"><img src="/BCA.png" className="h-3 w-10"/>BCA</div>
                             <div className="flex items-center gap-3"><img src="/BNI.png" className="h-3 w-10"/>BNI</div>
-                            <div className="flex items-center gap-3"><img src="/Mandiri.png" className="h-4 w-12"/>Mandiri</div>
+                            <div className="flex items-center gap-3"><img src="/Mandiri.png" className="h-4 w-10"/>Mandiri</div>
                         </div>
                         <div className="w-px bg-gray-300 self-stretch"></div>
                         <div className="flex flex-col gap-2">
