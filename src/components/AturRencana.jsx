@@ -2,18 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Calendar, Plus, ChevronUp, ChevronDown } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import dataDetailPaket from "../components/DataDetailPaket";
 
-const paketData = [
-    { id: 1, imageSrc: "/paket-rafatour-dolphine-snorkling.png",  title: "Rafatour dolphin snorkeling",  price: "Rp. 300.000" },
-    { id: 2, imageSrc: "/paket-seadolphine-lovina.png", title: "Seadolphine Lovina", price: "Rp. 350.000" },
-    { id: 3, imageSrc: "/paket-watching-dolphine-only.png", title: "Watching Dolphin Only", price: "Rp. 100.000" },
-    { id: 4, imageSrc: "/paket-snorkling-tur.png", title: "Snorkeling & Dolphin Tur", price: "Rp. 350.000" },
-    { id: 5, imageSrc: "/dolphinWatchingTour.jpg", title: "Dolphin Watching Tur", price: "Rp. 200.000" },
-    { id: 6, imageSrc: "/swimWithDolphin.jpg", title: "Swim with Dolphin", price: "Rp. 200.000" },
-    { id: 7, imageSrc: "/privateTourGuide.png", title: "Private Tour Guide", price: "Rp. 400.000" },
-    { id: 8, imageSrc: "/paket-snorkeling-lovina.png", title: "Snorkeling Lovina", price: "Rp. 150.000" },
-
-];
+const paketData = dataDetailPaket;  
 
 const priceOptions = [
   {value: "all", label: "Semua Harga"},
@@ -152,7 +143,7 @@ const getPriceLabel = () => {
           </button>
         </div>
         {openDropdown === 'package' && (
-          <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+          <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400">
             {filteredPackages.length > 0 ? (
               filteredPackages.map((paket) =>(
                 <div
