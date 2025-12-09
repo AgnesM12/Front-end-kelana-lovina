@@ -5,7 +5,7 @@ const paketData = [
         imageSrc: "/paket-rafatour-dolphine-snorkling.png",
         price: "Rp. 300.000",
         rating: 4.7,
-        reviews: 45,
+        reviews: 3,
         duration: "3-4 Jam",
         capacity: "Maksimal 10 orang/perahu",
         desk: [
@@ -27,7 +27,7 @@ const paketData = [
         imageSrc: "/paket-seadolphine-lovina.png",
         price: "Rp. 350.000",
         rating: 4.5,
-        reviews: 45,
+        reviews: 5,
         duration: "2-3 Jam",
         capacity: "Maksimal 5 orang/perahu",
         desk: [
@@ -50,7 +50,7 @@ const paketData = [
         imageSrc: "/paket-watching-dolphine-only.png",
         price: "Rp. 100.000",
         rating: 4.4,
-        reviews: 54,
+        reviews: 4,
         duration: "2 Jam",
         capacity: "Maksimal 8-10 orang/perahu",
         desk: [
@@ -58,10 +58,10 @@ const paketData = [
         "Pelampung keselamatan",
         "Pemandu",
         ],
-        schedule: "Setiap hari, pukul 05.30 WITA",
+        schedule: "Setiap hari, pukul 16.30 WITA",
         location: "Pantai Lovina, Bali",
         tagLine: "Durasi 2 jam - Termasuk pelampung & guide",
-        departurTime: "05.30 WITA",
+        departurTime: "16.30 WITA",
     },
     
     {   id: 4,
@@ -70,7 +70,7 @@ const paketData = [
         imageSrc: "/paket-snorkling-tur.png",
         price: "Rp. 350.000",
         rating: 4.4,
-        reviews: 54,
+        reviews: 6,
         duration: "2 Jam",
         capacity: "Maksimal 5 orang/perahu",
         desk: [
@@ -92,7 +92,7 @@ const paketData = [
         imageSrc: "/dolphinWatchingTour.jpg",
         price: "Rp. 200.000",
         rating: 4.4,
-        reviews: 40,
+        reviews: 2,
         duration: "3 Jam",
         capacity: "Maksimal 5 orang/perahu",
         desk: [
@@ -101,10 +101,10 @@ const paketData = [
         "Pelampung keselamatan",
         "Pemandu lokal berpengalaman",
         ],
-        schedule: "Setiap hari, pukul 05.30 WITA",
+        schedule: "Setiap hari, pukul 16.30 WITA",
         location: "Pantai Lovina, Bali",
         tagLine: "Durasi 1,5 jam - Termasuk pelampung",
-        departurTime: "05.30 WITA",
+        departurTime: "16.30 WITA",
     },
     
     {   id: 6,
@@ -113,7 +113,7 @@ const paketData = [
         imageSrc: "/swimWithDolphin.jpg",
         price: "Rp. 200.000",
         rating: 4.6,
-        reviews: 38,
+        reviews: 3,
         duration: "1,5 Jam",
         capacity: "Maksimal 5 orang/perahu",
         desk: [
@@ -134,7 +134,7 @@ const paketData = [
         imageSrc: "/privateTourGuide.png",
         price: "Rp. 400.000",
         rating: 4.5,
-        reviews: 40,
+        reviews: 1,
         duration: "2 Jam",
         capacity: "Maksimal 5 orang/perahu",
         desk: [
@@ -156,7 +156,7 @@ const paketData = [
         imageSrc: "/paket-snorkeling-lovina.png",
         price: "Rp. 150.000",
         rating: 4.2,
-        reviews: 39,
+        reviews: 2,
         duration: "2 Jam",
         capacity: "Maksimal 5 orang/perahu",
         desk: [
@@ -177,8 +177,8 @@ const paketData = [
         slug: "bali-surga-private-tour-lovina-with-dolphin-tour",
         imageSrc: "/paket-bali-surga(1).webp",
         price: "Rp. 600.000",
-        rating: 3.5,
-        reviews: 38,
+        rating: 4.5,
+        reviews: 2,
         duration: "2 Jam",
         capacity: "Maksimal 5 orang/perahu",
         desk: [
@@ -200,8 +200,8 @@ const paketData = [
         slug: "sharing-tour-lovina-ocean-tour-sunrise-dolphin-tour",
         imageSrc: "/paket-lovina-ocean-tour.webp",
         price: "Rp. 100.000",
-        rating: 4.0,
-        reviews: 38,
+        rating: 4,
+        reviews: 1,
         duration: "2 Jam",
         capacity: "Maksimal 5 orang/perahu",
         desk: [
