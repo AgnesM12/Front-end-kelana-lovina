@@ -75,7 +75,7 @@ function App() {
         <Route path="acara" element={<Acara />} />
         <Route path="acara/lengkap" element={<HalamanAcaraLengkap />} />
         <Route path="rencana-perjalanan" element={<RencanaPerjalanan />} />
-        <Route path="destinasi" element={<ProtectedRoute> <Destinasi /> </ProtectedRoute>} />
+        <Route path="destinasi" element={ <Destinasi /> } />
         {/* <Route path="ulasan" element={<Ulasan />} /> */}
         <Route path="/paket/:slug/ulasan" element={<Ulasan />} />
         <Route path="/acara/:slug" element={<DetailAcara />} />
