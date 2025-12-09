@@ -33,7 +33,6 @@ import MenuPembayaran from "./pages/menuPembayaran.jsx";
 import Tiket from "./pages/tiket.jsx";
 import DetailTiketSaya from "./pages/detailTiketSaya.jsx";
 
-
 import "./index.css";
 import TambahUlasan from "./components/TambahUlasan.jsx";
 import KodeBayarPDF from "./components/kodeBayar.jsx";
@@ -76,7 +75,8 @@ function App() {
         <Route path="acara/lengkap" element={<HalamanAcaraLengkap />} />
         <Route path="rencana-perjalanan" element={<RencanaPerjalanan />} />
         <Route path="destinasi" element={<ProtectedRoute> <Destinasi /> </ProtectedRoute>} />
-        <Route path="ulasan" element={<Ulasan />} />
+        {/* <Route path="ulasan" element={<Ulasan />} /> */}
+        <Route path="/paket/:slug/ulasan" element={<Ulasan />} />
         <Route path="/acara/:slug" element={<DetailAcara />} />
         <Route path="/paket/:slug" element={<DetailPaket isLoggedIn={isAuthenticated} />} />
 
@@ -106,6 +106,8 @@ function App() {
         <Route path="/TambahUlasan" element={<TambahUlasan />} />
         <Route path="/kodeBayarPDF" element={<KodeBayarPDF />} />
         <Route path="/unduhRencana" element={<RencanaPDF/>} />
+
+
       </Route>  
     </Routes>
   );

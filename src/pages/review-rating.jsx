@@ -3,10 +3,11 @@ import HeroSection from "../components/HeroSection";
 import Judul from "../components/Judul";
 import FilterUlasan from "../components/FilterUlasan";
 import ReviewCard from "../components/ReviewCard";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function ReviewRating() {
   const { state } = useLocation();
+  const { slug } = useParams();
   const [tiketList, setTiketList] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [filter, setFilter] = useState({});
@@ -15,7 +16,7 @@ function ReviewRating() {
     const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
     const updatedReviews = savedReviews.map((review) => ({
       ...review,
-      username: review.username || "Pengguna Anonim",
+      user: review.user || "Pengguna Anonim",
       date: review.tanggal || "Tanggal tidak diketahui",
       profileImage: review.profileImage || "/default-profile.png",
     }));
@@ -24,20 +25,21 @@ function ReviewRating() {
 
   useEffect(() => {
     const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];
+    
     const aktif = tiket
       .filter(
         (t) =>
           t.status?.toLowerCase() === "berhasil" ||
           t.status?.toLowerCase() === "selesai"
       )
-      .map((t) => ({
-        id: t.id,
+      .map((t, idx) => ({
+        id: t.id + "_" + t.tanggalBerangkat + "_" + idx,
         imageSrc: t.paket.imageSrc || "/default.png",
         title: t.paket.title || "Paket tidak diketahui",
         desk: t.paket.tagLine || "Tidak ada tagline paket",
         kategori : t.paket.kategori,
         tanggalBerangkat : t.tanggalBerangkat,
-        username: t.user?.name || "Pengguna Anonim",
+        user: t.user?.name || "Pengguna Anonim",
         profileImage: t.user?.photo || "/default-profile.png",
         
       }));
@@ -67,13 +69,19 @@ function ReviewRating() {
     return new Date(tahun, bulanMap[bulan], tanggal);
   };
 
-  const filtered = reviews
+  // Gabungkan review statis dan review user
+  const staticReviews = Object.values(reviewsMapping).flat();
+  const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+  const allReviews = [...staticReviews, ...savedReviews];
+
+  const filtered = allReviews
+    .filter((r) => r.slug === slug)
     .filter((r) => {
       return (
         (!filter.rating || r.rating === Number(filter.rating)) &&
         (!filter.kategori || r.kategori === filter.kategori) &&
         (!filter.search ||
-          r.username?.toLowerCase().includes(filter.search.toLowerCase()) ||
+          r.user?.toLowerCase().includes(filter.search.toLowerCase()) ||
           r.tripTitle?.toLowerCase().includes(filter.search.toLowerCase()))
       );
     })
@@ -106,7 +114,7 @@ function ReviewRating() {
         />
       </div>
 
-     
+    
       <div className="my-16 ">
         <p className="text-zinc-800 text-2xl font-bold">
           Jejak Perjalanan yang Belum Tertulis
@@ -139,28 +147,31 @@ export default ReviewRating;
 const UlasanCard = ({ aktivitas }) => {
   const navigate = useNavigate();
 
-  // const [year, month, day] = aktivitas.tanggalBerangkat.split('-');
-  // const bookingDate = new Date(year, month - 1, day);
-  // bookingDate.setHours(0, 0, 0, 0);
-  let bookingDate = new Date();
-  if (aktivitas.tanggalBerangkat) {
-    bookingDate = new Date(aktivitas.tanggalBerangkat);
-    bookingDate.setHours(0, 0, 0, 0);
-  }
-
+  const parseBookingDate = (str) => {
+    if (!str) return new Date(0);
+    const [year, month, day] = str.split("-");
+    const d = new Date(Number(year), Number(month) - 1, Number(day));
+    d.setHours(0, 0, 0, 0);
+    return d;
+  };
+  
+  const bookingDate = parseBookingDate(aktivitas.tanggalBerangkat);
+  
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-
+  
   const isBookingTodayOrPast = today.getTime() >= bookingDate.getTime();
 
   const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-  const hasReviews = savedReviews.some((r) => r.tripId === aktivitas.id);
+  const hasReviews = savedReviews.some((r) => r.tripId === aktivitas.id && r.tanggalBerangkat === aktivitas.tanggalBerangkat);
 
   const disabled = !isBookingTodayOrPast || hasReviews;
 
   const buttonText = hasReviews
     ? "Cerita telah diberikan"
-    : "Tambahkan cerita anda";
+    : isBookingTodayOrPast
+      ? "Tambahkan cerita anda"
+      : "Belum bisa review";
 
   return (
     <div className="w-96 p-6 bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] flex flex-col items-center gap-6">

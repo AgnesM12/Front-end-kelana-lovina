@@ -5,7 +5,6 @@ const FilterUlasan = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
     rating: "",
     waktu: "",
-    kategori: "",
     search: "",
   });
 
@@ -30,18 +29,6 @@ const FilterUlasan = ({ onFilterChange }) => {
       case "waktu":
         if (filters.waktu === "terbaru") return "Terbaru";
         break;
-      case "kategori": {
-        const mapping = {
-          morning: "Morning Tour",
-          snorkeling: "Snorkeling",
-          sunrise: "Sunrise Tour",
-          watching: "Watching",
-          swim: "Swim",
-          cruise: "Private",
-        };
-        if (filters.kategori) return mapping[filters.kategori];
-        break;
-      }
       default:
         break;
     }
@@ -104,40 +91,6 @@ const FilterUlasan = ({ onFilterChange }) => {
                 >
                   Terbaru
                 </div>
-              </div>
-            )}
-          </div>
-          {/* kategori */}
-          <div className="relative flex-shrink-0">
-            <button
-              onClick={() => toggleDropdown("kategori")}
-              className="bg-blue-600 text-white font-semibold text-xs sm:text-sm md:text-base px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full flex items-center justify-between gap-1 min-w-[70px] sm:min-w-[120px] md:min-w-[140px]"
-            >
-              {openDropdown === "kategori" ? (
-                <ChevronUp className="w-3 h-3 sm:w-6 sm:h-6" />
-              ) : (
-                <ChevronDown className="w-3 h-3 sm:w-6 sm:h-6" />
-              )}
-              <span>{getLabel("kategori", "Kategori")}</span>
-            </button>
-            {openDropdown === "kategori" && (
-              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl overflow-hidden w-full max-h-60 overflow-y-auto z-50">
-                {[
-                  ["morning", "Morning Tour"],
-                  ["snorkeling", "Snorkeling"],
-                  ["sunrise", "Sunrise Tour"],
-                  ["watching", "Watching"],
-                  ["swim", "Swim"],
-                  ["cruise", "Private"],
-                ].map(([value, label]) => (
-                  <div
-                    key={value}
-                    onClick={() => handleChange("kategori", value)}
-                    className="px-4 py-2 hover:bg-blue-100 cursor-pointer text-gray-700"
-                  >
-                    {label}
-                  </div>
-                ))}
               </div>
             )}
           </div>

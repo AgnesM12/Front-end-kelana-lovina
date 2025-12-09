@@ -40,7 +40,10 @@
                     <p className="text-lg sm:text-2xl md:text-2xl font-bold text-zinc-700">{paket.price}/Person</p>
                     <div className="flex items-center text-sm sm:text-lg md:text-xl font-semibold text-zinc-500">
                         <HiStar className="mr-1 h-5 w-5 sm:h-6 sm:w-6 text-yellow-400" /> {paket.rating}
-                        <span className="ml-2">({paket.reviews})</span>
+                        {/* <span className="ml-2">({paket.reviews})</span> */}
+                        <span className="ml-2 cursor-pointer underline" 
+                            onClick={() => navigate(`/paket/${slug}/ulasan`)}> ({paket.reviews} ulasan)
+                        </span>
                     </div>
                     </div>
                 </div>

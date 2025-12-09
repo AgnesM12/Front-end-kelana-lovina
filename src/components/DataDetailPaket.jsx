@@ -328,7 +328,9 @@ const paketData = [
       schedule: "Setiap hari, pukul 08.30 WITA", 
       location: "Pantai Lovina, Bali", 
       tagLine: "", 
-      departurTime: "08.30 WITA" },
+      departurTime: "08.30 WITA" ,
+    },
+      
     
     { id: 16, 
       title: "Paon Happy Sharing Boat Watching Dolphin (Swimming)",
@@ -350,7 +352,7 @@ const paketData = [
       schedule: "Setiap hari, pukul 08.30 WITA", 
       location: "Pantai Lovina, Bali", 
       tagLine: "", 
-      departurTime: "08.30 WITA" 
+      departurTime: "08.30 WITA", 
     },
 
     { id: 17, 
@@ -374,7 +376,7 @@ const paketData = [
       schedule: "Setiap hari, pukul 08.30 WITA", 
       location: "Pantai Lovina, Bali", 
       tagLine: "", 
-      departurTime: "08.30 WITA" 
+      departurTime: "08.30 WITA" , 
     },
 
     { id: 18, 
@@ -397,7 +399,7 @@ const paketData = [
       schedule: "Setiap hari, pukul 08.30 WITA", 
       location: "Pantai Lovina, Bali", 
       tagLine: "", 
-      departurTime: "08.30 WITA" 
+      departurTime: "08.30 WITA" , 
     },
 
 
@@ -421,7 +423,7 @@ const paketData = [
       schedule: "Setiap hari, pukul 08.30 WITA", 
       location: "Pantai Lovina, Bali", 
       tagLine: "", 
-      departurTime: "08.30 WITA" 
+      departurTime: "08.30 WITA", 
     },
     
     { id: 20, 
@@ -443,7 +445,7 @@ const paketData = [
       schedule: "Setiap hari, pukul 08.30 WITA", 
       location: "Pantai Lovina, Bali", 
       tagLine: "", 
-      departurTime: "08.30 WITA" 
+      departurTime: "08.30 WITA", 
     },
 
     { id: 21, 
@@ -464,7 +466,7 @@ const paketData = [
       schedule: "Setiap hari, pukul 08.30 WITA", 
       location: "Pantai Lovina, Bali",
       tagLine: "", 
-      departurTime: "08.30 WITA" 
+      departurTime: "08.30 WITA", 
     },
 
 ];

@@ -82,7 +82,7 @@ const TiketPdfContent = ({ paket, data }) => {
 
                     <View style={styles.row}> 
                         <View>
-                            <Text style={styles.label}>Tanggal Keberangkatan</Text>
+                            <Text style={styles.label}>Tanggal Tiket</Text>
                             <Text style={styles.value}>{data?.tanggalBerangkat || '-'}</Text>
                         </View>
                         <View>
@@ -133,7 +133,7 @@ const TiketPdfContent = ({ paket, data }) => {
                 const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];
                 const tiketAda = tiket.some(t => t.data.fullName === data.fullName && t.paket.title === paket.title && t.data.tanggalBerangkat === data.tanggalBerangkat);
                 if (!tiketAda) {
-                    tiket.push({paket, data}); 
+                    tiket.push({paket, data, status: "berhasil"}); // tambahkan status agar bisa muncul di TiketSaya
                     localStorage.setItem("tiketSaya", JSON.stringify(tiket))
                 }
             }   
@@ -151,7 +151,7 @@ const TiketPdfContent = ({ paket, data }) => {
                         <p className="flex justify-start text-lg font-bold mt-5">{data?.fullName}</p>
 
                         <div className="flex flex-col">
-                            <p className="text-sm font-semibold text-gray-300 mt-5">Tanggal Keberangkatan</p>
+                            <p className="text-sm font-semibold text-gray-300 mt-5">Tanggal Tiket</p>
                             <p className="text-lg font-semibold mt-3">{data?.tanggalBerangkat}</p>
                         </div>
 

@@ -274,9 +274,9 @@ function MenuPembayaran() {
                                 </div>
                             </div>
 
-                            {/* Tanggal Keberangkatan */}
+                            {/* Tanggal Tiket */}
                             <div className="sm:col-span-12">
-                                <label htmlFor="tanggalBerangkat" className="block text-lg font-bold text-gray-900">Tanggal Keberangkatan</label>
+                                <label htmlFor="tanggalBerangkat" className="block text-lg font-bold text-gray-900">Tanggal Tiket</label>
                                 <div className="mt-2">
                                     <div>
                                     <input id="tanggalBerangkat" type="date" min ={new Date().toISOString().split("T")[0]}  

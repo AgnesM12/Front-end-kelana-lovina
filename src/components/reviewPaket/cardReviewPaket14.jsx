@@ -1,0 +1,14 @@
+    const cardReviewPaket14 = [
+        {
+            avatar: "",
+            username: 'sarah travelnotes',
+            rating: 4,
+            date: "13 September 2025",
+            tripTitle: "Paon Happy Sharing Boat Watching Dolphin (Breakfast)",
+            text: "Seru dan santai! Sarapan pagi sebelum tur sangat membantu buat memulai perjalanan. Perahu sharing-nya nyaman dan guide lokalnya ramah serta profesional. Lumba-lumbanya muncul cukup dekat sehingga bisa mengamati dengan jelas tanpa harus berenang. Durasi 1,5 jam terasa pas untuk pengalaman santai pagi hari.",
+            likes: 10,
+            images: ["/reviewS-1.png", "/reviewS-2.png", "/reviewS-3.png"],
+        },
+    ];;
+
+    export default cardReviewPaket14;
