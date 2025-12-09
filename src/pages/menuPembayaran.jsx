@@ -45,11 +45,48 @@ function MenuPembayaran() {
     const openNested = () => setIsOpenNested(true);
     // const closeNested = () => setIsOpenNested(false);
 
-    const onSubmit = (data) => {
-        console.log(data);
-        setFormData(data);
-        setIsOpen(true);
-    }
+    const onSubmit = async (data) => {
+        const payload = {
+            fullName: data.fullName,
+            email: data.Email,
+            nomorTelpon: data.nomorTelpon,
+            jumlahOrang: data.jumlahOrang,
+            tanggalBerangkat: data.tanggalBerangkat,
+
+            paketId: paket.id,
+            paketNama: paket.title || paket.titleT || paket.shortTitle,
+
+            totalPayment: total,
+            status: "success"
+        };
+
+        try {
+            const response = await fetch("http://localhost:4000/api/payments", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+            console.log("HASIL:", result);
+
+            if (response.ok) {
+                // Simpan data form untuk popup kode bayar
+                setFormData(data);
+
+                // Buka popup info pembayaran
+                setIsOpen(true);
+            } else {
+                alert("❌ Gagal menyimpan pembayaran ke database");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("❌ Tidak dapat terhubung ke server");
+        }
+    };
+
 
     const jumlahOrang  = watch("jumlahOrang") || 0; 
     const hargaPerTiket = parseInt(paket.price?.replace(/\D/g, "") || "0"); 
@@ -76,7 +113,7 @@ function MenuPembayaran() {
     }, [isOpenNested, seconds]);
 
     const closeNested = () => {
-        const status = seconds <= 0 ? "berhasil" : "gagal";
+        const status = seconds <= 0 ? "gagal" : "berhasil";
     
         const riwayatLama = JSON.parse(localStorage.getItem("riwayat")) || [];
         const riwayatBaru = {

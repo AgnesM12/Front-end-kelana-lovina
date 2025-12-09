@@ -1,9 +1,9 @@
-const express = require("express");
+import express from "express";
+import { savePayment } from "../controllers/paymentController.js";
+
 const router = express.Router();
-const ctrl = require("../controllers/paymentController");
-const { verifyToken } = require("../middleware/auth");
 
-router.get("/:orderId", verifyToken, ctrl.getPaymentInfo);
-router.put("/confirm/:orderId", verifyToken, ctrl.confirmPayment);
+// POST: Simpan payment dari FE
+router.post("/", savePayment);
 
-module.exports = router;
+export default router;
