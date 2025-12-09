@@ -12,20 +12,25 @@ function ReviewRating() {
   const [reviews, setReviews] = useState([]);
   const [filter, setFilter] = useState({});
 
+  // Ambil review pemilik akun dari localStorage
   useEffect(() => {
+    const currentUserId = JSON.parse(localStorage.getItem("currentUser"))?.id;
     const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-    const updatedReviews = savedReviews.map((review) => ({
-      ...review,
-      user: review.user || "Pengguna Anonim",
-      date: review.tanggal || "Tanggal tidak diketahui",
-      profileImage: review.profileImage || "/default-profile.png",
-    }));
-    setReviews(updatedReviews);
+    const userReviews = savedReviews
+      .filter((r) => r.userId === currentUserId)
+      .map((review) => ({
+        ...review,
+        user: review.user || "Pengguna Anonim",
+        date: review.tanggal || "Tanggal tidak diketahui",
+        profileImage: review.profileImage || "/default-profile.png",
+      }));
+    setReviews(userReviews);
   }, []);
 
+  // Ambil tiket aktif
   useEffect(() => {
     const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];
-    
+
     const aktif = tiket
       .filter(
         (t) =>
@@ -37,11 +42,10 @@ function ReviewRating() {
         imageSrc: t.paket.imageSrc || "/default.png",
         title: t.paket.title || "Paket tidak diketahui",
         desk: t.paket.tagLine || "Tidak ada tagline paket",
-        kategori : t.paket.kategori,
-        tanggalBerangkat : t.tanggalBerangkat,
+        kategori: t.paket.kategori,
+        tanggalBerangkat: t.tanggalBerangkat,
         user: t.user?.name || "Pengguna Anonim",
         profileImage: t.user?.photo || "/default-profile.png",
-        
       }));
     setTiketList(aktif);
   }, []);
@@ -69,12 +73,8 @@ function ReviewRating() {
     return new Date(tahun, bulanMap[bulan], tanggal);
   };
 
-  // Gabungkan review statis dan review user
-  const staticReviews = Object.values(reviewsMapping).flat();
-  const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-  const allReviews = [...staticReviews, ...savedReviews];
-
-  const filtered = allReviews
+  // Filter dan sortir review pemilik akun
+  const filtered = reviews
     .filter((r) => r.slug === slug)
     .filter((r) => {
       return (
@@ -93,7 +93,6 @@ function ReviewRating() {
       }
       return 0;
     });
-
 
   return (
     <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 mt-16 overflow-x-hidden">
@@ -114,8 +113,7 @@ function ReviewRating() {
         />
       </div>
 
-    
-      <div className="my-16 ">
+      <div className="my-16">
         <p className="text-zinc-800 text-2xl font-bold">
           Jejak Perjalanan yang Belum Tertulis
         </p>
@@ -126,10 +124,9 @@ function ReviewRating() {
         </div>
       </div>
 
-      {/* Filter dan hasil ulasan */}
       <FilterUlasan onFilterChange={handleFilterChange} />
 
-      <div className="mt-8 ">
+      <div className="mt-8">
         {filtered.length > 0 ? (
           filtered.map((r, i) => <ReviewCard key={i} review={r} />)
         ) : (
@@ -144,6 +141,7 @@ function ReviewRating() {
 
 export default ReviewRating;
 
+// Komponen kartu ulasan untuk tiket yang belum di-review
 const UlasanCard = ({ aktivitas }) => {
   const navigate = useNavigate();
 
@@ -154,24 +152,25 @@ const UlasanCard = ({ aktivitas }) => {
     d.setHours(0, 0, 0, 0);
     return d;
   };
-  
+
   const bookingDate = parseBookingDate(aktivitas.tanggalBerangkat);
-  
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  
   const isBookingTodayOrPast = today.getTime() >= bookingDate.getTime();
 
   const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-  const hasReviews = savedReviews.some((r) => r.tripId === aktivitas.id && r.tanggalBerangkat === aktivitas.tanggalBerangkat);
+  const hasReviews = savedReviews.some(
+    (r) =>
+      r.tripId === aktivitas.id && r.tanggalBerangkat === aktivitas.tanggalBerangkat
+  );
 
   const disabled = !isBookingTodayOrPast || hasReviews;
 
   const buttonText = hasReviews
     ? "Cerita telah diberikan"
     : isBookingTodayOrPast
-      ? "Tambahkan cerita anda"
-      : "Belum bisa review";
+    ? "Tambahkan cerita anda"
+    : "Belum bisa review";
 
   return (
     <div className="w-96 p-6 bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] flex flex-col items-center gap-6">
@@ -191,8 +190,7 @@ const UlasanCard = ({ aktivitas }) => {
         <button
           disabled={disabled}
           onClick={() =>
-            !disabled &&
-            navigate("/TambahUlasan", { state: { trip: aktivitas } })
+            !disabled && navigate("/TambahUlasan", { state: { trip: aktivitas } })
           }
           className={`w-80 text-white text-xl font-bold py-2 px-6 rounded-lg transition-colors ${
             disabled
