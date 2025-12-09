@@ -85,9 +85,6 @@ function RencanaCard({ pkg, onDelete }) {
             className="block w-full text-left p-2.5 hover:bg-blue-100 hover:rounded-[5px] text-base">
               Bagikan Rencana Perjalanan
             </button>
-            <button onClick={() => navigate('/unduhRencana')} className="block w-full text-left p-2.5 hover:bg-blue-100 hover:rounded-[5px] text-base">
-              Unduh Rencana Perjalanan
-            </button>
             <button
               onClick={onDelete}
               className="block w-full text-left p-2.5 hover:bg-red-100 hover:rounded-[5px] text-base text-red-600"
