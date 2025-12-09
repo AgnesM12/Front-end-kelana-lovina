@@ -1,6 +1,6 @@
     const cardReviewPaket10 = [
         {
-            avatar: "",
+            avatar: "/paket10(1).jpg",
             username: 'felicia',
             rating: 4,
             date: "13 September 2025",

@@ -7,7 +7,7 @@
                 tripTitle: "Seadolphine Lovina",
                 text: "Pengalaman yang luar biasa bersama pemandu kami!! Kami berenang dengan snorkel bersama lumba-lumba yang berenang di samping kami, hanya berjarak dua kaki dari kami! Kami melihat banyak sekali lumba-lumba. Sangat direkomendasikan!",
                 likes: 5,
-                images: ["/reviewS-1.png", "/reviewS-2.png", "/reviewS-3.png"],
+                images: ["/reviewPaket2A(1).jpg","/reviewPaket2A(2).jpg"],
             },
             {
                 avatar: "/paket1(2).jpg",
@@ -17,7 +17,7 @@
                 tripTitle: "Seadolphine Lovina",
                 text: "Pengalaman yang menyenangkan, tapi hati-hati dengan sengatan matahari!",
                 likes: 3,
-                images: ["/reviewA-1.png", "/reviewA-2.png", "/reviewA-3.png"],
+                images: ["/reviewPaket2B(1).webp", "/reviewPaket2B(2).webp", "/reviewPaket2B(3).webp"],
             },
             {
                 avatar: "/paket2(1).jpg",
@@ -27,17 +27,17 @@
                 tripTitle: "Seadolphine Lovina",
                 text: "Pengalaman yang luar biasa, dilayani dengan baik. Banyak lumba-lumba yang terlihat berkat kapten kami yang hebat! Dia tahu cara menunjukkan lumba-lumba kepada kami setiap kali!",
                 likes: 6,
-                images: ["/reviewA-1.png", "/reviewA-2.png", "/reviewA-3.png"],
+                images: ["/reviewPaket2C(2).jpg", "/reviewPaket2C(3).jpg"],
             },
             {
                 avatar: "/paket2(5).jpg",
                 username: 'Aisyahhh ',
                 rating: 5,
-                date: "13 September 2025",
+                date: "10 September 2025",
                 tripTitle: "Seadolphine Lovina",
                 text: "Perahu yang luar biasa. Banyak lumba-lumba di atas dan di bawah air. Air tenang dan perjalanan yang menenangkan. Saya sangat merekomendasikan meskipun ada banyak perahu.",
                 likes: 6,
-                images: ["/reviewA-1.png", "/reviewA-2.png", "/reviewA-3.png"],
+                images: [],
             },
             {
                 avatar: "/paket2(4).jpg",
@@ -47,7 +47,7 @@
                 tripTitle: "Seadolphine Lovina",
                 text: "Kami sangat senang dengan pengalaman kami bersama Seadolphin Lovina. Moy, pemandu kami, ramah dan bersahabat. Dia membawa kami berlayar ke tempat yang tidak banyak kapal lain. ",
                 likes: 6,
-                images: ["/reviewA-1.png", "/reviewA-2.png", "/reviewA-3.png"],
+                images: [],
             },
     ];
 
