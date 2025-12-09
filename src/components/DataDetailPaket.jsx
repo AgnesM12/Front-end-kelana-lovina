@@ -224,7 +224,7 @@ const paketData = [
         imageSrc: "/paket-lovina-ocean-private-tour.webp",
         price: "Rp. 150.000",
         rating: 4.5,
-        reviews: 38,
+        reviews: 2,
         duration: "2 Jam",
         capacity: "Maksimal 5 orang/perahu",
         desk: [
@@ -269,7 +269,7 @@ const paketData = [
         imageSrc: "/paket-dolphin-watching-swim-snorkling-private.webp",
         price: "Rp. 350.000",
         rating: 4.5,
-        reviews: 38,
+        reviews: 2,
         duration: "3 Jam",
         capacity: "Maksimal 5 orang/perahu",
         desk: [
@@ -292,7 +292,7 @@ const paketData = [
         imageSrc: "/paket-paon-happy-sharing-boat-watching-dolphin.webp",
         price: "Rp. 200.000",
         rating: 4.5,
-        reviews: 38,
+        reviews: 3,
         duration: "3 Jam",
         capacity: "Maksimal 5 orang/perahu",
         desk: [
@@ -313,8 +313,8 @@ const paketData = [
       slug: "paon-happy-sharing-boat-watching-dolphin-(breakfast)", 
       imageSrc: "/paket-paon-happy-watching-dolphin-breakfast.jpg",
       price: "Rp. 130.000", 
-      rating: 4.5, 
-      reviews: 38, 
+      rating: 4, 
+      reviews: 1, 
       duration: "1,5 Jam", 
       capacity: "Maksimal 5 orang/perahu", 
       desk: [ 
@@ -338,8 +338,8 @@ const paketData = [
       slug: "paon-happy-sharing-boat-watching-dolphin-(swimming)", 
       imageSrc: "/paon-happy-watching-dolphin-swimming.jpg",
       price: "Rp. 350.000", 
-      rating: 4.5, 
-      reviews: 38, 
+      rating: 4, 
+      reviews: 1, 
       duration: "2 Jam", 
       capacity: "Maksimal 5 orang/perahu", 
       desk: [ 
@@ -361,8 +361,8 @@ const paketData = [
       slug: "paon-happy-private-boat-watching-dolphin-(snorkling)", 
       imageSrc: "/paket-paon-happy-watching-dolphin-snorkling.jpg",
       price: "Rp. 200.000", 
-      rating: 4.5, 
-      reviews: 38, 
+      rating: 4, 
+      reviews: 1, 
       duration: "2,5 Jam", 
       capacity: "Maksimal 5 orang/perahu", 
       desk: [ 
@@ -385,7 +385,7 @@ const paketData = [
       imageSrc: "/paket-paon-happy-sharing-boat-watching-dolphin-only.webp",
       price: "Rp. 450.000", 
       rating: 4.5, 
-      reviews: 38, 
+      reviews: 2, 
       duration: "3 Jam", 
       capacity: "Minimal 2 orang/perahu", 
       desk: [ 
@@ -409,7 +409,7 @@ const paketData = [
       imageSrc: "/paon-happy-private-boat-2-person-only.webp", 
       price: "Rp. 400.000", 
       rating: 4.5, 
-      reviews: 38, 
+      reviews: 2, 
       duration: "2,5 Jam", 
       capacity: "Hanya 2 orang/perahu", 
       desk: [ 
@@ -432,7 +432,7 @@ const paketData = [
       imageSrc: "/paket-sarawasti-sunrise-watching.jpeg",
       price: "Rp. 100.000", 
       rating: 4.5, 
-      reviews: 38, 
+      reviews: 2, 
       duration: "2-3 Jam", 
       capacity: "Maksimal 5 orang/perahu", 
       desk: [ 
@@ -453,8 +453,8 @@ const paketData = [
       slug: "saraswati-tour-lovina-snorkling", 
       imageSrc: "/paket-saraswati-lovina-snorkling.jpeg", 
       price: "Rp. 100.000", 
-      rating: 4.5, 
-      reviews: 38, 
+      rating: 5, 
+      reviews: 1, 
       duration: "2-3 Jam", 
       capacity: "Maksimal 5 orang/perahu", 
       desk: [ 
