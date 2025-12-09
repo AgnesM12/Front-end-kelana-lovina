@@ -4,20 +4,54 @@ import { FiSearch, FiMenu, FiX } from 'react-icons/fi';
 import {  useSelector } from 'react-redux';
 
 const paketData = [
-    { title: "Rafatour dolphin & snorkeling", slug: "rafatour-dolphin-snorkeling" },
+    { title: "Rafatour dolphin & snorkeling", slug: "rafatour-dolphin-&-snorkeling" },
     { title: "Seadolphine Lovina", slug: "seadolphine-lovina" },
     { title: "Watching Dolphin Only", slug: "watching-dolphin-only" },
-    { title: "Snorkeling & Dolphin Tur", slug: "snorkeling-dolphin-tur" },
+    { title: "Snorkeling & Dolphin Tur", slug: "snorkeling-&-dolphin-tur" },
     { title: "Dolphin Watching Tur", slug: "dolphin-watching-tur" },
     { title: "Swim with Dolphin", slug: "swim-with-dolphin" },
     { title: "Private Tour Guide", slug: "private-tour-guide" },
     { title: "Snorkeling Lovina", slug: "snorkeling-lovina" },
+    { title: "Bali Surga Private Tour Lovina With Dolphin Tour", slug: "bali-surga-private-tour-lovina-with-dolphin-tour" },
+    { title: "Sharing Tour Lovina Ocean Tour Sunrise Dolphin Tour", slug: "sharing-tour-lovina-ocean-tour-sunrise-dolphin-tour" },
+    { title: "Private Tour Lovina Ocean Tour Sunrise Dolphin Tour", slug: "private-tour-lovina-ocean-tour-sunrise-dolphin-tour" },
+    { title: "Private Tour Paket Dolphin Watching Swim & Snorkling", slug: "private-tour-paket-dolphin-watching-swim-&-snorkling" },
+    { title: "Paon Happy Sharing Boat Watching Dolphin Only", slug: "paon-happy-sharing-boat-watching-dolphin-only" },
+    { title: "Paon Happy Sharing Boat Watching Dolphin (Breakfast)", slug: "paon-happy-sharing-boat-watching-dolphin-(breakfast)" },
+    { title: "Paon Happy Sharing Boat Watching Dolphin (Swimming)", slug: "paon-happy-sharing-boat-watching-dolphin-(swimming)" },
+    { title: "Paon Happy Private Boat Watching Dolphin (Snorkling)", slug: "paon-happy-private-boat-watching-dolphin-(snorkling)" },
+    { title: "Paon Happy Private Boat Watching Dolphin", slug: "paon-happy-private-boat-watching-dolphin" },
+    { title: "Paon Happy Private Boat Watching", slug: "paon-happy-private-boat-watching-dolphin" },
+    { title: "Saraswati Tour Sunrise Dolphine", slug: "saraswati-tour-sunrise-dolphine" },
+    { title: "Saraswati Tour Lovina Snorkling", slug: "saraswati-tour-lovina-snorkling" },    
 ];
 
 
 function NavbarBefore() {
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const [profile, setProfile] = useState({
+        namaLengkap: "",
+        foto: null
+    });
+
+    useEffect(() => {
+        const updatePhoto = () => {
+        const stored = JSON.parse(localStorage.getItem("userProfile"));
+        if (stored) {
+            setProfile({
+            namaLengkap: stored.namaLengkap || "",
+            foto: stored.fotoProfil || null
+            });
+        }
+        };
+    
+        updatePhoto(); 
+        window.addEventListener("storage", updatePhoto);
+        return () => window.removeEventListener("storage", updatePhoto);
+    }, []);
+        
 
     const [search, setSearch] = useState("");
     const [filtered, setFiltered] = useState([]);
@@ -65,20 +99,14 @@ function NavbarBefore() {
     const user = useSelector((state) => state.auth.user);
 
     const location = useLocation();
-    const currentPath = location.pathname;
-
-    const isBerandaActive =
-        currentPath === '/' ||
-        currentPath === '/paket' ||
-        currentPath === '/galeri';
-        
+    const currentPath = location.pathname;     
 
     const isAcaraActive = 
         currentPath.startsWith('/acara');
 
     const isDestinasiActive =
         currentPath.startsWith('/destinasi') ||
-        /^\/paket\/[^/]+\/menuPembayaran(\/tiket)?$/.test(currentPath);
+        currentPath.startsWith('/paket');
 
     
 
@@ -87,7 +115,9 @@ function NavbarBefore() {
             <nav className="max-w-[1220px] mx-auto flex items-center justify-between h-20 px-4 md:px-6 w-full">
                 <div className='flex-shrink-0'>
                 {/* Logo */}
+                <Link to={"/"}>
                     <img className="h-14 sm:h-12 md:h-12 lg:h-14 w-auto" src="/KELANA 1.png" alt="logo-aplikasi"/>
+                </Link>
                 </div>
                 {/* Search Bar */}
                 <div className='flex-grow flex justify-center mx-3 sm:mx-5 md:mx-6 lg:mx-8 '>
@@ -102,9 +132,13 @@ function NavbarBefore() {
                             onChange={handleSearchChange}
                             className="w-full py-2.5 px-10 pr-4 border-2 border-primary rounded-full focus:outline-none focus:ring-1 focus:ring-primary placeholder:text-primary placeholder:text-sm text-medium md:text-base"
                         />
-                        {showDropdown && filtered.length > 0 && (
-                                <div className="absolute left-0 mt-2 w-full bg-white shadow-lg border border-gray-200 rounded-lg z-50">
-                                    {filtered.map((item, idx) => (
+                        {showDropdown && (
+                            <div
+                                className="absolute left-0 mt-2 w-full bg-white shadow-lg border border-gray-200 rounded-lg z-50
+                                            max-h-[250px] overflow-y-auto"
+                            >
+                                {filtered.length > 0 ? (
+                                    filtered.map((item, idx) => (
                                         <button
                                             key={idx}
                                             onClick={() => handleSelect(item.slug)}
@@ -112,14 +146,13 @@ function NavbarBefore() {
                                         >
                                             {item.title}
                                         </button>
-                                    ))}
-                                </div>
-                            )}
-                        {showDropdown && filtered.length === 0 && (
-                                <div className="absolute left-0 mt-2 w-full bg-white shadow-lg border border-gray-200 rounded-lg z-50 px-4 py-2 text-gray-500">
-                                    Tidak ada hasil
+                                    ))
+                                ) : (
+                                    <div className="px-4 py-2 text-gray-500">Tidak ada hasil</div>
+                                )}
                             </div>
                         )}
+
                     </div>
                 </div>
                 <div className='lg:hidden flex items-center'>
@@ -131,20 +164,16 @@ function NavbarBefore() {
                 {/* Navigasi Desktop */}
                 <div className='hidden lg:flex lg:space-x-2 items-center space-x-10'>
                 <div className="flex items-center gap-[25px]">
-                    <NavLink to="/" end className={`px-1 py-2.5 border-b-[2.50px] whitespace-nowrap ${isBerandaActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Beranda</NavLink>
-                    <NavLink to="/acara" end className={`px-1 py-2.5 border-b-[2.50px] whitespace-nowrap ${isAcaraActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Acara</NavLink>
                     <NavLink to="/rencana-perjalanan" className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold' : 'border-transparent text-gray-600 hover:border-primary'}`}>Rencana Perjalanan</NavLink>
-                    {isAuthenticated && (
-                            <NavLink to="/destinasi" end className={`px-1 py-2.5 border-b-[2.50px] whitespace-nowrap ${isDestinasiActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Destinasi</NavLink>
-                        )}
-                    <NavLink to="/ulasan" className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold' : 'border-transparent text-gray-600 hover:border-primary'}`}>Ulasan</NavLink>
+                    <NavLink to="/destinasi" end className={`px-1 py-2.5 border-b-[2.50px] whitespace-nowrap ${isDestinasiActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Destinasi</NavLink>
+                    <NavLink to="/acara" end className={`px-1 py-2.5 border-b-[2.50px] whitespace-nowrap ${isAcaraActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Acara</NavLink>
                 </div>
                         {/* Button masuk */}
                         {isAuthenticated ? (
                             <div className='flex items-center space-x-4'>
                                 <Link to='/profil'>
                                     <img
-                                    src={user?.profilePic}
+                                    src={profile.foto ? profile.foto : "/profile.svg"}
                                     alt="User profile"
                                     className="w-14 h-14 rounded-full object-cover ml-4 cursor-pointer"
                                     />
@@ -165,13 +194,9 @@ function NavbarBefore() {
             {menuOpen && (
                     <div className='lg:hidden bg-white shadow-md  absolute top-[80px] left-0 w-full z-50 border-t border-gray-200 animate-slideDown'>
                         <div className='flex flex-col items-start p-4 space-y-4'>
-                        <NavLink to="/" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `inline-block text-left border-b-2 pb-2 transition-all duration-200 ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Beranda</NavLink>
-                        <NavLink to="/acara" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `inline-block text-left border-b-2 pb-2 transition-all duration-200 ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Acara</NavLink>
                         <NavLink to="/rencana-perjalanan" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `inline-block text-left border-b-2 pb-2 transition-all duration-200 ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Rencana Perjalanan</NavLink>
-                        {isAuthenticated && (
-                            <NavLink to="/destinasi" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Destinasi</NavLink>
-                        )}
-                        <NavLink to="/ulasan" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `inline-block text-left border-b-2 pb-2 transition-all duration-200 ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Ulasan</NavLink>
+                        <NavLink to="/destinasi" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `px-1 py-2.5 border-b-[2.50px] border-primary whitespace-nowrap ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Destinasi</NavLink>
+                        <NavLink to="/acara" end onClick={()=> setMenuOpen(false)} className={({ isActive }) => `inline-block text-left border-b-2 pb-2 transition-all duration-200 ${isActive ? 'border-primary text-primary text-base font-bold ' : 'border-transparent text-gray-600 hover:border-primary'}`}>Acara</NavLink>
                         {/* button masuk */}
                         {isAuthenticated ? (
                             <div className="w-full flex justify-between items-center pt-4 border-t border-gray-200">

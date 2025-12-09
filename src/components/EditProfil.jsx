@@ -1,5 +1,6 @@
-    import React, { useState, useEffect, useRef } from "react";
-import { ChevronUp, ChevronDown, X, Trash2 } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { ChevronUp, ChevronDown, X } from "lucide-react";
+import { FiCamera } from "react-icons/fi";
 
 const InputField = ({ label, placeholder, value, onChange }) => (
     <div className="w-full flex flex-col gap-2.5">
@@ -20,9 +21,20 @@ const EditProfil = ({ closeModal, onSave, existingData }) => {
     const [namaLengkap, setNamaLengkap] = useState(data.namaLengkap || "");
     const [bio, setBio] = useState(data.bio || "");
     const [preferensiWisata, setPreferensiWisata] = useState(() => Array.isArray(data.preferensiWisata) ? data.preferensiWisata : []);
+    const [fotoProfil, setFotoProfil] = useState(data.fotoProfil || "/profile.svg");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [validationError, setValidationError] = useState("");
     const dropdownRef = useRef(null);
+
+    useEffect(() => {
+    const savedData = JSON.parse(localStorage.getItem("userProfile"));
+    if (savedData) {
+        setNamaLengkap(savedData.namaLengkap || "");
+        setBio(savedData.bio || "");
+        setPreferensiWisata(savedData.preferensiWisata || []);
+        setFotoProfil(savedData.fotoProfil || "/profile.svg");
+    }
+}, []);
 
     const preferensi = [
         "Pantai", "Alam", "Snorkeling", "Paket Wisata", "Event", "Sunrise", "Watching Dolphin", "Kuliner", "Budaya"
@@ -46,25 +58,41 @@ const EditProfil = ({ closeModal, onSave, existingData }) => {
         );
     };
 
-    const handleSave = () => {
-        setValidationError("");
-        const trimmedNamaLengkap = namaLengkap.trim();
+    const handleChangeFoto = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFotoProfil(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
+    const handleSave = () => {
+        const trimmedNamaLengkap = namaLengkap.trim();
+    
         if (!trimmedNamaLengkap) {
             setValidationError("Nama lengkap wajib diisi untuk menyimpan profil.");
             return;
         }
-
-        const newData = { namaLengkap: trimmedNamaLengkap, bio, preferensiWisata };
+    
+        const updatedData = { 
+            namaLengkap: trimmedNamaLengkap,
+            bio,
+            preferensiWisata,
+            fotoProfil
+        };
+    
+        localStorage.setItem("userProfile", JSON.stringify(updatedData));
+        window.dispatchEvent(new Event("storage"));
+    
         if (typeof onSave === 'function') {
-            onSave(newData); 
+            onSave(updatedData);
         }
-
-        if (typeof closeModal === 'function') {
-            closeModal();
-        }
+        closeModal();
     };
-
+    
     const Dropdown = ({ label, options }) => (
         <div ref={dropdownRef} className="w-full flex flex-col gap-2.5 relative z-30"> 
             <label className="text-zinc-800 text-base font-semibold">{label}</label>
@@ -118,7 +146,6 @@ const EditProfil = ({ closeModal, onSave, existingData }) => {
         </div>
     );
 
-
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800/75 z-50 p-4">
             <div className="w-full max-w-4xl bg-white rounded-[30px] shadow-2xl p-6 md:p-12 relative overflow-y-auto max-h-[90vh]">
@@ -137,11 +164,17 @@ const EditProfil = ({ closeModal, onSave, existingData }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                     {/* Foto Profil */}
                     <div className="flex flex-col items-center md:items-start space-y-4">
+                        <label className=" relative cursor-pointer">
                         <img
                             className="w-56 h-56 rounded-full object-cover shadow-lg bg-pink-300"
-                            src="profile.svg"
+                            src={fotoProfil}
                             alt="Foto Profil"
                         />
+                        <div className="absolute bottom-4 right-4 bg-blue-700 text-white p-2 rounded-full shadow-md hover:bg-blue-800 transition duration-200">
+                            <FiCamera className="w-5 h-5" />
+                        </div>
+                        <input type="file" accept="image/*" className="hidden" onChange={handleChangeFoto} />
+                        </label>
                     </div>
 
                     {/* Form Input */}

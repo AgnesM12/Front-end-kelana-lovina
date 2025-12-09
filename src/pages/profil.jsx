@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import EditProfil from '../components/EditProfil';
@@ -23,10 +23,13 @@ function Profil() {
         </button>
     );
 
+    const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
+
     const [dataProfil, setDataProfil] = useState({
-        namaLengkap: user?.name || user?.email?.split('@')[0] || "Pengguna Baru",
-        bio: "Traveling buatku bukan sekadar liburan, tapi cara ngumpulin cerita & kenangan baru",
-        preferensiWisata: ["Pantai", "Alam", "Snorkeling", "Paket Wisata"],
+        namaLengkap: savedProfile?.namaLengkap || user?.name || user?.email?.split('@')[0] || "Pengguna Baru",
+        bio: savedProfile?.bio || "Traveling buatku bukan sekadar liburan, tapi cara ngumpulin cerita baru",
+        preferensiWisata: savedProfile?.preferensiWisata || ["Pantai", "Alam", "Snorkeling", "Paket Wisata"],
+        fotoProfil: savedProfile?.fotoProfil || null,
     });
 
     const [tampilEdit, setTampilEdit] = useState(false);
@@ -45,6 +48,21 @@ function Profil() {
         setTampilEdit(false);
     };
 
+    
+    useEffect(() => {
+        const handleStorageUpdate = () => {
+            const updated = JSON.parse(localStorage.getItem("userProfile"));
+            if (updated) setDataProfil(updated);
+        };
+    
+        window.addEventListener("storage", handleStorageUpdate);
+    
+        return () => {
+            window.removeEventListener("storage", handleStorageUpdate);
+        };
+    }, []);
+    
+
     return (
         <div className="min-h-screen bg-white py-10 px-4 flex flex-col items-center gap-10">
         <div className="w-full max-w-6xl p-8 bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] mt-6">
@@ -52,7 +70,7 @@ function Profil() {
             {/* Foto Profil */}
             <img
                 className="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover flex-shrink-0"
-                src="/profile.svg"
+                src={dataProfil.fotoProfil || "/profile.svg"}
                 alt="Profil Clara Anindya"
             />
 
@@ -161,8 +179,3 @@ function Profil() {
 }
 
 export default Profil;
-
-
-
-
-

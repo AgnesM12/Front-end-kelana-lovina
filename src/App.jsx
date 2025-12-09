@@ -33,6 +33,7 @@ import MenuPembayaran from "./pages/menuPembayaran.jsx";
 import Tiket from "./pages/tiket.jsx";
 import DetailTiketSaya from "./pages/detailTiketSaya.jsx";
 
+
 import "./index.css";
 import TambahUlasan from "./components/TambahUlasan.jsx";
 import KodeBayarPDF from "./components/kodeBayar.jsx";
@@ -106,11 +107,9 @@ function App() {
         <Route path="/TambahUlasan" element={<TambahUlasan />} />
         <Route path="/kodeBayarPDF" element={<KodeBayarPDF />} />
         <Route path="/unduhRencana" element={<RencanaPDF/>} />
-
-
       </Route>  
     </Routes>
   );
 }
 
-export default App;
+export default App
