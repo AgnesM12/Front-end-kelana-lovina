@@ -12,22 +12,11 @@ function ReviewRating() {
   const [reviews, setReviews] = useState([]);
   const [filter, setFilter] = useState({});
 
-  // Ambil review pemilik akun dari localStorage
   useEffect(() => {
-    const currentUserId = JSON.parse(localStorage.getItem("currentUser"))?.id;
     const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-    const userReviews = savedReviews
-      .filter((r) => r.userId === currentUserId)
-      .map((review) => ({
-        ...review,
-        user: review.user || "Pengguna Anonim",
-        date: review.tanggal || "Tanggal tidak diketahui",
-        profileImage: review.profileImage || "/default-profile.png",
-      }));
-    setReviews(userReviews);
+    setReviews(savedReviews); 
   }, []);
 
-  // Ambil tiket aktif
   useEffect(() => {
     const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];
 
@@ -39,13 +28,14 @@ function ReviewRating() {
       )
       .map((t, idx) => ({
         id: t.id + "_" + t.tanggalBerangkat + "_" + idx,
+        paketId: t.paket.id,
         imageSrc: t.paket.imageSrc || "/default.png",
         title: t.paket.title || "Paket tidak diketahui",
         desk: t.paket.tagLine || "Tidak ada tagline paket",
         kategori: t.paket.kategori,
-        tanggalBerangkat: t.tanggalBerangkat,
-        user: t.user?.name || "Pengguna Anonim",
-        profileImage: t.user?.photo || "/default-profile.png",
+        tanggalBerangkat: t.data.tanggalBerangkat,
+        user: t.user?.username || "Pengguna Anonim",
+        fotoProfil: t.user?.photo || "/default-profile.png",
       }));
     setTiketList(aktif);
   }, []);
@@ -75,13 +65,13 @@ function ReviewRating() {
 
   // Filter dan sortir review pemilik akun
   const filtered = reviews
-    .filter((r) => r.slug === slug)
+    // .filter((r) => r.slug === slug)
     .filter((r) => {
       return (
         (!filter.rating || r.rating === Number(filter.rating)) &&
         (!filter.kategori || r.kategori === filter.kategori) &&
         (!filter.search ||
-          r.user?.toLowerCase().includes(filter.search.toLowerCase()) ||
+          r.username?.toLowerCase().includes(filter.search.toLowerCase()) ||
           r.tripTitle?.toLowerCase().includes(filter.search.toLowerCase()))
       );
     })
@@ -141,36 +131,45 @@ function ReviewRating() {
 
 export default ReviewRating;
 
-// Komponen kartu ulasan untuk tiket yang belum di-review
+const getLocalDateOnly = () => {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+};
+
+const parseTanggalBerangkat = (input) => {
+  if (!input) return null;
+  const tanggalOnly = input.split(" ")[0];
+  const [year, month, day] = tanggalOnly.split("-").map(Number);
+
+  if (!year || !month || !day) return null;
+  return new Date(year, month - 1, day);
+};
+
 const UlasanCard = ({ aktivitas }) => {
   const navigate = useNavigate();
 
-  const parseBookingDate = (str) => {
-    if (!str) return new Date(0);
-    const [year, month, day] = str.split("-");
-    const d = new Date(Number(year), Number(month) - 1, Number(day));
-    d.setHours(0, 0, 0, 0);
-    return d;
-  };
+  const today = getLocalDateOnly();
+  const bookingDate = parseTanggalBerangkat(aktivitas.tanggalBerangkat);
 
-  const bookingDate = parseBookingDate(aktivitas.tanggalBerangkat);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const isBookingTodayOrPast = today.getTime() >= bookingDate.getTime();
+  const canReview =
+    bookingDate !== null && today.getTime() >= bookingDate.getTime();
 
   const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+
   const hasReviews = savedReviews.some(
     (r) =>
-      r.tripId === aktivitas.id && r.tanggalBerangkat === aktivitas.tanggalBerangkat
+      r.paketId === aktivitas.paketId &&
+      r.tanggalBerangkat === aktivitas.tanggalBerangkat
   );
 
-  const disabled = !isBookingTodayOrPast || hasReviews;
+  const disabled = !canReview || hasReviews;
 
   const buttonText = hasReviews
-    ? "Cerita telah diberikan"
-    : isBookingTodayOrPast
-    ? "Tambahkan cerita anda"
-    : "Belum bisa review";
+    ? "Ulasan telah ditambahkan"
+    : !canReview
+    ? "Belum Dapat Direview"
+    : "Tambahkan Ulasan Anda";
+
 
   return (
     <div className="w-96 p-6 bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] flex flex-col items-center gap-6">
@@ -190,8 +189,7 @@ const UlasanCard = ({ aktivitas }) => {
         <button
           disabled={disabled}
           onClick={() =>
-            !disabled && navigate("/TambahUlasan", { state: { trip: aktivitas } })
-          }
+            !disabled && navigate("/TambahUlasan", { state: { paketId: aktivitas.paketId, title: aktivitas.title, imageSrc: aktivitas.imageSrc, kategori: aktivitas.kategori, tanggalBerangkat: aktivitas.tanggalBerangkat,} })}
           className={`w-80 text-white text-xl font-bold py-2 px-6 rounded-lg transition-colors ${
             disabled
               ? "bg-gray-400 cursor-not-allowed"

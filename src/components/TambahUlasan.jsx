@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { FaStar, FaRegStar, FaRegImage } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
-import {useSelector} from 'react-redux';
-
+import { useSelector } from "react-redux";
 
 const TambahUlasan = () => {
   const navigate = useNavigate();
   const { state } = useLocation(); 
+  const {paketId, title, imageSrc, kategori, tanggalBerangkat} = state || {};
   const trip = state?.trip;
 
   const [rating, setRating] = useState(0);
@@ -15,9 +15,13 @@ const TambahUlasan = () => {
   const [previewImages, setPreviewImages] = useState([]);
   const maxKarakter = 350;
 
-  const user = useSelector((state) => state.auth.user);
-  const username = user?.name || user?.email?.split('@')[0] || localStorage.getItem("username") || "Pengguna Anonim";
-  const profileImage = user?.photo || localStorage.getItem("profileImage") || "/default-profile.png";
+  const user = useSelector((state) => state.auth?.user);
+  const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
+  const profile = savedProfile; 
+
+  const username =profile?.namaLengkap || user?.name || user?.email?.split("@")[0] || "Pengguna";
+
+  const profileImage = user?.fotoProfil || savedProfile?.fotoProfil || "/profile.svg";
 
   const tanggalSekarang = new Date();
   const bulanList = [
@@ -42,21 +46,21 @@ const TambahUlasan = () => {
 
   const handleFileChange = async (e) => {
     const files = Array.from(e.target.files);
-  
+
     const readFileAsBase64 = (file) =>
       new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result);
         reader.readAsDataURL(file);
       });
-  
+
     const base64Images = await Promise.all(
       files.map(async (file) => await readFileAsBase64(file))
     );
 
     setPreviewImages((prev) => [...prev, ...base64Images]);
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -69,29 +73,50 @@ const TambahUlasan = () => {
       return;
     }
 
+    // const ulasanData = {
+    //   id : Date.now(),
+    //   paketId: paketId,
+    //   tanggalBerangkat:tanggalBerangkat, 
+    //   username: username, 
+    //   profileImage,  
+    //   rating,
+    //   text: ulasan,
+    //   images: previewImages,
+    //   tripTitle: title || "Trip yang diulas",
+    //   imageSrc: imageSrc || "/default.png",
+    //   kategori: kategori,
+    //   tanggal: new Date().toLocaleDateString("id-ID", {
+    //     day: "numeric",
+    //     month: "long",
+    //     year: "numeric",
+    //   }),
+    //   date: tanggalFormat, 
+    // };
+
     const ulasanData = {
+      id: Date.now(),
+      paketId: paketId,
+      tanggalBerangkat,
+      username,
+      profileImage,
       rating,
       text: ulasan,
       images: previewImages,
-      tanggal: tanggalFormat,
-      username: username,
-      profileImage: profileImage,
-      tripTitle: trip?.title || "Trip yang diulas",
-      imageSrc: trip?.imageSrc || "/default.png",
-      kategori: trip?.kategori, 
+      title,
+      imageSrc,
+      kategori,
+      date: tanggalFormat,
     };
 
     const existingReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-    localStorage.setItem("reviews", JSON.stringify([...existingReviews, ulasanData]));
-
+    existingReviews.push(ulasanData);
+    localStorage.setItem("reviews", JSON.stringify(existingReviews));
+    
     const existingAlbum = JSON.parse(localStorage.getItem("album")) || [];
     const newAlbumItems = previewImages.map((img) => ({
       imageSrc: img,
       description: `Foto dari ulasan tentang ${trip?.title || "trip saya"}`,
     }));
-    console.log("Preview Images:", previewImages);
-    console.log("Existing Album:", existingAlbum);
-    console.log("New Album Items:", newAlbumItems);
     localStorage.setItem("album", JSON.stringify([...existingAlbum, ...newAlbumItems]));
 
     alert("Ulasan berhasil dikirim!");
@@ -106,7 +131,7 @@ const TambahUlasan = () => {
   return (
     <div className="w-[1046px] min-h-[890px] relative bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] overflow-hidden p-10 mx-auto mt-8 mb-8">
       <h2 className="text-center text-2xl font-semibold text-black mb-8">
-        Bagikan Pengalaman kamu di {trip?.title || "Lovina"} Kepada Mereka
+        Bagikan Pengalaman kamu di {title || "Lovina"} Kepada Mereka
       </h2>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-8">

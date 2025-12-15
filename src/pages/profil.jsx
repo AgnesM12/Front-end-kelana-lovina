@@ -47,16 +47,23 @@ function Profil() {
         }));
         setTampilEdit(false);
     };
-
+    
     
     useEffect(() => {
         const handleStorageUpdate = () => {
             const updated = JSON.parse(localStorage.getItem("userProfile"));
-            if (updated) setDataProfil(updated);
+            if (updated) {
+                setDataProfil({
+                    namaLengkap: updated.namaLengkap || "Pengguna Baru",
+                    bio: updated.bio || "Traveling buatku bukan sekadar liburan, tapi cara ngumpulin cerita baru",
+                    preferensiWisata: updated.preferensiWisata || ["Pantai", "Alam", "Snorkeling", "Paket Wisata"],
+                    fotoProfil: updated.fotoProfil || "/profile.svg",
+                });
+            }
         };
-    
+
         window.addEventListener("storage", handleStorageUpdate);
-    
+
         return () => {
             window.removeEventListener("storage", handleStorageUpdate);
         };

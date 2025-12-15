@@ -13,6 +13,15 @@ const TiketSaya = ({ onClose }) => {
         setTiketList(aktif)
     }, []);
     
+    const formatTanggal = (iso) => {
+        if (!iso) return "-";
+        const d = new Date(iso);
+        return d.toLocaleDateString("id-ID", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        });
+    };    
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800/75 z-50 p-2 sm:p-4 overflow-y-auto">
@@ -49,11 +58,11 @@ const TiketSaya = ({ onClose }) => {
                     </h3>
                     <p className="text-gray-500 text-sm sm:text-base mt-1">{tiket.paket.deskripsi}</p>
                     <p className="text-zinc-800 text-sm sm:text-lg font-medium mt-3">
-                        {tiket.data.tanggalBerangkat} {tiket.paket.departurTime}
+                        {formatTanggal(tiket.data.tanggalBerangkat)} 
                     </p>
                     </div>
                 </div>
-                <ChevronRight onClick={() => navigate ("/detailTiketSaya", {state: {paket: tiket.paket, data: tiket.data} })} style={{cursor: 'pointer'}} className="text-black w-7 h-7" />
+                <ChevronRight onClick={() => navigate ("/detailTiketSaya", {state: {paket: tiket.paket, data: tiket.data, paketId: tiket.paket.id} })} style={{cursor: 'pointer'}} className="text-black w-7 h-7" />
                 </div>
             ))}
         </div>

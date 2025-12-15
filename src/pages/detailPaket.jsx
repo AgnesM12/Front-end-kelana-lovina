@@ -1,31 +1,38 @@
-        import React from "react";
-        import { useParams, useNavigate } from "react-router-dom";
-        import { HiStar } from "react-icons/hi";
-        import paketData from "../components/DataDetailPaket.jsx";
+import React from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { HiStar } from "react-icons/hi";
+import paketData from "../components/DataDetailPaket.jsx";
 
-            const DetailPaket = ({ isLoggedIn }) => { 
-            const { slug } = useParams();
-            const navigate = useNavigate();
-            const paket = paketData.find((p) => p.slug === slug);
+    const DetailPaket = ({ isLoggedIn }) => { 
+    const { slug } = useParams();
+    const navigate = useNavigate();
 
-            console.log("Slug URL:", slug); 
-            console.log("Data found:", paket); 
-            console.log("All slugs:", paketData.map(p => p.slug));
+    const paket = paketData.find((p) => p.slug === slug);
+    console.log("Slug URL:", slug); 
+    console.log("Data found:", paket); 
+    console.log("All slugs:", paketData.map(p => p.slug));
 
-            if (!paket) {
-                return <p className="text-center mt-40 text-gray-500">Paket tidak ditemukan.</p>;
+    const allReview = JSON.parse(localStorage.getItem("reviews")) || [];
+    const paketReviews = allReview.filter(r => r.paketId === paket.id);
+      
+    const totalReviews = paketReviews.length;
+    const avgRating = totalReviews === 0 
+        ? 0 
+        : (paketReviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1);
+
+    if (!paket) {
+        return <p className="text-center mt-40 text-gray-500">Paket tidak ditemukan.</p>;}
+
+        const handlePesanClick = () => {
+            if (isLoggedIn) {
+                navigate(`/paket/${slug}/menuPembayaran`, { state: paket });
+            } else {
+                 navigate('/login');
             }
+        };
 
-            const handlePesanClick = () => {
-                if (isLoggedIn) {
-                    navigate(`/paket/${slug}/menuPembayaran`, { state: paket });
-                } else {
-                    navigate('/login');
-                }
-            };
-
-            return (
-                <div className="max-w-full mx-auto bg-white flex flex-col gap-8 p-4 sm:p-6 md:p-8 lg:max-w-[1200px] lg:my-16 lg:px-9 lg:py-14 lg:rounded-[30px] lg:shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)]">
+        return (
+            <div className="max-w-full mx-auto bg-white flex flex-col gap-8 p-4 sm:p-6 md:p-8 lg:max-w-[1200px] lg:my-16 lg:px-9 lg:py-14 lg:rounded-[30px] lg:shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)]">
                 {/* Gambar latar */}
                 <img
                     src={paket.imageSrc}
@@ -39,10 +46,10 @@
                     <div className="flex flex-wrap items-center gap-3 mt-2 md:mt-0">
                     <p className="text-lg sm:text-2xl md:text-2xl font-bold text-zinc-700">{paket.price}/Person</p>
                     <div className="flex items-center text-sm sm:text-lg md:text-xl font-semibold text-zinc-500">
-                        <HiStar className="mr-1 h-5 w-5 sm:h-6 sm:w-6 text-yellow-400" /> {paket.rating}
+                        <HiStar className="mr-1 h-5 w-5 sm:h-6 sm:w-6 text-yellow-400" /> {avgRating}
                         {/* <span className="ml-2">({paket.reviews})</span> */}
                         <span className="ml-2 cursor-pointer underline" 
-                            onClick={() => navigate(`/paket/${slug}/ulasan`)}> ({paket.reviews} ulasan)
+                            onClick={() => navigate(`/paket/${slug}/ulasan`)}> (ulasan)
                         </span>
                     </div>
                     </div>
@@ -88,4 +95,4 @@
             );
         };
 
-        export default DetailPaket;
+    export default DetailPaket;

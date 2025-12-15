@@ -5,6 +5,17 @@ import { useEffect } from "react";
 
 const TiketPdfContent = ({ paket, data }) => {
 
+    const toISODate = (iso) => iso.split(" ")[0]; // ambil YYYY-MM-DD
+
+    tiket.push({
+    paket,
+    data: {
+        ...data,
+        tanggalBerangkat: toISODate(data.tanggalBerangkat),
+    },
+    status: "berhasil",
+    });
+
     // Fungsi untuk menghitung total harga
     const formatTotalHarga = () => {
         const hargaPerOrang = parseInt(paket?.price?.replace(/\D/g, "") || '0');
@@ -127,7 +138,6 @@ const TiketPdfContent = ({ paket, data }) => {
             borderRadius: '8px',
         }
 
-        // localStrorage untuk tiketSaya
         useEffect(() => {
             if (paket && data) {
                 const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];

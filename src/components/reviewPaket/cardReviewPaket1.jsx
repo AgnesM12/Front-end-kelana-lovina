@@ -19,7 +19,7 @@
             likes: 8,
             images: ["/reviewA-1.png", "/reviewA-2.png", "/reviewA-3.png"],
         },
-        {
+        { 
             avatar: "/paket1(3).jpg",
             username: 'Ajii',
             rating: 5,

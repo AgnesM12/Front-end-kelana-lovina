@@ -1,5 +1,5 @@
 const paketData = [
-    {   id: 1,
+    {   paketId: 1,
         title: "Rafatour dolphin & snorkeling",
         slug: "rafatour-dolphin-&-snorkeling",
         imageSrc: "/paket-rafatour-dolphine-snorkling.png",
@@ -21,7 +21,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    {   id: 2,
+    {   paketId: 2,
         title: "Seadolphine Lovina",
         slug: "seadolphine-lovina",
         imageSrc: "/paket-seadolphine-lovina.png",
@@ -44,7 +44,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    {   id: 3,
+    {   paketId: 3,
         title: "Watching Dolphin Only",
         slug: "watching-dolphin-only",
         imageSrc: "/paket-watching-dolphine-only.png",
@@ -60,11 +60,11 @@ const paketData = [
         ],
         schedule: "Setiap hari, pukul 16.30 WITA",
         location: "Pantai Lovina, Bali",
-        tagLine: "Durasi 2 jam - Termasuk pelampung & guide",
+        tagLine: "Durasi 2 jam - Termasuk pelampung & gupaketIde",
         departurTime: "16.30 WITA",
     },
     
-    {   id: 4,
+    {   paketId: 4,
         title: "Snorkeling & Dolphin Tur",
         slug: "snorkeling-&-dolphin-tur",
         imageSrc: "/paket-snorkling-tur.png",
@@ -86,7 +86,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    {   id: 5,
+    {   paketId: 5,
         title: "Dolphin Watching Tur",
         slug: "dolphin-watching-tur",
         imageSrc: "/dolphinWatchingTour.jpg",
@@ -107,7 +107,7 @@ const paketData = [
         departurTime: "16.30 WITA",
     },
     
-    {   id: 6,
+    {   paketId: 6,
         title: "Swim with Dolphin",
         slug: "swim-with-dolphin",
         imageSrc: "/swimWithDolphin.jpg",
@@ -128,7 +128,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    {   id: 7,
+    {   paketId: 7,
         title: "Private Tour Guide",
         slug: "private-tour-guide",
         imageSrc: "/privateTourGuide.png",
@@ -150,7 +150,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    {   id: 8,
+    {   paketId: 8,
         title: "Snorkeling Lovina",
         slug: "snorkeling-lovina",
         imageSrc: "/paket-snorkeling-lovina.png",
@@ -171,7 +171,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    {   id: 9,
+    {   paketId: 9,
         title: "Bali Surga Private Tour Lovina With Dolphin Tour",
         shortTitle : "Bali Surga Private Tour Dolphin",
         slug: "bali-surga-private-tour-lovina-with-dolphin-tour",
@@ -194,7 +194,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    {   id: 10,
+    {   paketpaketId: 10,
         title: "Sharing Tour Lovina Ocean Tour Sunrise Dolphin Tour",
         shortTitle : "Sharing Tour Lovina Ocean Tour",
         slug: "sharing-tour-lovina-ocean-tour-sunrise-dolphin-tour",
@@ -217,7 +217,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    {   id: 11,
+    {   paketpaketId: 11,
         title: "Private Tour Lovina Ocean Tour Sunrise Dolphin Tour",
         shortTitle : "Private Tour Lovina Ocean Tour",
         slug: "private-tour-lovina-ocean-tour-sunrise-dolphin-tour",
@@ -240,7 +240,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    // {   id: 12,
+    // {   paketpaketId: 12,
     //     title: "Sharing Tour Paket Dolphin Watching Swim & Snorkling",
     //     slug: "sharing-tour-paket-dolphin-watching-swim-&-snorkling",
     //     imageSrc: "/paket-dolphin-watching-swim-snorkling.webp",
@@ -262,7 +262,7 @@ const paketData = [
     //     departurTime: "08.30 WITA",
     // },
     
-    {   id: 13,
+    {   paketId: 13,
         title: "Private Tour Paket Dolphin Watching Swim & Snorkling",
         shortTitle : "Private Tour Paket Dolphin Watching",
         slug: "private-tour-paket-dolphin-watching-swim-&-snorkling",
@@ -285,7 +285,7 @@ const paketData = [
         departurTime: "08.30 WITA",
     },
 
-    {   id: 14,
+    {   paketId: 14,
         title: "Paon Happy Sharing Boat Watching Dolphin Only",
         shortTitle : "Paon Happy Sharing Boat Dolphin",
         slug: "paon-happy-sharing-boat-watching-dolphin-only",
@@ -307,7 +307,7 @@ const paketData = [
         departurTime: "08.30 WITA",
     },
 
-    { id: 15, 
+    { paketId: 15, 
       title: "Paon Happy Sharing Boat Watching Dolphin (Breakfast)",
       shortTitle : "Paon Happy Sharing Boat Breakfast",
       slug: "paon-happy-sharing-boat-watching-dolphin-(breakfast)", 
@@ -332,7 +332,7 @@ const paketData = [
     },
       
     
-    { id: 16, 
+    { paketId: 16, 
       title: "Paon Happy Sharing Boat Watching Dolphin (Swimming)",
       shortTitle : "Paon Happy Sharing Boat Swimming",
       slug: "paon-happy-sharing-boat-watching-dolphin-(swimming)", 
@@ -355,7 +355,7 @@ const paketData = [
       departurTime: "08.30 WITA", 
     },
 
-    { id: 17, 
+    { paketId: 17, 
       title: "Paon Happy Private Boat Watching Dolphin (Snorkling)",
       shortTitle : "Paon Happy Private Boat Snorkling",
       slug: "paon-happy-private-boat-watching-dolphin-(snorkling)", 
@@ -379,7 +379,7 @@ const paketData = [
       departurTime: "08.30 WITA" , 
     },
 
-    { id: 18, 
+    { paketId: 18, 
       title: "Paon Happy Private Boat Watching Dolphin",
       slug: "paon-happy-private-boat-watching-dolphin", 
       imageSrc: "/paket-paon-happy-sharing-boat-watching-dolphin-only.webp",
@@ -403,7 +403,7 @@ const paketData = [
     },
 
 
-    { id: 19, 
+    { paketId: 19, 
       title:"Paon Happy Private Boat Watching",
       slug: "paon-happy-private-boat-watching", 
       imageSrc: "/paon-happy-private-boat-2-person-only.webp", 
@@ -426,7 +426,7 @@ const paketData = [
       departurTime: "08.30 WITA", 
     },
     
-    { id: 20, 
+    { paketId: 20, 
       title: "Saraswati Tour Sunrise Dolphine", 
       slug: "saraswati-tour-sunrise-dolphine", 
       imageSrc: "/paket-sarawasti-sunrise-watching.jpeg",
@@ -448,7 +448,7 @@ const paketData = [
       departurTime: "08.30 WITA", 
     },
 
-    { id: 21, 
+    { paketId: 21, 
       title: "Saraswati Tour Lovina Snorkling", 
       slug: "saraswati-tour-lovina-snorkling", 
       imageSrc: "/paket-saraswati-lovina-snorkling.jpeg", 
