@@ -31,7 +31,7 @@ const ReviewCard = ({ review }) => {
           {review.username || "Pengguna Anonim"}
           </h3>
           <p className="font-medium text-black">
-            menambahkan ulasan pada {review.tanggal || "Tanggal tidak diketahui"}  
+            menambahkan ulasan pada {review.tanggalBerangkat || "Tanggal tidak diketahui"}  
           </p>
         </div>
       </div>
@@ -41,7 +41,7 @@ const ReviewCard = ({ review }) => {
           {"★".repeat(review.rating || 0)}
         </div>
         <h4 className="font-semibold text-gray-800 text-base sm:text-lg md:text-xl">
-          {review.tripTitle || "Trip"}
+          {review.title || "Trip"}
         </h4>
       </div>
 

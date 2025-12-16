@@ -29,6 +29,7 @@ function ReviewRating() {
       .map((t, idx) => ({
         id: t.id + "_" + t.tanggalBerangkat + "_" + idx,
         paketId: t.paket.id,
+        aktivitasId: t.id + "_" + t.tanggalBerangkat + "_" + idx, 
         imageSrc: t.paket.imageSrc || "/default.png",
         title: t.paket.title || "Paket tidak diketahui",
         desk: t.paket.tagLine || "Tidak ada tagline paket",
@@ -149,6 +150,7 @@ const UlasanCard = ({ aktivitas }) => {
   const navigate = useNavigate();
 
   const today = getLocalDateOnly();
+  
   const bookingDate = parseTanggalBerangkat(aktivitas.tanggalBerangkat);
 
   const canReview =
@@ -158,7 +160,7 @@ const UlasanCard = ({ aktivitas }) => {
 
   const hasReviews = savedReviews.some(
     (r) =>
-      r.paketId === aktivitas.paketId &&
+      r.aktivitasId === aktivitas.aktivitasId &&
       r.tanggalBerangkat === aktivitas.tanggalBerangkat
   );
 
@@ -189,7 +191,7 @@ const UlasanCard = ({ aktivitas }) => {
         <button
           disabled={disabled}
           onClick={() =>
-            !disabled && navigate("/TambahUlasan", { state: { paketId: aktivitas.paketId, title: aktivitas.title, imageSrc: aktivitas.imageSrc, kategori: aktivitas.kategori, tanggalBerangkat: aktivitas.tanggalBerangkat,} })}
+            !disabled && navigate("/TambahUlasan", { state: { paketId: aktivitas.paketId, title: aktivitas.title, imageSrc: aktivitas.imageSrc, kategori: aktivitas.kategori, tanggalBerangkat: aktivitas.tanggalBerangkat, aktivitasId: aktivitas.aktivitasId} })}
           className={`w-80 text-white text-xl font-bold py-2 px-6 rounded-lg transition-colors ${
             disabled
               ? "bg-gray-400 cursor-not-allowed"

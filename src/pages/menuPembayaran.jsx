@@ -52,7 +52,7 @@ function MenuPembayaran() {
             nomorTelpon: data.nomorTelpon,
             jumlahOrang: Number(data.jumlahOrang),
             tanggalBerangkat: data.tanggalBerangkat,
-            paketId: paket.id,
+            paketId: paket.paketId,
             paketNama: paket.title || paket.titleT || paket.shortTitle,
             totalPayment: total,
             status: "success"
@@ -285,7 +285,7 @@ function MenuPembayaran() {
                             <div className="sm:col-span-12">
                                 <label htmlFor="email" className="block text-lg font-bold text-gray-900">Email</label>
                                 <div className="mt-2">
-                                    <input id="email" type="email" {...register("email", { required: "Email wajib diisi", pattern:{value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/, message: "Format email telepon tidak valid"} })} placeholder="Masukan nomor aktif Anda" className="block w-full  rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
+                                    <input id="email" type="email" {...register("email", { required: "Email wajib diisi", pattern:{value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/, message: "Format email tidak valid"} })} placeholder="Masukan nomor aktif Anda" className="block w-full  rounded-lg border border-blue-300 px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"/>
                                     <p className="mt-2 pl-3 text-sm text-red-500 min-h-[24px]">{errors.email?.message}</p>
                                 </div>
                             </div>

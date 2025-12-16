@@ -96,6 +96,7 @@ const TambahUlasan = () => {
     const ulasanData = {
       id: Date.now(),
       paketId: paketId,
+      aktivitasId: state.aktivitasId,
       tanggalBerangkat,
       username,
       profileImage,

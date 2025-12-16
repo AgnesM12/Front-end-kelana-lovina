@@ -21,4 +21,3 @@ export const createPayment = (paymentData, callback) => {
 
   db.query(query, values, callback);
 };
-
