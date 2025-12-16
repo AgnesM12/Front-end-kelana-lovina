@@ -22,7 +22,7 @@ const ReviewCard = ({ review }) => {
     <div className="w-full max-w-[996px] bg-white rounded-[41.94px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-6 sm:p-8 md:p-10 mx-auto mb-10 flex flex-col justify-between gap-4">
       <div className="flex flex-wrap items-center gap-3 sm:gap-4">
         <img
-          src={review.profileImage || "/profile.svg"}  
+          src={review.avatar || "/profile.svg"}  
           alt={review.username || "Pengguna Anonim"}
           className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
         />

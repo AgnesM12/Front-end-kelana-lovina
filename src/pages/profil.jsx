@@ -7,6 +7,20 @@ import UbahKataSandi from '../components/UbahKataSandi';
 import Bantuan from '../components/Bantuan';
 import { logout } from '../redux/slice';
 
+const formatNameFromEmail = (email) => {
+    if (!email) return null;
+  
+    return email
+      .split("@")[0]
+      .replace(/[0-9]/g, "")
+      .split(/[._-]/)
+      .map(word =>
+        word.charAt(0).toUpperCase() + word.slice(1)
+      )
+      .join(" ");
+  };
+  
+
 function Profil() {
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
@@ -47,28 +61,25 @@ function Profil() {
         }));
         setTampilEdit(false);
     };
-    
+
     
     useEffect(() => {
         const handleStorageUpdate = () => {
             const updated = JSON.parse(localStorage.getItem("userProfile"));
-            if (updated) {
-                setDataProfil({
-                    namaLengkap: updated.namaLengkap || "Pengguna Baru",
-                    bio: updated.bio || "Traveling buatku bukan sekadar liburan, tapi cara ngumpulin cerita baru",
-                    preferensiWisata: updated.preferensiWisata || ["Pantai", "Alam", "Snorkeling", "Paket Wisata"],
-                    fotoProfil: updated.fotoProfil || "/profile.svg",
-                });
-            }
+            if (updated) setDataProfil(updated);
         };
-
+    
         window.addEventListener("storage", handleStorageUpdate);
-
+    
         return () => {
             window.removeEventListener("storage", handleStorageUpdate);
         };
     }, []);
     
+    useEffect(() => {
+        console.log("Redux user state:", user);
+        console.log("Saved profile from localStorage:", savedProfile);
+    }, []);
 
     return (
         <div className="min-h-screen bg-white py-10 px-4 flex flex-col items-center gap-10">

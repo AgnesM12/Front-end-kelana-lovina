@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { FaStar, FaRegStar, FaRegImage } from "react-icons/fa";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const TambahUlasan = () => {
   const navigate = useNavigate();
   const { state } = useLocation(); 
+  const { slug } = useParams();
   const {paketId, title, imageSrc, kategori, tanggalBerangkat} = state || {};
   const trip = state?.trip;
-
   const [rating, setRating] = useState(0);
   const [ulasan, setUlasan] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -74,7 +74,9 @@ const TambahUlasan = () => {
     }
     
     const ulasanData = {
+      paketId: Number(paketId), 
       id: Date.now(),
+      slug, 
       paketId: paketId,
       aktivitasId: state.aktivitasId,
       tanggalBerangkat,
@@ -92,7 +94,7 @@ const TambahUlasan = () => {
     const existingReviews = JSON.parse(localStorage.getItem("reviews")) || [];
     existingReviews.push(ulasanData);
     localStorage.setItem("reviews", JSON.stringify(existingReviews));
-    
+
     const existingAlbum = JSON.parse(localStorage.getItem("album")) || [];
     const newAlbumItems = previewImages.map((img) => ({
       imageSrc: img,
@@ -102,6 +104,7 @@ const TambahUlasan = () => {
 
     alert("Ulasan berhasil dikirim!");
     navigate("/review-rating", { state: { newReview: ulasanData } });
+    // navigate(`/paket/${slug}/ulasan`);
 
     setUlasan("");
     setRating(0);

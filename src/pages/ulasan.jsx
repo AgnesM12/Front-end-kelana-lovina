@@ -18,18 +18,20 @@ function Ulasan() {
 
     useEffect(() => {
         const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-        const normalizedReviews = savedReviews.map((review) => ({
-            username: review.username || "Pengguna",
-            profileImage: review.profileImage || "/profile.svg",
-            title: review.title || "",
-            rating: review.rating,
-            tanggalBerangkat: review.tanggalBerangkat, 
-            komentar: review.komentar,
-            images: review.images || [],
-            text: review.text || "",
-        }));
-        setUserReview(normalizedReviews);
-    }, []);
+        const filteredReviews = savedReviews
+            .filter(r => r.slug === slug) // filter sesuai paket
+            .map((review) => ({
+                username: review.username || "Pengguna",
+                profileImage: review.profileImage || "/profile.svg",
+                title: review.title || "",
+                rating: review.rating,
+                tanggalBerangkat: review.tanggalBerangkat, 
+                komentar: review.komentar,
+                images: review.images || [],
+                text: review.text || "",
+            }));
+        setUserReview(filteredReviews);
+    }, [slug]);
 
     const gabunganReview = [...staticReviews, ...userReview];
     const handleFilterChange = (value) => setFilter(value);

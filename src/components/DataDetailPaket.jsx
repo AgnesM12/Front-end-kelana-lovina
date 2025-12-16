@@ -194,7 +194,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    {   paketpaketId: 10,
+    {   paketId: 10,
         title: "Sharing Tour Lovina Ocean Tour Sunrise Dolphin Tour",
         shortTitle : "Sharing Tour Lovina Ocean Tour",
         slug: "sharing-tour-lovina-ocean-tour-sunrise-dolphin-tour",
@@ -217,7 +217,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    {   paketpaketId: 11,
+    {   paketId: 11,
         title: "Private Tour Lovina Ocean Tour Sunrise Dolphin Tour",
         shortTitle : "Private Tour Lovina Ocean Tour",
         slug: "private-tour-lovina-ocean-tour-sunrise-dolphin-tour",
@@ -240,7 +240,7 @@ const paketData = [
         departurTime: "05.30 WITA",
     },
     
-    // {   paketpaketId: 12,
+    // {   paketId: 12,
     //     title: "Sharing Tour Paket Dolphin Watching Swim & Snorkling",
     //     slug: "sharing-tour-paket-dolphin-watching-swim-&-snorkling",
     //     imageSrc: "/paket-dolphin-watching-swim-snorkling.webp",
@@ -472,4 +472,3 @@ const paketData = [
 ];
 
 export default paketData;
-    

@@ -27,27 +27,14 @@ const EditProfil = ({ closeModal, onSave, existingData }) => {
     const dropdownRef = useRef(null);
 
     useEffect(() => {
-        if (existingData) {
-            setNamaLengkap(existingData.namaLengkap || "Pengguna Baru");
-            setBio(existingData.bio || "Traveling buatku bukan sekadar liburan, tapi cara ngumpulin cerita baru");
-            setPreferensiWisata(existingData.preferensiWisata || []);
-            setFotoProfil(existingData.fotoProfil || "/profile.svg");
-        }
-    }, [existingData]);
-
-    useEffect(() => {
-        // Simpan data profil ke localStorage jika belum ada
-        const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
-        if (!savedProfile) {
-            const defaultProfile = {
-                namaLengkap: "Pengguna Baru",
-                bio: "Traveling buatku bukan sekadar liburan, tapi cara ngumpulin cerita baru",
-                preferensiWisata: ["Pantai", "Alam", "Snorkeling", "Paket Wisata"],
-                fotoProfil: "/profile.svg",
-            };
-            localStorage.setItem("userProfile", JSON.stringify(defaultProfile));
-        }
-    }, []);
+    const savedData = JSON.parse(localStorage.getItem("userProfile"));
+    if (savedData) {
+        setNamaLengkap(savedData.namaLengkap || "");
+        setBio(savedData.bio || "");
+        setPreferensiWisata(savedData.preferensiWisata || []);
+        setFotoProfil(savedData.fotoProfil || "/profile.svg");
+    }
+}, []);
 
     const preferensi = [
         "Pantai", "Alam", "Snorkeling", "Paket Wisata", "Event", "Sunrise", "Watching Dolphin", "Kuliner", "Budaya"
@@ -92,14 +79,13 @@ const EditProfil = ({ closeModal, onSave, existingData }) => {
     
         const updatedData = { 
             namaLengkap: trimmedNamaLengkap,
-            username: trimmedNamaLengkap,
             bio,
             preferensiWisata,
             fotoProfil
         };
     
         localStorage.setItem("userProfile", JSON.stringify(updatedData));
-        window.dispatchEvent(new Event("profile-updated"));
+        window.dispatchEvent(new Event("storage"));
     
         if (typeof onSave === 'function') {
             onSave(updatedData);

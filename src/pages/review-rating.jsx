@@ -3,6 +3,7 @@ import HeroSection from "../components/HeroSection";
 import Judul from "../components/Judul";
 import FilterUlasan from "../components/FilterUlasan";
 import ReviewCard from "../components/ReviewCard";
+import { reviewsMapping } from "../components/reviewPaket/reviewsMapping";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function ReviewRating() {
@@ -11,11 +12,14 @@ function ReviewRating() {
   const [tiketList, setTiketList] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [filter, setFilter] = useState({});
+  
 
+  const dummyReviews = reviewsMapping[slug] || [];
   useEffect(() => {
     const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
     setReviews(savedReviews); 
   }, []);
+
 
   useEffect(() => {
     const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];
@@ -29,6 +33,7 @@ function ReviewRating() {
       .map((t, idx) => ({
         id: t.id + "_" + t.tanggalBerangkat + "_" + idx,
         paketId: t.paket.id,
+        slug: t.paket.slug,
         aktivitasId: t.id + "_" + t.tanggalBerangkat + "_" + idx, 
         imageSrc: t.paket.imageSrc || "/default.png",
         title: t.paket.title || "Paket tidak diketahui",
@@ -66,7 +71,7 @@ function ReviewRating() {
 
   // Filter dan sortir review pemilik akun
   const filtered = reviews
-    // .filter((r) => r.slug === slug)
+    .filter((r) => r.slug === slug)
     .filter((r) => {
       return (
         (!filter.rating || r.rating === Number(filter.rating)) &&
@@ -153,9 +158,7 @@ const UlasanCard = ({ aktivitas }) => {
   
   const bookingDate = parseTanggalBerangkat(aktivitas.tanggalBerangkat);
 
-  const canReview =
-    bookingDate !== null && today.getTime() >= bookingDate.getTime();
-
+  const canReview =bookingDate !== null && today.getTime() >= bookingDate.getTime();
   const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
 
   const hasReviews = savedReviews.some(
@@ -191,7 +194,16 @@ const UlasanCard = ({ aktivitas }) => {
         <button
           disabled={disabled}
           onClick={() =>
-            !disabled && navigate("/TambahUlasan", { state: { paketId: aktivitas.paketId, title: aktivitas.title, imageSrc: aktivitas.imageSrc, kategori: aktivitas.kategori, tanggalBerangkat: aktivitas.tanggalBerangkat, aktivitasId: aktivitas.akt} })}
+            !disabled && navigate(`/tambah-ulasan/${aktivitas.slug}`, {
+              state: {
+                paketId: aktivitas.paketId,
+                title: aktivitas.title,
+                imageSrc: aktivitas.imageSrc,
+                kategori: aktivitas.kategori,
+                tanggalBerangkat: aktivitas.tanggalBerangkat,
+                aktivitasId: aktivitas.aktivitasId, 
+                slug: aktivitas.slug 
+              } })}
           className={`w-80 text-white text-xl font-bold py-2 px-6 rounded-lg transition-colors ${
             disabled
               ? "bg-gray-400 cursor-not-allowed"
