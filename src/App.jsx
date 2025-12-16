@@ -39,7 +39,6 @@ import TambahUlasan from "./components/TambahUlasan.jsx";
 import KodeBayarPDF from "./components/kodeBayar.jsx";
 import RencanaPDF from "./components/rencanaPDF.jsx";
 
-
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const location = window.location.pathname;

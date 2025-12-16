@@ -191,7 +191,7 @@ const UlasanCard = ({ aktivitas }) => {
         <button
           disabled={disabled}
           onClick={() =>
-            !disabled && navigate("/TambahUlasan", { state: { paketId: aktivitas.paketId, title: aktivitas.title, imageSrc: aktivitas.imageSrc, kategori: aktivitas.kategori, tanggalBerangkat: aktivitas.tanggalBerangkat, aktivitasId: aktivitas.aktivitasId} })}
+            !disabled && navigate("/TambahUlasan", { state: { paketId: aktivitas.paketId, title: aktivitas.title, imageSrc: aktivitas.imageSrc, kategori: aktivitas.kategori, tanggalBerangkat: aktivitas.tanggalBerangkat, aktivitasId: aktivitas.akt} })}
           className={`w-80 text-white text-xl font-bold py-2 px-6 rounded-lg transition-colors ${
             disabled
               ? "bg-gray-400 cursor-not-allowed"

@@ -72,27 +72,7 @@ const TambahUlasan = () => {
       alert("Silakan tulis ulasan Anda terlebih dahulu!");
       return;
     }
-
-    // const ulasanData = {
-    //   id : Date.now(),
-    //   paketId: paketId,
-    //   tanggalBerangkat:tanggalBerangkat, 
-    //   username: username, 
-    //   profileImage,  
-    //   rating,
-    //   text: ulasan,
-    //   images: previewImages,
-    //   tripTitle: title || "Trip yang diulas",
-    //   imageSrc: imageSrc || "/default.png",
-    //   kategori: kategori,
-    //   tanggal: new Date().toLocaleDateString("id-ID", {
-    //     day: "numeric",
-    //     month: "long",
-    //     year: "numeric",
-    //   }),
-    //   date: tanggalFormat, 
-    // };
-
+    
     const ulasanData = {
       id: Date.now(),
       paketId: paketId,
