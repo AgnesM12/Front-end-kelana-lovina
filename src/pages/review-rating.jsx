@@ -169,6 +169,7 @@ const UlasanCard = ({ aktivitas }) => {
   const hasReviews = savedReviews.some(
     (r) =>
       r.aktivitasId === aktivitas.aktivitasId &&
+      r.slug === aktivitas.slug &&
       r.tanggalBerangkat === aktivitas.tanggalBerangkat
   );
 
