@@ -77,7 +77,6 @@ const TambahUlasan = () => {
       paketId: Number(paketId), 
       id: Date.now(),
       slug, 
-      paketId: paketId,
       aktivitasId: state.aktivitasId,
       tanggalBerangkat,
       username,
@@ -104,7 +103,6 @@ const TambahUlasan = () => {
 
     alert("Ulasan berhasil dikirim!");
     navigate("/review-rating", { state: { newReview: ulasanData } });
-    // navigate(`/paket/${slug}/ulasan`);
 
     setUlasan("");
     setRating(0);

@@ -12,13 +12,17 @@ function ReviewRating() {
   const [tiketList, setTiketList] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [filter, setFilter] = useState({});
+  const isPaketPage = Boolean(slug);
   
 
   const dummyReviews = reviewsMapping[slug] || [];
   useEffect(() => {
     const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+    // if (state?.newReview){
+    //   savedReviews.push(state.newReview);
+    // }
     setReviews(savedReviews); 
-  }, []);
+  }, [state]);
 
 
   useEffect(() => {
@@ -34,7 +38,8 @@ function ReviewRating() {
         id: t.id + "_" + t.tanggalBerangkat + "_" + idx,
         paketId: t.paket.id,
         slug: t.paket.slug,
-        aktivitasId: t.id + "_" + t.tanggalBerangkat + "_" + idx, 
+        // aktivitasId: t.id + "_" + t.tanggalBerangkat + "_" + idx, 
+        aktivitasId: `${t.id}_${t.paket.id}_${t.data.tanggalBerangkat}`,
         imageSrc: t.paket.imageSrc || "/default.png",
         title: t.paket.title || "Paket tidak diketahui",
         desk: t.paket.tagLine || "Tidak ada tagline paket",
@@ -71,7 +76,7 @@ function ReviewRating() {
 
   // Filter dan sortir review pemilik akun
   const filtered = reviews
-    .filter((r) => r.slug === slug)
+    .filter((r) => (isPaketPage ? r.slug === slug:true))
     .filter((r) => {
       return (
         (!filter.rating || r.rating === Number(filter.rating)) &&
@@ -172,8 +177,8 @@ const UlasanCard = ({ aktivitas }) => {
   const buttonText = hasReviews
     ? "Ulasan telah ditambahkan"
     : !canReview
-    ? "Belum Dapat Direview"
-    : "Tambahkan Ulasan Anda";
+    ? "Belum bisa direview"
+    : "Tambahkan ulasan anda";
 
 
   return (
