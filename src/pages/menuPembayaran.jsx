@@ -2,7 +2,7 @@ import React, { useState, useEffect} from "react";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import DataDetailPaket from "../components/DataDetailPaket.jsx";
-import MetodePembayaran from "../components/metodePembayaran.jsx";
+import MetodePembayaran from "../components/MetodePembayaran.jsx";
 
 
 function MenuPembayaran() {
@@ -266,4 +266,5 @@ function MenuPembayaran() {
         </div>
     );
     }
+
     export default MenuPembayaran;
