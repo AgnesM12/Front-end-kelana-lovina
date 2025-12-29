@@ -62,7 +62,7 @@ const TiketSaya = ({ onClose }) => {
                     </p>
                     </div>
                 </div>
-                <ChevronRight onClick={() => navigate ("/detailTiketSaya", {state: {paket: tiket.paket, data: tiket.data, paketId: tiket.paket.id} })} style={{cursor: 'pointer'}} className="text-black w-7 h-7" />
+                <ChevronRight onClick={() => navigate ("/detailTiketSaya", {state: {bookingId: tiket.bookingId, paket: tiket.paket, data: tiket.data, paketId: tiket.paket.id} })} style={{cursor: 'pointer'}} className="text-black w-7 h-7" />
                 </div>
             ))}
         </div>

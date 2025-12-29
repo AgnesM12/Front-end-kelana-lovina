@@ -17,20 +17,16 @@ function Ulasan() {
     const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
 
     useEffect(() => {
-        const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-        const filteredReviews = savedReviews
-            .filter(r => r.slug === slug) // filter sesuai paket
-            .map((review) => ({
-                username: review.username || "Pengguna",
-                profileImage: review.profileImage || "/profile.svg",
-                title: review.title || "",
-                rating: review.rating,
-                tanggalBerangkat: review.tanggalBerangkat, 
-                komentar: review.komentar,
-                images: review.images || [],
-                text: review.text || "",
-            }));
-        setUserReview(filteredReviews);
+        const fetchReviews = async () => {
+            try {
+                const res = await fetch (`http://localhost:4000/api/reviews/by-slug/${slug}`);
+                const data = await res.json();
+                setUserReview(data.reviews || []);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchReviews();
     }, [slug]);
 
     const gabunganReview = [...staticReviews, ...userReview];
@@ -59,22 +55,23 @@ function Ulasan() {
 
     const filtered = gabunganReview
     .filter((r) => {
-        return (
-            (!filter.rating || r.rating === Number(filter.rating)) &&
-            (!filter.search || 
-                r.username.toLowerCase().includes(filter.search.toLowerCase()) || 
-                r.tripTitle.toLowerCase().includes(filter.search.toLowerCase()))
-        );
+      return (
+        (!filter.rating || r.rating === Number(filter.rating)) &&
+        (!filter.search || 
+          (r.username || "").toLowerCase().includes(filter.search.toLowerCase()) ||
+          (r.tripTitle || "").toLowerCase().includes(filter.search.toLowerCase()) ||
+          (r.text || "").toLowerCase().includes(filter.search.toLowerCase())
+        )
+      );
     })
-        .sort((a, b) => {
-            if (filter.waktu === "terbaru") {
-                const dateA = parseDate(a.date || a.tanggal);
-                const dateB = parseDate(b.date || b.tanggal);
-                return dateB - dateA;
-            }
-            return 0; 
-        });
-
+    .sort((a, b) => {
+      const dateA = parseDate(a.tanggalBerangkat || a.tanggal); 
+      const dateB = parseDate(b.tanggalBerangkat || b.tanggal);
+      if (filter.waktu === "terbaru") return dateB - dateA;
+      if (filter.waktu === "terlama") return dateA - dateB;
+      return 0; 
+    });
+  
     return (
         <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16 overflow-x-hidden">
             <HeroSection

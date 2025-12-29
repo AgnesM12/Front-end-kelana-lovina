@@ -35,18 +35,24 @@ function MenuPembayaran() {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenNested, setIsOpenNested] = useState(false);
 
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = String(today.getFullYear());
+
     const onSubmit = async (data) => {
         const payload = {
-            fullName: data.fullName,
-            email: data.email,
-            nomorTelpon: data.nomorTelpon,
-            jumlahOrang: Number(data.jumlahOrang),
-            tanggalBerangkat: data.tanggalBerangkat,
-            paketId: paket.paketId,
-            paketNama: paket.title || paket.titleT || paket.shortTitle,
-            totalPayment: total,
-            status: "success"
-          };
+          bookingId : `KL${dd}${mm}${yyyy}-${Math.floor(Math.random()*900 + 100)}`,
+          fullName: data.fullName,
+          email: data.email,
+          nomorTelpon: data.nomorTelpon,
+          jumlahOrang: Number(data.jumlahOrang),
+          tanggalBerangkat: data.tanggalBerangkat,
+          paketId: paket.paketId,
+          paketNama: paket.shortTitle || paket.titleT || paket.title,
+          totalPayment: total,
+          status: "success",
+        };
 
         try {
             const response = await fetch("http://localhost:4000/api/payments", {
@@ -61,8 +67,9 @@ function MenuPembayaran() {
             console.log("HASIL:", result);
 
             if (response.ok) {
-                // Simpan data form untuk popup kode bayar
-                setFormData(data);
+                const existingBookings = JSON.parse(localStorage.getItem("bookings") || "[]");
+                localStorage.setItem("bookings", JSON.stringify([...existingBookings, payload]));
+                setFormData(payload);
 
                 // Buka popup info pembayaran
                 setIsOpen(true);
@@ -76,6 +83,7 @@ function MenuPembayaran() {
     };
 
 
+      
     const jumlahOrang  = watch("jumlahOrang") || 0; 
     const hargaPerTiket = parseInt(paket.price?.replace(/\D/g, "") || "0"); 
     const subTotal = jumlahOrang * hargaPerTiket;

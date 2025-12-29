@@ -90,7 +90,7 @@ const TiketPdfContent = ({ paket, data }) => {
                     
                     <Text style={styles.titlePaket} className='text-3xl'>{paket?.title || 'Paket Tidak Tersedia'}</Text>
                     <Text style={[styles.titlePaket, {marginBottom: 10}]}> {data?.fullName || 'Nama Pelanggan'}</Text>
-
+        
                     <View style={styles.row}> 
                         <View>
                             <Text style={styles.label}>Tanggal Tiket</Text>
@@ -116,7 +116,7 @@ const TiketPdfContent = ({ paket, data }) => {
                     <View style={styles.separator}/>
 
                     <View style={styles.row}>
-                        <Text style={styles.value}>KL001170425-001</Text>
+                        <Text style={styles.value}></Text>
                     </View>
                 </View>
             </Page>
@@ -178,7 +178,7 @@ const TiketPdfContent = ({ paket, data }) => {
                         <p>----------------------------------------------------------------------------------------------------------------------------------</p>
 
                         <div className="flex justify-between">
-                            <p>KL001170425-001</p>
+                            <p className="text-lg font-semibold">{data?.bookingId || "Tiket ID"} </p>
                             <p className="text-lg font-semibold">{data?.jumlahOrang} orang</p>
                         </div>
                     </div>

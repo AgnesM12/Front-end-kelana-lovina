@@ -173,7 +173,7 @@ function NavbarBefore() {
                             <div className='flex items-center space-x-4'>
                                 <Link to='/profil'>
                                     <img
-                                    src={profile.foto ? profile.foto : "/profile.svg"}
+                                    src={profile.foto ? profile.foto : "/profileDefault.jpg"}
                                     alt="User profile"
                                     className="w-14 h-14 rounded-full object-cover ml-4 cursor-pointer"
                                     />

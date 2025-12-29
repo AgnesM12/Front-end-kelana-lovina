@@ -25,15 +25,23 @@ const FilterUlasan = ({ onFilterChange }) => {
     switch (key) {
       case "rating":
         if (filters.rating) return `Bintang ${filters.rating}`;
-        break;
+        return "Semua";
       case "waktu":
         if (filters.waktu === "terbaru") return "Terbaru";
-        break;
-      default:
-        break;
+        if (filters.waktu === "terlama") return "Terlama";
+        return "Waktu"
+      default: 
+        return "";
     }
     return defaultLabel;
   };
+
+  (!filters.search || 
+    (r.username || "").toLowerCase().includes(filters.search.toLowerCase()) ||
+    (r.tripTitle || "").toLowerCase().includes(filters.search.toLowerCase()) ||
+    (r.text || "").toLowerCase().includes(filters.search.toLowerCase())
+  )
+
 
   return (
     <section className="w-[970px] mx-auto mt-12 mb-10 relative overflow-visible">
@@ -44,32 +52,41 @@ const FilterUlasan = ({ onFilterChange }) => {
       <div className="flex items-center gap-4 flex-nowrap w-full overflow-visible">
         <div className="flex items-center gap-4 sm:gap-4 md:gap-6 flex-shrink-0 overflow-visible">
           {/* rating */}
-          <div className="relative flex-shrink-0">
-            <button
-              onClick={() => toggleDropdown("rating")}
-              className="bg-blue-600 text-white font-semibold text-xs sm:text-sm md:text-base px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full flex items-center justify-between gap-1 min-w-[70px] sm:min-w-[120px] md:min-w-[140px]"
-            >
-              {openDropdown === "rating" ? (
-                <ChevronUp className="w-3 h-3 sm:w-6 sm:h-6" />
-              ) : (
-                <ChevronDown className="w-3 h-3 sm:w-6 sm:h-6" />
-              )}
-              <span>{getLabel("rating", "Rating")}</span>
-            </button>
-            {openDropdown === "rating" && (
-              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl overflow-hidden w-full top-full z-50">
-                {[5, 4, 3].map((num) => (
-                  <div
-                    key={num}
-                    onClick={() => handleChange("rating", num)}
-                    className="px-4 py-2 hover:bg-blue-100 cursor-pointer text-gray-700"
-                  >
-                    Bintang {num}
-                  </div>
-                ))}
-              </div>
+        <div className="relative flex-shrink-0">
+          <button
+            onClick={() => toggleDropdown("rating")}
+            className="bg-blue-600 text-white font-semibold text-xs sm:text-sm md:text-base px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full flex items-center justify-between gap-1 min-w-[70px] sm:min-w-[120px] md:min-w-[140px]"
+          >
+            {openDropdown === "rating" ? (
+              <ChevronUp className="w-3 h-3 sm:w-6 sm:h-6" />
+            ) : (
+              <ChevronDown className="w-3 h-3 sm:w-6 sm:h-6" />
             )}
-          </div>
+            <span>{getLabel("rating", "Rating")}</span>
+          </button>
+          {openDropdown === "rating" && (
+            <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl overflow-hidden w-full top-full z-50">
+              {/* Opsi “Semua” */}
+              <div
+                onClick={() => handleChange("rating", "")} // kosong = semua rating
+                className="px-4 py-2 hover:bg-blue-100 cursor-pointer text-gray-700"
+              >
+                Semua
+              </div>
+
+              {/* Opsi rating 5–1 */}
+              {[5, 4, 3, 2, 1].map((num) => (
+                <div
+                  key={num}
+                  onClick={() => handleChange("rating", num)}
+                  className="px-4 py-2 hover:bg-blue-100 cursor-pointer text-gray-700"
+                >
+                  Bintang {num}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
           {/* waktu */}
           <div className="relative">
             <button
@@ -90,6 +107,12 @@ const FilterUlasan = ({ onFilterChange }) => {
                   className="px-4 py-2 hover:bg-blue-100 cursor-pointer text-gray-700"
                 >
                   Terbaru
+                </div>
+                <div
+                  onClick={() => handleChange("waktu", "terlama")}
+                  className="px-4 py-2 hover:bg-blue-100 cursor-pointer text-gray-700"
+                >
+                  Terlama
                 </div>
               </div>
             )}

@@ -5,6 +5,16 @@ const ReviewCard = ({ review }) => {
   const [likesCount, setLikesCount] = useState(review.likes || 0);
   const [isLiked, setIsLiked] = useState(false);
 
+  const images = Array.isArray(review.images)
+  ? review.images
+  : (() => {
+    try {
+      return JSON.parse(review.images || "[]");
+    } catch {
+      return [];
+    }
+  })();
+
   const handleLikeClick = () => {
     if (isLiked) {
       setLikesCount(prev => prev - 1);
@@ -22,7 +32,7 @@ const ReviewCard = ({ review }) => {
     <div className="w-full max-w-[996px] bg-white rounded-[41.94px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] p-6 sm:p-8 md:p-10 mx-auto mb-10 flex flex-col justify-between gap-4">
       <div className="flex flex-wrap items-center gap-3 sm:gap-4">
         <img
-          src={review.avatar || "/profile.svg"}  
+          src={review.fotoProfile || "/profile.svg"}  
           alt={review.username || "Pengguna Anonim"}
           className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
         />
@@ -31,7 +41,7 @@ const ReviewCard = ({ review }) => {
           {review.username || "Pengguna Anonim"}
           </h3>
           <p className="font-medium text-black">
-            menambahkan ulasan pada {review.tanggalBerangkat || "Tanggal tidak diketahui"}  
+            menambahkan ulasan pada {review.tanggal || "Tanggal tidak diketahui"}  
           </p>
         </div>
       </div>
@@ -41,15 +51,15 @@ const ReviewCard = ({ review }) => {
           {"★".repeat(review.rating || 0)}
         </div>
         <h4 className="font-semibold text-gray-800 text-base sm:text-lg md:text-xl">
-          {review.title || "Trip"}
+          {review.paketTitle || "Trip"}
         </h4>
       </div>
 
       <div className="flex gap-3 overflow-x-auto px-4 sm:px-8 md:px-16 no-scrollbar">
-        {(review.images || []).map((img, idx) => (
+        {images.map((img, idx) => (
           <img
             key={idx}
-            src={img}
+            src={`http://localhost:4000/uploads/${img}`}
             alt={`Foto ulasan ${idx + 1}`}
             className="w-24 h-20 sm:w-32 sm:h-24 md:w-40 md:h-28 object-cover rounded-xl flex-shrink-0"
           />

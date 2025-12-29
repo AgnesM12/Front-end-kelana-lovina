@@ -105,7 +105,7 @@ const TiketPdfContent = ({ paket, data }) => {
                     <View style={styles.separator}/>
 
                     <View style={styles.row}>
-                        <Text style={styles.value}>KL001170425-001</Text>
+                        <Text style={styles.value}>{data?.bookingId || "ID Tiket"}</Text>
                     </View>
                 </View>
             </Page>
@@ -168,7 +168,7 @@ const TiketPdfContent = ({ paket, data }) => {
                         <p>----------------------------------------------------------------------------------------------------------------------------------</p>
 
                         <div className="flex justify-between">
-                            <p>KL001170425-001</p>
+                            <p>{data?.bookingId || "Tiket ID"}</p>
                             <p className="text-lg font-semibold">{data?.jumlahOrang} orang</p>
                         </div>
                     </div>

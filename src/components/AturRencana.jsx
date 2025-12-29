@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Calendar, Plus, ChevronUp, ChevronDown } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,8 +9,9 @@ const paketData = dataDetailPaket;
 
 const priceOptions = [
   {value: "all", label: "Semua Harga"},
-  {value: "150to200", label: "Di bawah Rp.200.000"},
-  {value: "above200", label: "Di atas Rp.200.000"}
+  {value: "100to150", label: "Ekonomi"},
+  {value: "150to350", label: "Standar"}, 
+  {value: "above350", label: "Premium"}
 ]
 
 function RencanaPerjalanan({ onAddPackage }) {
@@ -23,15 +25,13 @@ function RencanaPerjalanan({ onAddPackage }) {
 
 useEffect(() => {
     const filterPackagesByPrice = () => {
-        if (selectedPriceRange === "150to200") {
-            return paketData.filter((p) => {
-                const price = parsePrice(p.price);
-                return price >= 150000 && price <= 180000;
-            });
-        } else if (selectedPriceRange === "above200") {
-            return paketData.filter((p) => parsePrice(p.price) > 180000);
-        }
-        return paketData;
+        return paketData.filter((p) => {
+          const price = parsePrice(p.price);
+          if (selectedPriceRange === "100to150") return price >= 100000 && price <=150000;
+          if (selectedPriceRange === "150to350") return price >  150000 && price <=350000;
+          if (selectedPriceRange === "above350") return price >  350000
+          return true;
+        });
     };
     
     const filtered = filterPackagesByPrice();

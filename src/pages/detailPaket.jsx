@@ -1,28 +1,44 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { HiStar } from "react-icons/hi";
 import paketData from "../components/DataDetailPaket.jsx";
 
     const DetailPaket = ({ isLoggedIn }) => { 
     const { slug } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
+    const newReview = location.state?.newReview;
+    const [userReviews, setUserReviews] = useState([]);
+    const [reviewsUpdated, setReviewsUpdated] = useState(0);
 
     const paket = paketData.find((p) => p.slug === slug);
+    // const decodedSlug = decodeURIComponent(slug);
+    // const paket = paketData.find((p) => `${p.paketId}-${p.slug}` === decodedSlug);
     console.log("Slug URL:", slug); 
     console.log("Data found:", paket); 
     console.log("All slugs:", paketData.map(p => p.slug));
 
-    const allReview = JSON.parse(localStorage.getItem("reviews")) || [];
-    const paketReviews = allReview.filter(r => r.paketId === paket.id);
-      
-    const totalReviews = paketReviews.length;
-    const avgRating = totalReviews === 0 
-        ? 0 
-        : (paketReviews.reduce((sum, r) => sum + r.rating, 0) / totalReviews).toFixed(1);
+    useEffect(() => {   
+        if (!paket) return;
+
+        const allReview = JSON.parse(localStorage.getItem("reviews")) || [];
+        const userReview = allReview.filter(r => r.paketId === paket.paketId);
+            
+        if (newReview && newReview.paketId == paket.paketId){
+            userReview.push(newReview);
+        }
+        setUserReviews(userReview);
+    }, [paket.paketId, newReview, paket]);
 
     if (!paket) {
         return <p className="text-center mt-40 text-gray-500">Paket tidak ditemukan.</p>;}
-
+        
+        const totalReviews = (paket.reviews || 0) + userReviews.length;
+        const avgRating = totalReviews === 0
+        ? 0
+        : ((paket.rating * (paket.reviews || 0) + userReviews.reduce((sum,r) => sum + r.rating,0)) / totalReviews).toFixed(1);
+        
+    
         const handlePesanClick = () => {
             if (isLoggedIn) {
                 navigate(`/paket/${slug}/menuPembayaran`, { state: paket });
@@ -49,7 +65,7 @@ import paketData from "../components/DataDetailPaket.jsx";
                         <HiStar className="mr-1 h-5 w-5 sm:h-6 sm:w-6 text-yellow-400" /> {avgRating}
                         {/* <span className="ml-2">({paket.reviews})</span> */}
                         <span className="ml-2 cursor-pointer underline" 
-                            onClick={() => navigate(`/paket/${slug}/ulasan`)}> (ulasan)
+                            onClick={() => navigate(`/paket/${slug}/ulasan`)}> ({totalReviews} ulasan)
                         </span>
                     </div>
                     </div>
