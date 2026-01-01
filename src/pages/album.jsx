@@ -1,15 +1,34 @@
-// import React, {useState} from "react";
 import { useEffect, useState } from "react";
 import HeroSection from "../components/HeroSection";
 import Judul from "../components/Judul";
+import { getAllItems } from "../Utilis/indexedDB";
+import { id } from "date-fns/locale";
 
 function Album () {
     const [album, setAlbum] = useState([]);
 
+    const loadAlbum = async () => {
+        try {
+          const savedAlbum = await getAllItems("album"); 
+          setAlbum(savedAlbum);
+        } catch (err) {
+          console.error("Tidak dapat memuat album:", err);
+          setAlbum([]);
+        }
+      };
+
     useEffect(() => {
-        const savedAlbum = JSON.parse(localStorage.getItem("album")) || [];
-        setAlbum(savedAlbum);
+        loadAlbum();
+        const handleReviewsUpdated = () => {
+            loadAlbum();
+        }; 
+        window.addEventListener("reviewsUpdated", handleReviewsUpdated);
+
+        return () => {
+            window.removeEventListener("reviewsUpdated", handleReviewsUpdated);
+          };
     }, []);
+
 
     return (
         <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 mt-16 overflow-x-hidden">
@@ -27,11 +46,11 @@ function Album () {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 mb-20">
             {album.length > 0 ? (
-                album.map((item, index) => (
-                    <div key={index} className="bg-white rounded-2xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] overflow-hidden">
+                album.map((item) => (
+                    <div key={id} className="bg-white rounded-2xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] overflow-hidden">
                         <img
-                            src={item.imageSrc}
-                            alt={`Album Item ${index + 1}`}
+                            src={URL.createObjectURL(item.imageFile)}
+                            alt={item.description || "Foto perjalanan"}
                             className="w-full h-60 object-cover"
                         />
                     </div>

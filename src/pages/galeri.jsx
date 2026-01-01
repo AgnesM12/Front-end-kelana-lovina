@@ -1,16 +1,30 @@
 import React, { useEffect, useState} from "react";
 import Judul from "../components/Judul"; 
 import HeroSection from "../components/HeroSection";
-
+import { getAllItems } from "../Utilis/indexedDB";
 
 function HalamanGaleriPenuh() {
 const [items, setItems] = useState([]);
+const [galeriPengguna, setGaleriPengguna] = useState([]);
+
+const loadGaleriPengguna = async () => {
+    try{
+        const photo = await getAllItems("album"); 
+        const sorted = photo.sort((a, b) => b.id - a.id);
+        setGaleriPengguna(sorted);
+    } catch (err) {
+        console.error("Gagal memuat galeri pengguna: ", err);
+        setGaleriPengguna([]);
+    };
+};
 
 useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("album")) || [];
-    setItems(data);
-}, []);
-
+    loadGaleriPengguna();
+    const handleUpdate = () => loadGaleriPengguna();
+    window.addEventListener("reviewsUpdated", handleUpdate);
+    return () => window.removeEventListener("reviewsUpdated", handleUpdate);
+  }, []);
+ 
 const dataHero = {
     title: "Temukan Paket Terbaik untuk Perjalananmu",
     imageSrc: '/hero.png',
@@ -44,6 +58,11 @@ const acaraData = [
         }
     };
 
+    const userPhotoRows = []; 
+    for (let i=0; i<galeriPengguna.length; i+=2) {
+        userPhotoRows.push(galeriPengguna.slice(i, i+2));
+    }
+
     return (
         <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 my-16">
             <HeroSection hero={dataHero} />
@@ -65,7 +84,8 @@ const acaraData = [
                 {/* Gambar kiri */}
                 <div
                 className={`w-full lg:w-[${
-                    index % 2 === 0 ? "40%" : "60%"
+                    // index % 2 === 0 ? "40%" : "60%"
+                    index % 2 === 0 ? "lg:w-2/5" : "lg:w-3/5"
                 }] h-[306px] overflow-hidden rounded-2xl shadow-lg`}
                 >
                 <img
@@ -78,7 +98,8 @@ const acaraData = [
                 {row[1] && (
                 <div
                     className={`w-full lg:w-[${
-                    index % 2 === 0 ? "60%" : "40%"
+                    // index % 2 === 0 ? "60%" : "40%"
+                    index % 2 === 0 ? "lg:w-3/5" : "lg:w-2/5"
                     }] h-[306px] overflow-hidden rounded-2xl shadow-lg`}
                 >
                     <img
@@ -91,18 +112,43 @@ const acaraData = [
             </div>
             ))}
 
-            <div className="flex flex-wrap justify-center gap-4">
-                {items.map((item, index) => (
-                    <div key={index} className="w-64 h-64 overflow-hidden rounded-2xl shadow-lg">
-                        <img
-                            src={item.imageSrc}
-                            alt={item.alt}
-                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                        />
-                    </div>
-                ))}
-            </div>
+            {userPhotoRows.length > 0 && ( <>
+              {userPhotoRows.map((row, index) => (
+                <div
+                  key={`user-${index}`}
+                  className="flex flex-col lg:flex-row gap-4 w-full max-w-[1191px]"
+                >
+                  {/* Gambar kiri */}
+                  <div
+                    className={`w-full ${
+                      index % 2 === 0 ? "lg:w-2/5" : "lg:w-3/5"
+                    } h-[306px] overflow-hidden rounded-2xl shadow-lg`}
+                  >
+                    <img
+                      src={URL.createObjectURL(row[0]?.imageFile)}
+                      alt={row[0]?.description || "Foto pengunjung"}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                  </div>
 
+                  {/* Gambar kanan*/}
+                  {row[1] && (
+                    <div
+                      className={`w-full ${
+                        index % 2 === 0 ? "lg:w-3/5" : "lg:w-2/5"
+                      } h-[306px] overflow-hidden rounded-2xl shadow-lg`}
+                    >
+                      <img
+                        src={URL.createObjectURL(row[1]?.imageFile)}
+                        alt={row[1]?.description || "Foto pengunjung"}
+                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </>
+          )}
         </div>
     </section>
     </main>

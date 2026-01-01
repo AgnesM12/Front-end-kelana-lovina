@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import EditProfil from '../components/EditProfil';
@@ -6,11 +6,13 @@ import TiketSaya from '../components/TiketSaya';
 import UbahKataSandi from '../components/UbahKataSandi';
 import Bantuan from '../components/Bantuan';
 import { logout } from '../redux/slice';
+import { getAllItems } from "../Utilis/indexedDB";
 
 function Profil() {
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [galeriPreview, setGaleriPreview] = useState([]);
 
     const [dataProfil, setDataProfil] = useState({
         namaLengkap: "Pengguna baru",
@@ -60,7 +62,26 @@ function Profil() {
         setTampilEdit(false);
     };
     
+    const loadGaleriPreview = async () => {
+        try {
+          const allPhotos = await getAllItems("album"); 
+          const sortedPhotos = allPhotos.sort((a, b) => b.id - a.id);
+          const latestThree = sortedPhotos.slice(0, 3);
     
+          setGaleriPreview(latestThree);
+        } catch (err) {
+          console.error("Gagal memuat galeri preview:", err);
+          setGaleriPreview([]);
+        }
+      };
+
+      useEffect(() => {
+        loadGaleriPreview();
+        const handleUpdate = () => loadGaleriPreview();
+        window.addEventListener("reviewsUpdated", handleUpdate);
+        return () => window.removeEventListener("reviewsUpdated", handleUpdate);
+      }, []);
+
     return (
         <div className="min-h-screen bg-white py-10 px-4 flex flex-col items-center gap-10">
             {/* Profil Header */}
@@ -107,12 +128,26 @@ function Profil() {
 
                 {/* Galeri */}
                 <section className="w-full">
-                    <h2 className="text-black text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Galeri Pengguna</h2>
+                    <h2 className="text-black text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">
+                    Galeri Pengguna
+                    </h2>
+
+                    {galeriPreview.length > 0 ? (
                     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        <img className="w-full h-28 sm:h-60 object-cover rounded-2xl" src="/galeri-pengguna1.jpg" alt="Galeri 1" />
-                        <img className="w-full h-28 sm:h-60 object-cover rounded-2xl" src="/galeri-pengguna2.jpg" alt="Galeri 2" />
-                        <img className="w-full h-28 sm:h-60 object-cover rounded-2xl" src="/galeri-pengguna3.png" alt="Galeri 3" />
+                        {galeriPreview.map((item) => (
+                        <img
+                            key={item.id}
+                            className="w-full h-28 sm:h-60 object-cover rounded-2xl"
+                            src={URL.createObjectURL(item.imageFile)}
+                            alt={item.description || "Foto perjalanan pengguna"}
+                        />
+                        ))}
                     </div>
+                    ) : (
+                    <div className="text-center py-8 text-gray-500">
+                        <p>Belum ada foto di galeri. Ayo bagikan pengalamanmu!</p>
+                    </div>
+                    )}
                 </section>
 
                 {/* Pemesanan */}
