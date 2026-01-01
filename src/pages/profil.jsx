@@ -7,25 +7,15 @@ import UbahKataSandi from '../components/UbahKataSandi';
 import Bantuan from '../components/Bantuan';
 import { logout } from '../redux/slice';
 
-const formatNameFromEmail = (email) => {
-    if (!email) return null;
-    return email
-      .split("@")[0]
-      .replace(/[0-9]/g, "")
-      .split(/[._-]/)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-};
-
 function Profil() {
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [dataProfil, setDataProfil] = useState({
-        namaLengkap: "" || "Pengguna baru", 
-        bio: "" || "Traveling buatku bukan sekadar liburan, tapi cara ngumpulin cerita baru",
-        fotoProfil: "/profileDefault.jpg",
+        namaLengkap: "Pengguna baru",
+        bio: "Traveling buatku bukan sekadar liburan, tapi cara ngumpulin cerita baru",
+        fotoProfile: "/profileDefault.jpg",
         preferensiWisata: ["Pantai", "Alam", "Snorkeling", "Paket Wisata"],
     });
 
@@ -47,40 +37,29 @@ function Profil() {
         </button>
     );
 
-const handleUpdateProfil = (dataBaru) => {
-    setDataProfil(prev => ({
-        ...prev,
-        ...dataBaru,
-        preferensiWisata: Array.isArray(dataBaru?.preferensiWisata)
-            ? dataBaru.preferensiWisata
-            : prev.preferensiWisata
-    }));
-
-    setTampilEdit(false);
-};
-
     useEffect(() => {
-        const fetchProfile = async () => {
-        try {
-            const token = localStorage.getItem("token");
-            const res = await fetch("/api/me", {
-            headers: { Authorization: `Bearer ${token}` },
-            });
-            const data = await res.json();
-            if (data.success && data.user) {
+        const savedData = JSON.parse(localStorage.getItem("userProfile")); 
+        if (savedData) {
             setDataProfil({
-                namaLengkap: data.user.username || "Pengguna baru",
-                bio: data.user.bio || "Traveling buatku bukan sekadar liburan",
-                fotoProfil: data.user.fotoProfile || "/profileDefault.jpg",
-                preferensiWisata: data.user.preferensiWisata || ["Pantai", "Alam", "Snorkeling", "Paket Wisata"],
+                namaLengkap: savedData.namaLengkap || "Pengguna baru",
+                bio: savedData.bio || "Traveling buatku bukan sekadar liburan, tapi cara ngumpulin cerita baru",
+                fotoProfile: savedData.fotoProfile || "/profileDefault.jpg",
+                preferensiWisata: Array.isArray(savedData.preferensiWisata) ? savedData.preferensiWisata : ["Pantai", "Alam", "Snorkeling", "Paket Wisata"],
             });
-            }
-        } catch (err) {
-            console.error("Gagal fetch profil:", err);
         }
-        };
-        fetchProfile();
-    }, []);  
+    }, []);
+
+    const handleUpdateProfil = (dataBaru) => {
+        setDataProfil(prev => ({
+            ...prev,
+            ...dataBaru,
+            preferensiWisata: Array.isArray(dataBaru?.preferensiWisata)
+                ? dataBaru.preferensiWisata
+                : prev.preferensiWisata
+        }));
+        setTampilEdit(false);
+    };
+    
     
     return (
         <div className="min-h-screen bg-white py-10 px-4 flex flex-col items-center gap-10">
@@ -89,7 +68,7 @@ const handleUpdateProfil = (dataBaru) => {
                 <section className="w-full flex flex-col sm:flex-row md:flex-row items-center gap-6 md:gap-10">
                     <img
                         className="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover flex-shrink-0"
-                        src={dataProfil.fotoProfil || "/profileDefault.jpg"}
+                        src={dataProfil.fotoProfile || "/profileDefault.jpg"}
                         alt="Profil"
                     />
                     <div className="w-full flex flex-col sm:flex-row md:flex-row justify-between items-start gap-4">
@@ -97,7 +76,7 @@ const handleUpdateProfil = (dataBaru) => {
                             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black">
                                 {dataProfil.namaLengkap}
                             </h2>
-                            <p className="text-xl sm:text-2xl font-semibold text-zinc-800 mt-2">
+                            <p className="text-xl sm:text-2xl font-semibold text-zinc-800 mt-3">
                                 Wisatawan
                             </p>
                             <p className="text-base md:text-lg font-medium text-zinc-800 mt-6 max-w-lg">
@@ -120,7 +99,7 @@ const handleUpdateProfil = (dataBaru) => {
                     <h2 className="text-black text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Preferensi Wisata</h2>
                     <div className="flex flex-wrap sm:justify-start gap-3 sm:gap-4">
                         {Array.isArray(dataProfil?.preferensiWisata) &&
-                        (dataProfil?.preferensiWisata || []).map((pref, i) => (
+                        dataProfil.preferensiWisata.map((pref, i) => (
                             <PreferensiButton key={i} label={pref} />
                         ))}
                     </div>

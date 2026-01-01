@@ -18,39 +18,48 @@ export const getMe = (req, res) => {
     });
   };
   
-
 // UPDATE PROFILE
 export const updateProfile = (req, res) => {
-  const { username, bio, preferensiWisata } = req.body;
-  const fotoProfile = req.file ? `/uploads/${req.file.filename}` : null;
+  if (!req.userId) return res.status(401).json({ success: false, message: "Unauthorized" });
 
-  // ambil data lama kalau fotoProfile tidak diupdate
+  const { username, bio, preferensiWisata } = req.body;
+
   db.query("SELECT fotoProfile FROM users WHERE id = ?", [req.userId], (err, result) => {
-    if (err) return res.status(500).json({ success: false, message: "DB Error", error: err });
+    if (err) return res.status(500).json({ success: false, message: "DB Error" });
 
     const oldFoto = result[0]?.fotoProfile || "/profileDefault.jpg";
+    const newFoto = req.file ? `/uploads/${req.file.filename}` : oldFoto;
 
     const sql = `
-      UPDATE users SET 
-        username = ?, 
-        Bio = ?, 
-        fotoProfile = ?, 
-        preferensiWisata = ? 
+      UPDATE users SET
+        username = ?,
+        bio = ?,
+        fotoProfile = ?,
+        preferensiWisata = ?
       WHERE id = ?
     `;
 
     db.query(sql, [
-      username,
-      bio,
-      fotoProfile || oldFoto,
+      username || null,
+      bio || "",
+      newFoto,
       JSON.stringify(preferensiWisata || []),
       req.userId
     ], (err2) => {
-      if (err2) return res.status(500).json({ success: false, message: "Update error", error: err2 });
+      if (err2) return res.status(500).json({ success: false, message: "Update Error", error: err2.message });
 
-      res.json({
-        success: true,
-        user: { username, bio, fotoProfile: fotoProfile || oldFoto, preferensiWisata }
+      // Ambil data terbaru untuk response
+      db.query("SELECT id, email, username, fotoProfile, bio, preferensiWisata FROM users WHERE id = ?", [req.userId], (err3, rows) => {
+        if (err3 || rows.length === 0) return res.status(500).json({ success: false, message: "Gagal ambil data terbaru" });
+
+        const user = rows[0];
+        res.json({
+          success: true,
+          user: {
+            ...user,
+            preferensiWisata: JSON.parse(user.preferensiWisata || "[]")
+          }
+        });
       });
     });
   });

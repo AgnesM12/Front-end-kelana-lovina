@@ -18,33 +18,42 @@ import paketData from "../components/DataDetailPaket.jsx";
     console.log("Data found:", paket); 
     console.log("All slugs:", paketData.map(p => p.slug));
 
-    useEffect(() => {   
+    useEffect(() => {
         if (!paket) return;
-
-        const allReview = JSON.parse(localStorage.getItem("reviews")) || [];
-        const userReview = allReview.filter(r => r.paketId === paket.paketId);
-            
-        if (newReview && newReview.paketId == paket.paketId){
-            userReview.push(newReview);
-        }
-        setUserReviews(userReview);
-    }, [paket.paketId, newReview, paket]);
-
-    if (!paket) {
-        return <p className="text-center mt-40 text-gray-500">Paket tidak ditemukan.</p>;}
-        
-        const totalReviews = (paket.reviews || 0) + userReviews.length;
-        const avgRating = totalReviews === 0
-        ? 0
-        : ((paket.rating * (paket.reviews || 0) + userReviews.reduce((sum,r) => sum + r.rating,0)) / totalReviews).toFixed(1);
-        
+      
+        const loadReviews = () => {
+            const allReview = JSON.parse(localStorage.getItem("reviews")) || [];
+            const filtered = allReview.filter(
+              r => r.paketId === paket.paketId
+            );  
+            setUserReviews(filtered);  
+        }; 
+        loadReviews();
+        window.addEventListener("reviewsUpdated", loadReviews);
+        return () => {
+            window.removeEventListener("reviewsUpdated", loadReviews);
+        };  
+      }, [paket]);
+      
     
-        const handlePesanClick = () => {
-            if (isLoggedIn) {
-                navigate(`/paket/${slug}/menuPembayaran`, { state: paket });
-            } else {
-                 navigate('/login');
-            }
+    if (!paket) {
+        return <p className="text-center mt-40 text-gray-500">Paket tidak ditemukan.</p>
+    ;}
+        
+    const totalReviews = userReviews.length;
+    const avgRating = totalReviews === 0
+        ? 0
+        : (
+            userReviews.reduce( (sum, r) => sum + Number(r.rating || 0), 0) / totalReviews
+            ).toFixed(1);
+
+    const handlePesanClick = () => {
+        if (isLoggedIn) {
+            navigate(`/paket/${slug}/menuPembayaran`, { state: paket });
+        } 
+        else {
+            navigate("/login");
+        }
         };
 
         return (

@@ -107,8 +107,8 @@ function App() {
         <Route path="/paket/:slug/menuPembayaran" element={<MenuPembayaran />} />
         <Route path="/paket/:slug/menuPembayaran/tiket" element={<Tiket />} />
         <Route path="/detailTiketSaya" element={<DetailTiketSaya />} />
-        <Route path="/tambah-ulasan/:paketId" element={<TambahUlasan />} />
-        {/* <Route path="/tambah-ulasan/:slug" element={<TambahUlasan />} /> */}
+        {/* <Route path="/tambah-ulasan/:paketId" element={<TambahUlasan />} /> */}
+        <Route path="/tambah-ulasan/:slug" element={<TambahUlasan />} />
         <Route path="/kodeBayarPDF" element={<KodeBayarPDF />} />
         <Route path="/unduhRencana" element={<RencanaPDF/>} />
         <Route path="/perjalanan/:slug" element={<DetailPaket />} />

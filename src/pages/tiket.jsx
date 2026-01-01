@@ -1,20 +1,10 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom"; 
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Page, Text, View, Document, StyleSheet, PDFDownloadLink, Image } from '@react-pdf/renderer'; 
-import { useEffect } from "react";
 
 const TiketPdfContent = ({ paket, data }) => {
 
     const toISODate = (iso) => iso.split(" ")[0]; // ambil YYYY-MM-DD
-
-    tiket.push({
-    paket,
-    data: {
-        ...data,
-        tanggalBerangkat: toISODate(data.tanggalBerangkat),
-    },
-    status: "berhasil",
-    });
 
     // Fungsi untuk menghitung total harga
     const formatTotalHarga = () => {
@@ -126,29 +116,44 @@ const TiketPdfContent = ({ paket, data }) => {
 
 
     function Tiket() {
+        const { id } = useParams();
         const navigate = useNavigate();
-        const { state } = useLocation();
-        const { paket, data } = state || {}; 
-
-        const fileName = `tiket_${data?.fullName || 'pelanggan'}_${paket?.nama || 'paket'}.pdf`;
-
-        const buttonStyle = {
-            width: '200px', 
-            height: '50px', 
-            borderRadius: '8px',
-        }
-
+        const [tiket, setTiket] = useState(null);
+      
         useEffect(() => {
-            if (paket && data) {
-                const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];
-                const tiketAda = tiket.some(t => t.data.fullName === data.fullName && t.paket.title === paket.title && t.data.tanggalBerangkat === data.tanggalBerangkat);
-                if (!tiketAda) {
-                    tiket.push({paket, data, status: "berhasil"}); // tambahkan status agar bisa muncul di TiketSaya
-                    localStorage.setItem("tiketSaya", JSON.stringify(tiket))
-                }
-            }   
-        }, [paket, data]);
-
+          const fetchTiket = async () => {
+            const token = localStorage.getItem("token");
+            const res = await fetch(`http://localhost:4000/api/tiket/${id}`, {
+              headers: { Authorization: `Bearer ${token}` }
+            });
+            const json = await res.json();
+            setTiket(json.tiket);
+          };
+          fetchTiket();
+        }, [id]);
+        
+          if (!tiket) return null;
+        
+          const paket = {
+            paket_id: tiket.paket_id,
+            title: tiket.title,
+            deskripsi: tiket.deskripsi,
+            imageSrc: tiket.imageSrc,
+            price: tiket.price,
+            departurTime: tiket.departurTime,
+            status: tiket.status,
+          };
+        
+          const data = {
+            fullName: tiket.fullName,
+            tanggalBerangkat: tiket.tanggalBerangkat,
+            jumlahOrang: tiket.jumlahOrang,
+            bookingId: tiket.booking_id,
+            paymentId: tiket.payment_id,
+          };
+        
+          const fileName = `tiket_${data.fullName}_${paket.title}.pdf`;
+          
         return(
             <div>
                 <div className="flex min-h-screen flex-col justify-center items-center">

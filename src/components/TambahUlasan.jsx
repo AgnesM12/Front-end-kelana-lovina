@@ -2,156 +2,175 @@ import React, { useState } from "react";
 import { FaStar, FaRegStar, FaRegImage } from "react-icons/fa";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import paketData from "../components/DataDetailPaket.jsx";
+import { addItem } from "../Utilis/indexedDB";
 
 const TambahUlasan = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { title } = state || {};
+  const { slug } = useParams();
+
+  const { paketId, title, imageSrc, kategori, tanggalBerangkat } = state || {};
+  const trip = state?.trip;
+
   const [rating, setRating] = useState(0);
   const [ulasan, setUlasan] = useState("");
   const [previewImages, setPreviewImages] = useState([]);
+
   const maxKarakter = 350;
 
   const user = useSelector((state) => state.auth?.user);
-  const savedUserData = JSON.parse(localStorage.getItem("user_data"));
-  const user_data = user?.id || savedUserData?.id || null;
+  const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
+
+
+  const username =
+    savedProfile?.namaLengkap ||
+    user?.name ||
+    user?.email?.split("@")[0] ||
+    "Pengguna";
 
   const tanggalSekarang = new Date();
   const bulanList = [
-    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-    "Juli", "Agustus", "September", "Oktober", "November", "Desember",
+    "Januari","Februari","Maret","April","Mei","Juni",
+    "Juli","Agustus","September","Oktober","November","Desember"
   ];
-  const tanggalFormat = `${tanggalSekarang.getDate()} ${bulanList[tanggalSekarang.getMonth()]} ${tanggalSekarang.getFullYear()}`;
+  const tanggalFormat = `${tanggalSekarang.getDate()} ${
+    bulanList[tanggalSekarang.getMonth()]
+  } ${tanggalSekarang.getFullYear()}`;
 
   const handleStarClick = (index) => setRating(index);
 
-  const handleFileChange = async (e) => {
+  const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    const readFileAsBase64 = (file) =>
-      new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.readAsDataURL(file);
-      });
-    const base64Images = await Promise.all(files.map(readFileAsBase64));
-    setPreviewImages((prev) => [...prev, ...base64Images]);
+    setPreviewImages((prev) => [...prev, ...files]);
   };
 
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  if (!rating) return alert("Silakan beri rating terlebih dahulu!");
+  if (!ulasan.trim()) return alert("Silakan tulis ulasan Anda terlebih dahulu!");
 
-    const paketIdFinal = state?.paketId || paketData.find(p => p.slug === state?.slug)?.paketId;
+  const ulasanId = Date.now();
+  const imageIds = [];
 
-    if (!rating) return alert("Silakan beri rating!");
-    if (!ulasan.trim()) return alert("Silakan tulis ulasan!");
-    if (!paketIdFinal) return alert("Data paket tidak lengkap, tidak dapat memberikan ulasan");
-
-    const formData = new FormData();
-    formData.append("paket_id", paketIdFinal);
-    formData.append("rating", rating);
-    formData.append("text", ulasan);
-    formData.append("tanggal", tanggalFormat);
-    formData.append("user_data", user_data);
-  
-    previewImages.forEach((file) => {
-      formData.append("images", file);
-    });
-  
   try {
-    const response = await fetch("http://localhost:4000/api/reviews", {
-        method: "POST",
-        body: formData, 
-    });
+    for (let i = 0; i < previewImages.length; i++) {
+      const file = previewImages[i];
+      if (file instanceof File || file instanceof Blob) {
+        const imageId = ulasanId + i;
+        imageIds.push(imageId);
 
-    const result = await response.json();
-    console.log("HASIL:", result);
-
-    if (response.ok) {
-      navigate(`/review-rating`, { state: { slug: state.slug || paketData.find(p => p.paketId === paketIdFinal)?.slug }
-    });
-
-    } else {
-        alert("❌ Gagal menyimpan ulasan ke database");
+        await addItem("album", {
+          id: imageId,
+          reviewId: ulasanId,
+          imageFile: file,
+          description: `Foto dari ulasan tentang ${title || "trip saya"}`,
+        });
+      }
     }
 
-  } catch (error) {
-      console.error("Error:", error);
-      alert("❌ Tidak dapat terhubung ke server");
+    const ulasanData = {
+      paketId: Number(paketId),
+      id: ulasanId,
+      slug,
+      aktivitasId: state?.aktivitasId,
+      tanggalBerangkat,
+      username,
+      rating,
+      text: ulasan,
+      title,
+      imageSrc,
+      kategori,
+      tanggal: tanggalFormat,
+      likes: 0,
+      imageIds,
+    };
+
+    await addItem("reviews", ulasanData);
+
+    const existingReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+    localStorage.setItem("reviews", JSON.stringify([...existingReviews, ulasanData]));
+    window.dispatchEvent(new Event("reviewsUpdated"));
+    
+    alert("Ulasan berhasil dikirim!");
+    navigate("/review-rating");
+
+    setUlasan("");
+    setRating(0);
+    setPreviewImages([]);
+  } catch (err) {
+    console.error("Gagal menyimpan ulasan:", err);
+    alert("Terjadi kesalahan saat menyimpan ulasan.");
   }
-  };
-  
+};
+
+
   return (
-    <div className="w-[1046px] min-h-[890px] relative bg-white rounded-[30px] shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] overflow-hidden p-10 mx-auto mt-8 mb-8">
-      <h2 className="text-center text-2xl font-semibold text-black mb-8">
+    <div className="w-[1046px] min-h-[890px] bg-white rounded-[30px] shadow-[0px_6px_40px_rgba(0,94,209,0.16)] p-10 mx-auto my-8">
+      <h2 className="text-center text-2xl font-semibold mb-8">
         Bagikan Pengalaman kamu di {title || "Lovina"} Kepada Mereka
       </h2>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+        {/* RATING */}
         <div>
-          <label className="text-base font-bold text-black/60">
+          <label className="font-bold text-black/60">
             Seberapa Memuaskan Pengalaman Anda?
           </label>
           <div className="flex gap-2 mt-3">
-            {[1, 2, 3, 4, 5].map((index) => (
+            {[1,2,3,4,5].map((i) => (
               <button
-                key={index}
+                key={i}
                 type="button"
-                onClick={() => handleStarClick(index)}
+                onClick={() => handleStarClick(i)}
                 className="text-3xl text-yellow-400"
               >
-                {index <= rating ? <FaStar /> : <FaRegStar />}
+                {i <= rating ? <FaStar /> : <FaRegStar />}
               </button>
             ))}
           </div>
         </div>
 
+        {/* ULASAN */}
         <div>
-          <label className="text-base font-bold text-black/60">Tulis Ulasan</label>
+          <label className="font-bold text-black/60">Tulis Ulasan</label>
           <textarea
-            className="w-full h-48 border-2 border-blue-700 rounded-xl p-4 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
-            placeholder="Ceritakan Pengalaman Anda Berlibur di Lovina..."
+            className="w-full h-36 border-2 border-blue-700 rounded-xl p-4 mt-2"
+            placeholder="Ceritakan pengalaman liburanmu..."
             value={ulasan}
             maxLength={maxKarakter}
             onChange={(e) => setUlasan(e.target.value)}
           />
-          <div className="text-right text-[10px] text-gray-600 mt-1">
-            {ulasan.length}/{maxKarakter} maks. karakter
+          <div className="text-right text-xs text-gray-600">
+            {ulasan.length}/{maxKarakter}
           </div>
         </div>
 
+        {/* UPLOAD */}
         <div>
-          <label className="text-base font-bold text-black/60">
-            Tambahkan Foto atau Video Anda
+          <label className="font-bold text-black/60">
+            Tambahkan Foto atau Video
           </label>
-          <div className="flex items-center justify-center w-full mt-2">
-            <label
-              htmlFor="dropzone-file"
-              className="flex flex-col items-center justify-center w-full h-52 border-2 border-blue-700 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
-            >
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <FaRegImage className="text-4xl text-blue-600 mb-2" />
-                <p className="text-lg text-gray-500 mb-2">
-                  Klik untuk menambahkan beberapa foto atau video
-                </p>
-                <input
-                  id="dropzone-file"
-                  type="file"
-                  className="hidden"
-                  multiple
-                  onChange={handleFileChange}
-                />
-              </div>
-            </label>
-          </div>
+
+          <label className="flex flex-col items-center justify-center h-52 border-2 border-blue-700 rounded-lg cursor-pointer bg-gray-50 mt-2">
+            <FaRegImage className="text-4xl text-blue-600 mb-2" />
+            <p className="text-gray-500">
+              Klik untuk menambahkan beberapa foto atau video
+            </p>
+            <input
+              type="file"
+              multiple
+              hidden
+              onChange={handleFileChange}
+            />
+          </label>
 
           {previewImages.length > 0 && (
             <div className="flex gap-2 mt-4 flex-wrap">
-              {previewImages.map((img, idx) => (
+              {previewImages.map((file, idx) => (
                 <img
                   key={idx}
-                  src={img}
+                  src={URL.createObjectURL(file)}
                   alt="preview"
                   className="h-24 w-24 object-cover rounded-lg"
                 />
@@ -162,7 +181,7 @@ const TambahUlasan = () => {
 
         <button
           type="submit"
-          className="flex items-center justify-center h-12 w-full sm:w-auto px-6 py-3.5 bg-blue-700 rounded-lg text-white text-lg font-extrabold self-center hover:bg-blue-800 transition"
+          className="self-center bg-blue-700 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-800"
         >
           Bagikan Cerita Anda
         </button>
@@ -172,4 +191,3 @@ const TambahUlasan = () => {
 };
 
 export default TambahUlasan;
-

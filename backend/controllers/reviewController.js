@@ -1,66 +1,68 @@
-// reviewController.js
 import db from "../config/db.js";
 import { promisify } from "util";
-
-// Promisify db.query supaya bisa pakai async/await
 const query = promisify(db.query).bind(db);
 
 export const addReview = async (req, res) => {
   try {
-    const { paket_id, rating, text, tanggal, user_data } = req.body;
+    const { paket_id, tiket_id, rating, text, tanggal, user_data } = req.body;
     const files = req.files || [];
 
-    if (!user_data || !paket_id || !rating || !text || !tanggal) {
-      return res.status(400).json({ message: "Data ulasan tidak lengkap" });
+    // if (!user_data || !paket_id || !tiket_id || !rating || !text || !tanggal) {
+    //   return res.status(400).json({ message: "Data ulasan tidak lengkap" });
+    // }
+
+    const tiketIdNum = Number(tiket_id);
+
+    if (Number.isNaN(tiketIdNum)) {
+      return res.status(400).json({
+        message: "tiket_id tidak valid",
+        body: req.body,
+      });
     }
 
-    // cek review user
     const existingReviews = await query(
-      "SELECT * FROM review WHERE user_data = ? AND paket_id = ?",
-      [user_data, paket_id]
+      "SELECT id FROM review WHERE user_data = ? AND tiket_id = ?",
+      [user_data, tiket_id]
     );
 
     if (existingReviews.length > 0) {
-      return res.status(400).json({ message: "Anda telah memberikan ulasan untuk paket ini" });
+      return res
+        .status(400)
+        .json({ message: "Tiket ini sudah pernah direview" });
     }
 
-    // insert review
-    const imagePaths = files.map(f => f.filename);
-    const formattedData = [
-      Number(user_data),
-      Number(paket_id),
-      Number(rating),
-      text,
-      JSON.stringify(imagePaths),
-      tanggal,
-      0
-    ];
+    const imagePaths = files.map((f) => f.filename);
 
     const result = await query(
-      "INSERT INTO review (user_data, paket_id, rating, text, images, tanggal, likes) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      formattedData
+      `INSERT INTO review 
+       (user_data, paket_id, tiket_id, rating, text, images, tanggal, likes)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        Number(user_data),
+        Number(paket_id),
+        Number(tiket_id),
+        Number(rating),
+        text,
+        JSON.stringify(imagePaths),
+        tanggal,
+        0,
+      ]
     );
 
-    // ambil review beserta data user dan paket
-    const reviewWithUser = await query(
-      `SELECT r.*, u.username, u.fotoProfile, p.title AS paketTitle, p.slug AS paketSlug
-       FROM review r
-       JOIN users u ON r.user_data = u.id
-       JOIN paket p ON r.paket_id = p.id
-       WHERE r.id = ?`,
-      [result.insertId]
-    );
+    console.log("BODY:", req.body);
+  console.log("FILES:", req.files);
 
     res.status(201).json({
       success: true,
       message: "Ulasan berhasil disimpan",
-      review: reviewWithUser[0]
+      review_id: result.insertId,
     });
   } catch (err) {
-    console.error(err);
+    console.error("ERROR ADD REVIEW:", err); 
     res.status(500).json({ message: "Gagal menambahkan ulasan" });
   }
 };
+
 
 export const getReview = async (req, res) => {
   try {

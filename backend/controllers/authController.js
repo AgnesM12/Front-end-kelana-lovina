@@ -31,7 +31,7 @@ export const registerUser = (req, res) => {
                 return res.status(500).json({ message: "Hash Error", error: err });
             }
 
-            const insertUser =  "INSERT INTO users (email, username, password, fotoProfile, Bio, preferensiWisata) VALUES (?, ?, ?, ?, ?, ?)";
+            const insertUser =  "INSERT INTO users (email, username, password, fotoProfile, bio, preferensiWisata) VALUES (?, ?, ?, ?, ?, ?)";
             db.query(insertUser, [email, username, hash, "/profileDefault.jpg", "", JSON.stringify([])], (err) => {
                 if (err) {
                     console.error("❌ ERROR INSERT USER:", err);
@@ -89,78 +89,130 @@ export const loginUser = (req, res) => {
     });
 };
 
-// UPDATE PROFILE
+// UPDATE USER PROFILE 
+// export const updateProfile = (req, res) => {
+//   if (!req.userId) return res.status(401).json({ success: false, message: "Unauthorized" });
+
+//   const { username, bio, preferensiWisata } = req.body;
+
+//   db.query("SELECT fotoProfile FROM users WHERE id = ?", [req.userId], (err, result) => {
+//     if (err) return res.status(500).json({ success: false, message: "DB Error" });
+
+//     const oldFoto = result[0]?.fotoProfile || "/profileDefault.jpg";
+//     const newFoto = req.file ? `/uploads/${req.file.filename}` : oldFoto;
+
+//     const sql = `
+//       UPDATE users SET
+//         username = ?,
+//         bio = ?,
+//         fotoProfile = ?,
+//         preferensiWisata = ?
+//       WHERE id = ?
+//     `;
+
+//     db.query(sql, [
+//       username || null,
+//       bio || "",
+//       newFoto,
+//       JSON.stringify(preferensiWisata || []),
+//       req.userId
+//     ], (err2) => {
+//       if (err2) return res.status(500).json({ success: false, message: "Update Error", error: err2.message });
+
+//       db.query("SELECT id, email, username, fotoProfile, bio, preferensiWisata FROM users WHERE id = ?", [req.userId], (err3, rows) => {
+//         if (err3 || rows.length === 0) return res.status(500).json({ success: false, message: "Gagal ambil data terbaru" });
+
+//         const user = rows[0];
+//         res.json({
+//           success: true,
+//           user: {
+//             ...user,
+//             preferensiWisata: JSON.parse(user.preferensiWisata || "[]")
+//           }
+//         });
+//       });
+//     });
+//   });
+// };
+
+// REFRESH HALAMAN
+// export const getMe = (req, res) => {
+//   const sql = `SELECT id, email, username, fotoProfile, bio, preferensiWisata FROM users WHERE id = ?`;
+//   db.query(sql, [req.userId], (err, result) => {
+//     if (err) return res.status(500).json({ success: false });
+//     if (result.length === 0) return res.status(404).json({ success: false, message: "User tidak ditemukan" });
+
+//     const user = result[0];
+//     res.json({
+//       success: true,
+//       user: {
+//         ...user,
+//         preferensiWisata: JSON.parse(user.preferensiWisata || "[]")
+//       }
+//     });
+//   });
+// };
+
+// UPDATE USER PROFILE 
 export const updateProfile = (req, res) => {
-  const userId = req.userId; // 🔥 konsisten
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
 
-  const {
-    username,
-    Bio,
-    fotoProfile,
-    preferensiWisata
-  } = req.body;
+  const { username, bio, preferensiWisata } = req.body;
+  const userId = req.user.id;  // ← Ambil dari req.user.id
 
-  const parsedPreferensi =
-    Array.isArray(preferensiWisata)
-      ? preferensiWisata
-      : typeof preferensiWisata === "string"
-        ? preferensiWisata.split(",")
-        : [];
+  db.query("SELECT fotoProfile FROM users WHERE id = ?", [userId], (err, result) => {
+    if (err) return res.status(500).json({ success: false, message: "DB Error" });
 
-  const sqlGet = "SELECT fotoProfile FROM users WHERE id = ?";
+    const oldFoto = result[0]?.fotoProfile || "/profileDefault.jpg";
+    const newFoto = req.file ? `/uploads/${req.file.filename}` : oldFoto;
 
-  db.query(sqlGet, [userId], (err, rows) => {
-    if (err) return res.status(500).json({ success:false });
-
-    const existingFoto = rows[0]?.fotoProfile;
-
-    const finalFoto =
-      req.file?.filename || fotoProfile || existingFoto;
-
-    const sqlUpdate = `
-      UPDATE users SET 
-        username = ?, 
-        Bio = ?, 
-        fotoProfile = ?, 
+    const sql = `
+      UPDATE users SET
+        username = ?,
+        bio = ?,
+        fotoProfile = ?,
         preferensiWisata = ?
       WHERE id = ?
     `;
 
-    db.query(
-      sqlUpdate,
-      [
-        username,
-        Bio,
-        finalFoto,
-        JSON.stringify(parsedPreferensi), // 🔥 simpan JSON
-        userId
-      ],
-      (err) => {
-        if (err) {
-          console.error("Update error:", err);
-          return res.status(500).json({ success:false });
-        }
+    db.query(sql, [
+      username || null,
+      bio || "",
+      newFoto,
+      JSON.stringify(preferensiWisata || []),
+      userId
+    ], (err2) => {
+      if (err2) return res.status(500).json({ success: false, message: "Update Error", error: err2.message });
 
-        return res.json({
+      db.query("SELECT id, email, username, fotoProfile, bio, preferensiWisata FROM users WHERE id = ?", [userId], (err3, rows) => {
+        if (err3 || rows.length === 0) return res.status(500).json({ success: false, message: "Gagal ambil data terbaru" });
+
+        const user = rows[0];
+        res.json({
           success: true,
           user: {
-            username,
-            Bio,
-            fotoProfile: finalFoto,
-            preferensiWisata: parsedPreferensi
+            ...user,
+            preferensiWisata: JSON.parse(user.preferensiWisata || "[]")
           }
         });
-      }
-    );
+      });
+    });
   });
 };
 
-
-// REFRESH HALAMAN
+// REFRESH HALAMAN / GET ME
 export const getMe = (req, res) => {
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+
+  const userId = req.user.id;
+
   const sql = `SELECT id, email, username, fotoProfile, bio, preferensiWisata FROM users WHERE id = ?`;
-  db.query(sql, [req.userId], (err, result) => {
-    if (err) return res.status(500).json({ success: false });
+  db.query(sql, [userId], (err, result) => {
+    if (err) return res.status(500).json({ success: false, message: "DB Error" });
     if (result.length === 0) return res.status(404).json({ success: false, message: "User tidak ditemukan" });
 
     const user = result[0];
@@ -173,7 +225,6 @@ export const getMe = (req, res) => {
     });
   });
 };
-
 
   
 

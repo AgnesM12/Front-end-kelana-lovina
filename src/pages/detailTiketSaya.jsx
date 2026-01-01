@@ -127,18 +127,36 @@ const TiketPdfContent = ({ paket, data }) => {
             borderRadius: '8px',
         }
 
-        // localStrorage untuk tiketSaya
         useEffect(() => {
-            if (paket && data) {
-                const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];
-                const tiketAda = tiket.some(t => t.data.fullName === data.fullName && t.paket.title === paket.title && t.data.tanggalBerangkat === data.tanggalBerangkat);
-                if (!tiketAda) {
-                    tiket.push({paket, data, status: "berhasil"}); // tambahkan status agar bisa muncul di TiketSaya
-                    localStorage.setItem("tiketSaya", JSON.stringify(tiket))
-                }
-            }   
-        }, [paket, data]);
+            if (!paket || !data) return;
+          
+            const simpanTiket = async () => {
+              try {
+                const token = localStorage.getItem("token");
+          
+                await fetch("http://localhost:4000/api/tiket", {
+                    method: "POST",
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      paket_id: paket.id,
+                      booking_id: data.bookingId, 
+                      tanggalBerangkat: data.tanggalBerangkat,
+                      jumlahOrang: data.jumlahOrang,
+                      status: "berhasil",
+                    }),
+                  });
 
+              } catch (err) {
+                console.error("Gagal simpan tiket", err);
+              }
+            };
+          
+            simpanTiket();
+          }, [paket, data]);
+          
         return(
             <div>
                 <div className="flex min-h-screen flex-col justify-center items-center">

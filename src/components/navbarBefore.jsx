@@ -33,7 +33,7 @@ function NavbarBefore() {
 
     const [profile, setProfile] = useState({
         namaLengkap: "",
-        foto: null
+        fotoProfile: null
     });
 
     useEffect(() => {
@@ -42,7 +42,7 @@ function NavbarBefore() {
         if (stored) {
             setProfile({
             namaLengkap: stored.namaLengkap || "",
-            foto: stored.fotoProfil || null
+            fotoProfile: stored.fotoProfile || null
             });
         }
         };
@@ -108,8 +108,6 @@ function NavbarBefore() {
         currentPath.startsWith('/destinasi') ||
         currentPath.startsWith('/paket');
 
-    
-
     return (
         <header className="py-6 w-full bg-white flex justify-center items-center shadow-sm mx-auto">
             <nav className="max-w-[1220px] mx-auto flex items-center justify-between h-20 px-4 md:px-6 w-full">
@@ -173,7 +171,7 @@ function NavbarBefore() {
                             <div className='flex items-center space-x-4'>
                                 <Link to='/profil'>
                                     <img
-                                    src={profile.foto ? profile.foto : "/profileDefault.jpg"}
+                                    src={profile.fotoProfile ? profile.fotoProfile : "/profileDefault.jpg"}
                                     alt="User profile"
                                     className="w-14 h-14 rounded-full object-cover ml-4 cursor-pointer"
                                     />

@@ -1,43 +1,30 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ChevronUp, ChevronDown, X } from "lucide-react";
 import { FiCamera } from "react-icons/fi";
+import { X, ChevronUp, ChevronDown } from "lucide-react";
 
 const InputField = ({ label, placeholder, value, onChange }) => (
   <div className="w-full flex flex-col gap-2.5">
     <label className="text-zinc-800 text-base font-semibold">{label}</label>
-    <input
-      type="text"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder={placeholder}
-      className="w-full h-11 px-4 py-2 rounded-lg border-2 border-blue-700 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-700"
-    />
+    <input type="text" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="w-full h-11 px-4 py-2 rounded-lg border-2 border-blue-700 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-700"/>
   </div>
 );
 
-const EditProfil = ({ closeModal, onSave, existingData }) => {
+const EditProfil = ({ closeModal, existingData, onSave }) => {
   const data = existingData ?? {};
-  const [username, setUsername] = useState("namaLengkap");
+
   const [namaLengkap, setNamaLengkap] = useState(data.namaLengkap || "");
   const [bio, setBio] = useState(data.bio || "");
-  const [preferensiWisata, setPreferensiWisata] = useState(
-    Array.isArray(data.preferensiWisata) ? data.preferensiWisata : []
-  );
-  const [fotoProfile, setFotoProfile] = useState(data.fotoProfil || "/profileDefault.jpg");
+  const [preferensiWisata, setPreferensiWisata] = useState(Array.isArray(data.preferensiWisata) ? data.preferensiWisata : []);
+  
+  const [fotoProfile, setFotoProfile] = useState(data.fotoProfile || "");
+  const [fotoFile, setFotoFile] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [validationError, setValidationError] = useState("");
   const dropdownRef = useRef(null);
 
-  const preferensi = [
-    "Pantai",
-    "Alam",
-    "Snorkeling",
-    "Paket Wisata",
-    "Event",
-    "Sunrise",
-    "Watching Dolphin",
-    "Kuliner",
-    "Budaya"
+  const preferensi = 
+  [
+    "Pantai", "Alam", "Snorkeling", "Paket Wisata",
+    "Event", "Sunrise", "Watching Dolphin", "Kuliner", "Budaya"
   ];
 
   useEffect(() => {
@@ -46,7 +33,7 @@ const EditProfil = ({ closeModal, onSave, existingData }) => {
       setNamaLengkap(savedData.namaLengkap || "");
       setBio(savedData.bio || "");
       setPreferensiWisata(savedData.preferensiWisata || []);
-      setFotoProfil(savedData.fotoProfile || "/profileDefault.jpg");
+      setFotoProfile(savedData.fotoProfile || "");
     }
   }, []);
 
@@ -69,45 +56,18 @@ const EditProfil = ({ closeModal, onSave, existingData }) => {
   const handleChangeFoto = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setFotoFile(file);
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setFotoProfil(reader.result);
-      };
+      reader.onloadend = () => setFotoProfile(reader.result);
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSave = async () => {
-    try {
-      const token = localStorage.getItem("token");
-
-      const payload = {
-        username: namaLengkap,
-        bio,
-        fotoProfile
-      };
-
-      const res = await fetch("http://localhost:4000/api/auth/update-profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await res.json();
-      console.log("UPDATE RESPONSE:", data);
-
-      if (!data.success) {
-        alert(data.message || "Gagal update profil");
-        return;
-      }
-
-      alert("Profil berhasil diperbarui 🎉");
-    } catch (err) {
-      console.error("Error update profil:", err);
-    }
+  const handleSave = () => {
+    const updatedProfile = {namaLengkap, bio, preferensiWisata, fotoProfile, };
+    localStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+    if (onSave) onSave(updatedProfile);
+    closeModal();
   };
 
   const Dropdown = ({ label, options }) => (
@@ -158,7 +118,6 @@ const EditProfil = ({ closeModal, onSave, existingData }) => {
               }`}
             >
               {option}
-              {preferensiWisata.includes(option) && <span className="text-primary">✓</span>}
             </div>
           ))}
         </div>
@@ -169,60 +128,24 @@ const EditProfil = ({ closeModal, onSave, existingData }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800/75 z-50 p-4">
       <div className="w-full max-w-4xl bg-white rounded-[30px] shadow-2xl p-6 md:p-12 relative overflow-y-auto max-h-[90vh]">
-        {/* Tombol Tutup */}
-        <X
-          onClick={closeModal}
-          className="absolute top-6 right-6 w-8 h-8 text-zinc-800 hover:text-red-500 transition duration-150 cursor-pointer"
-        />
-
-        {/* Header */}
-        <h1 className="text-center text-zinc-800 text-3xl font-bold mb-10">
-          Informasi Pemilik Akun
-        </h1>
-
-        {/* Grid Layout */}
+        <X onClick={closeModal} className="absolute top-6 right-6 w-8 h-8 text-zinc-800 hover:text-red-500 cursor-pointer" />
+        <h1 className="text-center text-zinc-800 text-3xl font-bold mb-10">Informasi Pemilik Akun</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Foto Profil */}
           <div className="flex flex-col items-center md:items-start space-y-4">
-            <label className=" relative cursor-pointer">
-              <img
-                className="w-56 h-56 rounded-full object-cover shadow-lg bg-pink-300"
-                src={fotoProfile}
-                alt="Foto Profil"
-              />
-              <div className="absolute bottom-4 right-4 bg-blue-700 text-white p-2 rounded-full shadow-md hover:bg-blue-800 transition duration-200">
+            <label className="relative cursor-pointer">
+              <img className="w-56 h-56 rounded-full object-cover shadow-lg bg-pink-300" src={fotoProfile} alt="Foto Profil" />
+              <div className="absolute bottom-4 right-4 bg-blue-700 text-white p-2 rounded-full shadow-md hover:bg-blue-800">
                 <FiCamera className="w-5 h-5" />
               </div>
               <input type="file" accept="image/*" className="hidden" onChange={handleChangeFoto} />
             </label>
           </div>
-
-          {/* Form Input */}
           <div className="space-y-6 w-full text-base font-semibold text-zinc-800">
-            <div>
-              <InputField
-                label="Nama Lengkap"
-                placeholder="Masukkan nama lengkap anda"
-                value={namaLengkap}
-                onChange={setNamaLengkap}
-              />
-              {validationError && (
-                <p className="mt-2 text-sm text-red-600 font-normal">{validationError}</p>
-              )}
-            </div>
-
-            <InputField
-              label="Bio"
-              placeholder="Tambahkan bio anda"
-              value={bio}
-              onChange={setBio}
-            />
-
+            <InputField label="Nama Lengkap" placeholder="Masukkan nama lengkap anda" value={namaLengkap} onChange={setNamaLengkap} />
+            <InputField label="Bio" placeholder="Tambahkan bio anda" value={bio} onChange={setBio} />
             <Dropdown label="Preferensi Wisata" options={preferensi} />
           </div>
         </div>
-
-        {/* Tombol Simpan */}
         <div className="mt-12 flex justify-center">
           <button
             onClick={handleSave}
