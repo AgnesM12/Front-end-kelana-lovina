@@ -47,7 +47,7 @@ function ReviewRating() {
         id: t.id + "_" + t.tanggalBerangkat + "_" + idx,
         paketId: t.paket.id,
         slug: t.paket.slug,
-        aktivitasId: `${t.id}_${t.paket.id}_${t.data.tanggalBerangkat}_${t.user?.username}`,
+        aktivitasId: `${t.id}_${t.paket.id}_${t.data.tanggalBerangkat}_${t.user?.username}_${idx}`,
         imageSrc: t.paket.imageSrc || "/default.png",
         title: t.paket.title || "Paket tidak diketahui",
         desk: t.paket.tagLine || "Tidak ada tagline paket",
