@@ -20,8 +20,6 @@ const TambahUlasan = () => {
 
   const user = useSelector((state) => state.auth?.user);
   const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
-
-
   const username =
     savedProfile?.namaLengkap ||
     user?.name ||
@@ -72,7 +70,7 @@ const handleSubmit = async (e) => {
     const ulasanData = {
       paketId: Number(paketId),
       id: ulasanId,
-      slug,
+      slug: state?.slug || slug,
       aktivitasId: state?.aktivitasId,
       tanggalBerangkat,
       username,
@@ -91,7 +89,7 @@ const handleSubmit = async (e) => {
     const existingReviews = JSON.parse(localStorage.getItem("reviews")) || [];
     localStorage.setItem("reviews", JSON.stringify([...existingReviews, ulasanData]));
     window.dispatchEvent(new Event("reviewsUpdated"));
-    
+
     alert("Ulasan berhasil dikirim!");
     navigate("/review-rating");
 

@@ -16,10 +16,24 @@ function ReviewRating() {
   const isPaketPage = Boolean(slug);
 
   useEffect(() => {
-    const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-    const staticReviews = isPaketPage ? (reviewsMapping[slug] || []) : [];
-    setReviews([...staticReviews, ...savedReviews]);
-  }, [slug, state]);
+    const loadReviews = () => {
+      const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+      const staticReviews = isPaketPage ? reviewsMapping[slug] || [] : [];
+      const merged = [...staticReviews, ...savedReviews];
+
+      const filteredReviews = isPaketPage
+        ? merged.filter((r) => r.slug === slug)
+        : merged;
+  
+      setReviews(filteredReviews);
+    };
+  
+    loadReviews();
+    window.addEventListener("reviewsUpdated", loadReviews);
+    return () => {
+      window.removeEventListener("reviewsUpdated", loadReviews);
+    };
+  }, [slug, isPaketPage]);  
 
   useEffect(() => {
     const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];
@@ -87,6 +101,11 @@ function ReviewRating() {
       }
       return 0;
     });
+
+    const totalReviews = filtered.length; 
+    const avgRating = totalReviews === 0
+      ? 0
+      : (filtered.reduce((sum, r) => sum + Number(r.rating || 0), 0) / totalReviews).toFixed(1);
 
   return (
     <main className="w-full max-w-7xl mx-auto px-6 sm:px-8 mt-16 overflow-x-hidden">

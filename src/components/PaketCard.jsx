@@ -9,61 +9,54 @@ const PaketCard = ({ paket }) => {
     const [imageUrl, setImageUrl] = useState(paket.imageSrc); 
     
     const loadStats = () => {
-        const allReview = JSON.parse(localStorage.getItem("reviews")) || [];
-        const paketReviews = allReview.filter(r => r.paketId === paket.paketId); 
+        const allReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+        const paketReviews = allReviews.filter(
+            r => Number(r.paketId) === Number(paket.paketId) || r.slug === paket.slug
+        );             
         const total = paketReviews.length;
-        const avg = 
-            total === 0 
-            ? 0 
-            : (paketReviews.reduce((s, r) => s + Number(r.rating || 0), 0) / total).toFixed(1);
-        setStats ({avg, total});
-    };
-
-    useEffect(() => {
-        loadStats(); 
-        window.addEventListener("reviewsUpdated", loadStats);
-        return () => {
-            window.removeEventListener("reviewsUpdated", loadStats);
-        };
-    }, [paket]);   
-
+        const avg = total === 0 ? 0 : (paketReviews.reduce((s, r) => s + Number(r.rating || 0), 0) / total).toFixed(1);
+        setStats({ avg, total });
+    };    
 
     useEffect(() => {
         loadStats();
         window.addEventListener("reviewsUpdated", loadStats);
         return () => window.removeEventListener("reviewsUpdated", loadStats);
-      }, [paket]);
+    }, [paket.paketId]);
     
-      useEffect(() => {
+    useEffect(() => {
         let objectUrl;
-    
+
         const loadImages = async () => {
-          try {
-            const allReviews = JSON.parse(localStorage.getItem("reviews")) || [];
-            const paketReviews = allReviews.filter(r => r.paketId === paket.paketId);
-            if (paketReviews.length === 0) return;
-    
-            const reviewIds = paketReviews.map(r => r.id);
-            const album = await getAllItems("album");
-            const reviewImages = album.filter(img => reviewIds.includes(img.reviewId));
-    
-            if (reviewImages.length > 0) {
-              objectUrl = URL.createObjectURL(reviewImages[0].imageFile);
-              setImageUrl(objectUrl);
+            try {
+                const allReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+                const paketReviews = allReviews.filter(
+                    r => Number(r.paketId) === Number(paket.paketId)
+                  );                                 
+                if (!paketReviews.length) return;
+
+                const reviewIds = paketReviews.map(r => r.id);
+                const album = await getAllItems("album");
+                const reviewImages = album.filter(img => reviewIds.includes(img.reviewId));
+
+                if (reviewImages.length > 0) {
+                    objectUrl = URL.createObjectURL(reviewImages[0].imageFile);
+                    setImageUrl(objectUrl);
+                }
+            } catch (err) {
+                console.error("Gagal load gambar:", err);
             }
-          } catch (err) {
-            console.error("Gagal load gambar:", err);
-          }
         };
-    
+
         loadImages();
         window.addEventListener("reviewsUpdated", loadImages);
-    
+
         return () => {
-          if (objectUrl) URL.revokeObjectURL(objectUrl);
-          window.removeEventListener("reviewsUpdated", loadImages);
+            if (objectUrl) URL.revokeObjectURL(objectUrl);
+            window.removeEventListener("reviewsUpdated", loadImages);
         };
-      }, [paket]);    
+    }, [paket.paketId]);
+  
 
     return (
     <div className="w-full h-[500px] sm:w-[320px] md:w-[360px] lg:w-[385px] h-auto p-6 sm:p-5 lg:p-6 bg-white rounded-2xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] overflow-hidden flex flex-col justify-center transition-transform duration-300">

@@ -23,30 +23,27 @@ import paketData from "../components/DataDetailPaket.jsx";
       
         const loadReviews = () => {
             const allReview = JSON.parse(localStorage.getItem("reviews")) || [];
-            const filtered = allReview.filter(
-              r => r.paketId === paket.paketId
-            );  
+            const filtered = allReview.filter((r) => r.slug === paket.slug);
             setUserReviews(filtered);  
         }; 
         loadReviews();
+        
+        const handleReviewsUpdated = () => loadReviews();
         window.addEventListener("reviewsUpdated", loadReviews);
         return () => {
             window.removeEventListener("reviewsUpdated", loadReviews);
         };  
       }, [paket]);
       
-    
     if (!paket) {
         return <p className="text-center mt-40 text-gray-500">Paket tidak ditemukan.</p>
     ;}
         
     const totalReviews = userReviews.length;
     const avgRating = totalReviews === 0
-        ? 0
-        : (
-            userReviews.reduce( (sum, r) => sum + Number(r.rating || 0), 0) / totalReviews
-            ).toFixed(1);
-
+      ? 0
+      : (userReviews.reduce((sum, r) => sum + Number(r.rating || 0), 0) / totalReviews).toFixed(1);
+    
     const handlePesanClick = () => {
         if (isLoggedIn) {
             navigate(`/paket/${slug}/menuPembayaran`, { state: paket });
@@ -55,6 +52,13 @@ import paketData from "../components/DataDetailPaket.jsx";
             navigate("/login");
         }
         };
+
+        useEffect(() => {
+            console.log("User reviews:", userReviews);
+            console.log("All reviews from localStorage:", JSON.parse(localStorage.getItem("reviews")));
+            console.log("paketId:", paket?.paketId);
+        }, [userReviews, paket]);
+        
 
         return (
             <div className="max-w-full mx-auto bg-white flex flex-col gap-8 p-4 sm:p-6 md:p-8 lg:max-w-[1200px] lg:my-16 lg:px-9 lg:py-14 lg:rounded-[30px] lg:shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)]">
@@ -111,13 +115,11 @@ import paketData from "../components/DataDetailPaket.jsx";
                     </p>
                 </div>
 
-
                 {/* Tombol Pesan */}
                     <button onClick={handlePesanClick} className="mt-4 w-full h-14 sm:h-16 px-6 py-3 bg-primary text-white text-lg sm:text-2xl md:text-3xl font-bold rounded-lg hover:bg-blue-700 transition">
                         Pesan Sekarang
                     </button>
                 </div>
             );
-        };
-
+        };        
     export default DetailPaket;
