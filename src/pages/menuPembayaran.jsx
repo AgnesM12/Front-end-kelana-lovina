@@ -71,7 +71,6 @@ function MenuPembayaran() {
                 localStorage.setItem("bookings", JSON.stringify([...existingBookings, payload]));
                 setFormData(payload);
 
-                // Buka popup info pembayaran
                 setIsOpen(true);
             } else {
                 alert("❌ Gagal menyimpan pembayaran ke database");
@@ -83,7 +82,6 @@ function MenuPembayaran() {
     };
 
 
-      
     const jumlahOrang  = watch("jumlahOrang") || 0; 
     const hargaPerTiket = parseInt(paket.price?.replace(/\D/g, "") || "0"); 
     const subTotal = jumlahOrang * hargaPerTiket;

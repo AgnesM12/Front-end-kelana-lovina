@@ -1,9 +1,7 @@
     import React, {useState, useEffect} from "react";
     import HeroSection from "../components/HeroSection";
     import Judul from "../components/Judul";
-    import PaketCard from "../components/PaketCard";
     import { useLocation } from "react-router-dom";
-
     import { Swiper, SwiperSlide } from "swiper/react";
     import { Navigation, Pagination, A11y } from "swiper/modules";
     import "swiper/css";
@@ -12,26 +10,25 @@
 
 
     function RiwayatPemesanan() {
-
         const {state} = useLocation();
-        console.log(state?.status);
-        const status = state?.status;
+        const navigationStatus = state?.status;
         const [dataPemesanan, setDataPemesanan] = useState([]);
 
         useEffect(() => {
-            const tiket = JSON.parse(localStorage.getItem("riwayat")) || [];
+            const riwayatRaw = JSON.parse(localStorage.getItem("riwayat")) || [];
 
-            const normalisasi = tiket.map((item, idx) => ({
+            const normalisasi = riwayatRaw.map((item, idx) => ({
                 id: idx + 1,
-                imageSrc: item.imageSrc ?? "/paket-default.png",
-                title: item.paket ?? "paket",
-                deskripsi: item.deskripsi ?? "" ,
-                tanggal: item.tanggal ?? "",
-                status:
-                    item.status?.toLowerCase() === "selesai" ||
-                    item.status?.toLowerCase() === "berhasil"
-                        ? "Selesai"
-                        : "Dibatalkan"
+                imageSrc: item.imageSrc || "/paket-default.png",
+                title: item.paket || "Nama Paket",
+                deskripsi: item.deskripsi || "" ,
+                tanggal: item.tanggal || "",
+                status: (() => {
+                    const status = item.status?.toLowerCase();
+                    if (status === "berhasil") return "Selesai"; 
+                    if (status === "pending" || status === "menunggu") return "Menunggu"; 
+                    return "Dibatalkan";
+                })()
             }));
             setDataPemesanan(normalisasi);
         }, []);
@@ -49,9 +46,9 @@
                         description: "Pantau pemesanan Anda, mulai dari tiket yang sudah selesai hingga yang dibatalkan." }}
                     />
 
-                {status && (
+                {navigationStatus && (
                 <div className="text-center my-6">
-                    {status === "berhasil" ? (
+                    {navigationStatus === "berhasil" ? (
                     <p className="text-green-600 text-lg sm:text-xl font-semibold">
                         Pembayaran Berhasil
                     </p>
@@ -75,8 +72,6 @@
 
     export default RiwayatPemesanan;
 
-
-
     const DaftarPesanan = ({dataPemesanan}) => {
         const [filter, setFilter] = useState("Semua");
         
@@ -84,6 +79,8 @@
                 switch (status.toLowerCase()) {
                 case "selesai":
                     return "bg-green-600";
+                case "menunggu":
+                    return "bg-yellow-500";
                 case "dibatalkan":
                     return "bg-red-600";
                 default:
@@ -94,7 +91,7 @@
             const filteredData =
             filter === "Semua"
                 ? dataPemesanan
-                : dataPemesanan.filter((item) => item.status === filter);
+                : dataPemesanan.filter((item) => item.status.toLowerCase() === filter.toLowerCase());
         
             //jika tidak ada data
             if (!dataPemesanan || dataPemesanan.length === 0) {
@@ -109,7 +106,7 @@
             <section className="w-full mt-8">
                 {/* Tombol Filter */}
                 <div className="flex flex-wrap gap-3 sm:gap-4 mb-8">
-                {["Semua", "Selesai", "Dibatalkan"].map((item) => (
+                {["Semua", "Selesai", "Menunggu", "Dibatalkan"].map((item) => (
                     <button
                     key={item}
                     onClick={() => setFilter(item)}

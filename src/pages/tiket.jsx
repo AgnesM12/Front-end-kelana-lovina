@@ -4,7 +4,7 @@ import { Page, Text, View, Document, StyleSheet, PDFDownloadLink, Image } from '
 
 const TiketPdfContent = ({ paket, data }) => {
 
-    const toISODate = (iso) => iso.split(" ")[0]; // ambil YYYY-MM-DD
+    const toISODate = (iso) => iso.split(" ")[0]; 
 
     // Fungsi untuk menghitung total harga
     const formatTotalHarga = () => {

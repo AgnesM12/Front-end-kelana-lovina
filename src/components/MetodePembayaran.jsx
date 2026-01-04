@@ -1,265 +1,170 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dialog } from "@headlessui/react";
 import { X } from "lucide-react";
-import { pdf } from "@react-pdf/renderer";
-import KodeBayarPDF from "./kodeBayar.jsx";
 
-function MetodePembayaran({ paket, formData, isOpen, setIsOpen, isOpenNested, setIsOpenNested, jumlahOrang, total }) {
-    const navigate = useNavigate();
-    const close = () => setIsOpen(false);
+function MetodePembayaran({ paket, formData, isOpen, setIsOpen, jumlahOrang, total }) {
+    const navigate = useNavigate(); 
+    const [isPaying, setIsPaying] = useState(false);
     const hargaPerTiket = parseInt(paket.price.replace(/\D/g, "")) || 0;
     const subTotal = (jumlahOrang || 0) * hargaPerTiket;
-    const [isPaying, setIsPaying] = useState(false);
 
-    const [seconds, setSeconds] = useState(900);
-    useEffect(() => {
-        let timer;
-        if (isOpenNested && seconds > 0) {
-          timer = setInterval(() => {
-            setSeconds((prev) => prev - 1);
-          }, 1000);
-        }
-        return () => clearInterval(timer);
-      }, [isOpenNested, seconds]);
-
-    const closeNested = () => {
-        setIsOpenNested(false);
-        navigate("/riwayat-pemesanan");
-    };
-
-    const formatTime = (seconds) => {
-        const hour = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const secondsRemaining = seconds % 60;
-        return [hour, minutes, secondsRemaining].map((v) => v.toString().padStart(2, "0")).join(":");
-    };
-
-    const handleDownloadPDF = async () => {
-        if (!formData) return alert("Form data is missing!");
-        const blob = await pdf(<KodeBayarPDF data={formData} paket={paket} />).toBlob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "tiket_wisata.pdf";
-        a.click();
-        URL.revokeObjectURL(url);
-    };
-
-    //pilih metode pembayaran
-    const paymentMethod = {
-        BCA: "/BCA.png", 
-        BNI: "/BNI.png", 
-        Mandiri: "/Mandiri.png", 
-        Ovo: "/OVO.png", 
-        Dana: "/Dana.png", 
-        Gopay: "/gopay.png"
-    };
-
-    const [selectedMethod, setSelectedMethod] = useState(null);
+    const close = () => {
+        if (!isPaying) setIsOpen(false);
+    }; 
 
     const handleBayar = async () => {
-        if (!selectedMethod || !formData || isPaying) return;
+        if (!formData || isPaying) return;
+      
+        if (!window.snap) {
+          alert("Payment gateway belum siap");
+          return;
+        }
+      
         setIsPaying(true);
       
         try {
-            console.log("PAYLOAD MIDTRANS:", {
-                fullName: formData.fullName,
-                email: formData.email,
-                nomorTelpon: formData.nomorTelpon,
-                jumlahOrang: formData.jumlahOrang,
-                tanggalBerangkat: formData.tanggalBerangkat,
-                paketId: paket.id || `PKT-${Date.now()}`, 
-                paketNama: paket.title,
-                totalPayment: total,
-              });
-
-            const response = await fetch("http://localhost:4000/api/payments/midtrans", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  fullName: formData.fullName,
-                  email: formData.email,
-                  nomorTelpon: formData.nomorTelpon,
-                  jumlahOrang: formData.jumlahOrang,
-                  tanggalBerangkat: formData.tanggalBerangkat,
-                  paketId: paket.id || `PKT-${Date.now()}`, 
-                  paketNama: paket.title,
-                  totalPayment: total,
-                }),
-              });
-              
-              if (!response.ok) {
-                const err = await response.json();
-                console.error("Payment error:", err);
-                setIsPaying(true);
-                return;
-              }
-              
-              const data = await response.json();              
+          const response = await fetch("http://localhost:4000/api/payments/midtrans", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fullName: formData.fullName,
+              email: formData.email,
+              nomorTelpon: formData.nomorTelpon,
+              jumlahOrang: formData.jumlahOrang,
+              tanggalBerangkat: formData.tanggalBerangkat,
+              paketId: paket.paketId || paket.id,
+              paketNama: paket.title,
+              totalPayment: total,
+            }),
+          });
       
-              if (data.token) {
-                window.snap.pay(data.token, {
-                  onSuccess: handleSuccess,
-                  onPending: handlePending,
-                  onError: handleFailed,
-                  onClose: () => setIsPaying(false),
-                });
-              }
-            } catch (error) {
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.message);
+      
+          setIsOpen(false);
+      
+          window.snap.pay(data.token, {
+            onSuccess: (result) => {
+              simpanRiwayat("berhasil", result.order_id);
+              simpanTiket(result.order_id);
+              navigate("/riwayat-pemesanan", { state: { status: "berhasil" } });
+            },
+
+            onPending: (result) => {
+              simpanRiwayat("pending", result.order_id);
+              navigate("/riwayat-pemesanan", { state: { status: "pending" } });
+            },
+
+            onError: (result) => {
+              simpanRiwayat("gagal", result?.order_id);
+              navigate("/riwayat-pemesanan", { state: { status: "gagal" } });
+            },
+
+            onClose: () => {
               setIsPaying(false);
-              alert("Gagal menghubungkan ke Midtrans");
-            }
-      };
+              navigate("/riwayat-pemesanan");
+            },
+          });
       
-    // Update handler-handler
-    const handleSuccess = (result) => {
-        alert("Pembayaran berhasil! 🎉");
-        // Simpan ke localStorage kalau mau
+        } catch (err) {
+          alert(err.message || "Gagal terhubung ke server");
+          setIsPaying(false);
+        }
+      };      
+
+      const simpanRiwayat = (status, orderId) => {
         const riwayatLama = JSON.parse(localStorage.getItem("riwayat")) || [];
-        localStorage.setItem("riwayat", JSON.stringify([...riwayatLama, {
-        paket: paket.title,
-        tanggal: new Date().toLocaleDateString("id-ID"),
-        status: "berhasil",
-        imageSrc: paket.imageSrc,
-        deskripsi: paket.tagLine,
-        }]));
+        riwayatLama.push({
+            orderId, 
+            paketId: paket.paketId || paket.id,
+            paket: paket.title, 
+            tanggal: new Date().toLocaleDateString("id-ID"), 
+            status, 
+            total, 
+            imageSrc: paket.imageSrc, 
+        }); 
+        localStorage.setItem("riwayat", JSON.stringify(riwayatLama));
+      };
+
+      const simpanTiket = (orderId) => {
+        const tiketLama = JSON.parse(localStorage.getItem("tiketSaya")) || []; 
+        tiketLama.push({
+            orderId,
+            paketId: paket.paketId || paket.id,
+            paket: paket.title,         
+            imageSrc: paket.imageSrc,
+            departurTime: paket.departurTime, 
+            fullName: formData.fullName,       
+            tanggalBerangkat: formData.tanggalBerangkat,
+            jumlahOrang: formData.jumlahOrang,
+            sudahReview: false,
+            status: "berhasil"
+        });
+        localStorage.setItem("tiketSaya", JSON.stringify(tiketLama));
+      }
+
+      return (
+        <Dialog open={isOpen} onClose={close} className="relative z-50">
+          <div className="fixed inset-0 bg-black/60" />
+          <div className="fixed inset-0 flex items-center justify-center">
+            <Dialog.Panel className="bg-white rounded-2xl w-full max-w-md mx-auto overflow-hidden">
+              {/* Header */}
+              <div className="flex justify-between items-center p-4 border-b">
+                <Dialog.Title className="text-xl font-bold">
+                  Ringkasan Pembayaran
+                </Dialog.Title>
+                <button onClick={close}>
+                  <X />
+                </button>
+              </div>
     
-        navigate("/riwayat-pemesanan", { state: { status: "berhasil" } });
-    };
-    
-    const handlePending = (result) => {
-        console.log("Pending payment:", result);
-        alert("Silakan selesaikan pembayaran sesuai instruksi ");
-        setSeconds(900);
-        setIsOpenNested(true);
-    };
-    
-    const handleFailed = (result) => {
-        alert("Pembayaran gagal atau dibatalkan.");
-        navigate("/riwayat-pemesanan", { state: { status: "gagal" } });
-    };
-
-    return (
-        <div>
-            {/* Pop up Info Pembayaran */}
-            <Dialog open={isOpen} onClose={close} className="relative z-50">
-                <div className="fixed inset-0 bg-black/60" aria-hidden="true" />
-                <div className="fixed inset-0 flex items-center justify-center">
-                    <Dialog.Panel className="bg-[#005ED1] rounded-2xl w-full max-w-md mx-auto">
-                        <div className="p-3 bg-white rounded-t-2xl">
-                            <div className="flex items-center gap-48">
-                                <Dialog.Title className="text-2xl font-bold text-gray-900">Info Pembayaran</Dialog.Title>     
-                                <button onClick={close}> <X size={28} className="text-black hover:text-red-500" /></button>          
-                            </div>
-                            <p className="text-gray-600">Paket Wisata</p>
-                        </div>
-
-                        <div className="flex items-center bg-[#005ED1] p-3">
-                            <div className="flex items-center bg-white rounded-xl p-2 shadow-md w-full">
-                                <img src={paket.imageSrc} className="h-20 w-28 rounded-sm" alt="" />
-                                <div className="ml-4">
-                                    <h4 className="text-lg font-bold">{paket.title}</h4>
-                                    <p className="text-xs text-gray-400">{paket.tagLine}</p>
-                                    <p className="text-sm text-gray-500 mt-2">{paket.location}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="p-3 bg-white text-gray-800">
-                            <p className="text-center font-bold text-xl mb-1">
-                                {new Date().toLocaleDateString("id-ID", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
-                            </p>
-                            <hr className="my-2" />
-                            <div className="flex justify-between text-base">
-                                <p>Total</p>
-                                <p className="font-bold">Rp. {subTotal.toLocaleString("id-ID")}</p>
-                            </div>
-                            <div className="flex justify-between mt-2 text-base">
-                                <p>Biaya Layanan</p>
-                                <p className="font-bold">Rp. 10.000</p>
-                            </div>
-
-                            <div className="border-2 border-gray-300 rounded-lg p-3 w-4/5 mx-auto mt-5 mb-3">
-                                <p className="font-semibold mb-3">Pilih metode pembayaran</p>
-                                <div className="grid grid-cols-2 gap-x-6 gap-y-3">
-                                    {Object.keys(paymentMethod).map((method) => (
-                                        <button key={method} onClick={() => setSelectedMethod(method)}
-                                            className={`flex items-center gap-3 p-2 rounded-md ${
-                                            selectedMethod === method ? "border-blue-600 bg-blue-100" : "border-gray-300 hover:bg-gray-100"
-                                            }`}>
-                                                <img src={paymentMethod[method]} className="h-4 w-12" alt={method} />
-                                                <span className="font-semibold">{method}</span>
-                                        </button>
-                                         ))}
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div className="p-3 bg-white rounded-b-xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)] flex justify-between items-center">
-                            <div>
-                                <p className="font-bold">Total</p>
-                                <p className="font-bold text-3xl">Rp. {total.toLocaleString("id-ID")}</p>
-                            </div>
-
-                            <button disabled={!selectedMethod || isPaying} onClick={handleBayar}
-                                className={`w-[200px] py-5 px-6 rounded-lg font-bold text-lg
-                                    ${!selectedMethod 
-                                    ? "bg-gray-400 cursor-not-allowed" 
-                                    : "bg-[#005ED1] hover:bg-blue-800 text-white"}
-                                `}>
-                                Bayar
-                            </button>
-                        </div>
-                    </Dialog.Panel>
+              {/* Konten */}
+              <div className="p-4 space-y-3">
+                <div className="flex gap-3">
+                  <img
+                    src={paket.imageSrc}
+                    alt=""
+                    className="w-24 h-16 rounded object-cover"
+                  />
+                  <div>
+                    <p className="font-bold">{paket.title}</p>
+                    <p className="text-sm text-gray-500">{paket.tagLine}</p>
+                  </div>
                 </div>
-            </Dialog>
-
-            {/* Pop up Kode Pembayaran */}
-            <Dialog open={isOpenNested} onClose={closeNested} className="relative z-[100]">
-                <div className="fixed inset-0 bg-black/70" aria-hidden="true" />
-                <div className="fixed inset-0 flex items-center justify-center">
-                    <Dialog.Panel className="bg-blue-600 rounded-2xl w-full max-w-lg mx-auto">
-                        <div className="p-3 bg-white rounded-t-2xl tracking-normal">
-                            <div className="flex items-center gap-80">
-                                <Dialog.Title className="text-xl font-bold text-gray-900">
-                                    Rp. {((jumlahOrang || 0) * hargaPerTiket + 10000).toLocaleString("id-ID")}
-                                </Dialog.Title>
-                                <button onClick={closeNested}> <X size={28} className="text-black hover:text-red-500" /></button>
-                            </div>
-                            <p className="mt-2 text-gray-600">{formData?.boo}</p>
-                        </div>
-
-                        <div className="flex items-center justify-center bg-blue-600 gap-10">
-                            <p className="text-white text-center">Waktu Tersisa</p>
-                            <p className="text-white text-center">{formatTime(seconds)}</p>
-                        </div>
-
-                        <div className="p-3 bg-white">
-                            <div className="flex justify-end-safe">
-                                <img src={paymentMethod[selectedMethod]} alt={selectedMethod} className="h-5"/>
-                            </div>
-                            <div className="flex justify-center">
-                                {selectedMethod && (
-                                  <img src="/qrcode.png"  alt="QR Pembayaran" className="h-[300px] w-[300px]"/>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="p-3 bg-white rounded-b-xl shadow-[0px_6px_40px_0px_rgba(0,94,209,0.16)]">
-                            <div className="flex justify-center">
-                                <button onClick={handleDownloadPDF} className="bg-[#005ED1] text-white font-semibold text-lg px-6 py-3 rounded-xl w-48">Unduh QRIS</button>
-                            </div>
-                            <div className="flex justify-center mt-3">
-                                <button onClick={closeNested} className="bg-[#005ED1] text-white font-semibold text-lg px-6 py-3 rounded-xl w-48">Cek status</button>
-                            </div>
-                        </div>
-                    </Dialog.Panel>
+    
+                <div className="flex justify-between text-sm">
+                  <span>Subtotal</span>
+                  <span>Rp{subTotal.toLocaleString("id-ID")}</span>
                 </div>
-            </Dialog>
-        </div>
-    );
+    
+                <div className="flex justify-between text-sm">
+                  <span>Biaya layanan</span>
+                  <span>Rp10.000</span>
+                </div>
+    
+                <div className="flex justify-between font-bold text-lg">
+                  <span>Total</span>
+                  <span>Rp{total.toLocaleString("id-ID")}</span>
+                </div>
+              </div>
+    
+              {/* Footer */}
+              <div className="p-4 border-t">
+                <button
+                  onClick={handleBayar}
+                  disabled={isPaying}
+                  className={`w-full py-3 rounded-xl text-white font-bold
+                    ${isPaying ? "bg-gray-400" : "bg-[#005ED1] hover:bg-blue-800"}
+                  `}
+                >
+                  {isPaying ? "Memproses..." : "Bayar Sekarang"}
+                </button>
+              </div>
+            </Dialog.Panel>
+          </div>
+        </Dialog>
+      );
 }
 
 export default MetodePembayaran;

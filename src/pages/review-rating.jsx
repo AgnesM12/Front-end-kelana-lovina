@@ -35,30 +35,48 @@ function ReviewRating() {
     };
   }, [slug, isPaketPage]);  
 
+  // useEffect(() => {
+  //   const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];
+  //   const aktif = tiket
+  //     .filter(
+  //       (t) =>
+  //         t.status?.toLowerCase() === "berhasil" ||
+  //         t.status?.toLowerCase() === "selesai"
+  //     )
+  //     .map((t, idx) => ({
+  //       id: t.id + "_" + t.tanggalBerangkat + "_" + idx,
+  //       paketId: t.paket.id,
+  //       slug: t.paket.slug,
+  //       aktivitasId: `${t.id}_${t.paket.id}_${t.data.tanggalBerangkat}_${t.user?.username}_${idx}`,
+  //       imageSrc: t.paket.imageSrc || "/default.png",
+  //       title: t.paket.title || "Paket tidak diketahui",
+  //       desk: t.paket.tagLine || "Tidak ada tagline paket",
+  //       kategori: t.paket.kategori,
+  //       tanggalBerangkat: t.tanggalBerangkat || "-",
+  //       user: t.user?.username || "Pengguna Anonim",
+  //       profileImage: t.user?.fotoProfile || "/profileDefault.jpg",
+  //     }));
+  //   setTiketList(aktif);
+  // }, []);
+
   useEffect(() => {
     const tiket = JSON.parse(localStorage.getItem("tiketSaya")) || [];
-    const aktif = tiket
-      .filter(
-        (t) =>
-          t.status?.toLowerCase() === "berhasil" ||
-          t.status?.toLowerCase() === "selesai"
-      )
-      .map((t, idx) => ({
-        id: t.id + "_" + t.tanggalBerangkat + "_" + idx,
-        paketId: t.paket.id,
-        slug: t.paket.slug,
-        aktivitasId: `${t.id}_${t.paket.id}_${t.data.tanggalBerangkat}_${t.user?.username}_${idx}`,
-        imageSrc: t.paket.imageSrc || "/default.png",
-        title: t.paket.title || "Paket tidak diketahui",
-        desk: t.paket.tagLine || "Tidak ada tagline paket",
-        kategori: t.paket.kategori,
-        tanggalBerangkat: t.data.tanggalBerangkat,
-        user: t.user?.username || "Pengguna Anonim",
-        profileImage: t.user?.fotoProfile || "/profileDefault.jpg",
-      }));
+    const aktif = tiket.map((t, idx) => ({
+      id: (t.orderId || idx) + "_" + t.tanggalBerangkat + "_" + idx,
+      paketId: t.paketId,
+      slug: t.paket?.toLowerCase().replace(/\s+/g, "-") || "unknown-slug",
+      aktivitasId: `${t.orderId}_${t.paketId}_${t.tanggalBerangkat}_Anonim_${idx}`,
+      imageSrc: t.imageSrc || "/default.png",
+      title: t.paket || "Paket tidak diketahui",
+      desk: t.tagLine || "Tidak ada tagline paket",
+      kategori: t.kategori || "-",
+      tanggalBerangkat: t.tanggalBerangkat || "-",
+      user: "Pengguna Anonim",
+      profileImage: "/profileDefault.jpg",
+    }));
     setTiketList(aktif);
   }, []);
-
+  
   const handleFilterChange = (value) => setFilter(value);
 
   const bulanMap = {
