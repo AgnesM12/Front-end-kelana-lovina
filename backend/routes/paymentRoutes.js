@@ -1,9 +1,9 @@
 import express from "express";
-import { savePayment } from "../controllers/paymentController.js";
+import { savePayment, midtransNotification } from "../controllers/paymentController.js";
 
 const router = express.Router();
 
-// POST: Simpan payment dari FE
-router.post("/", savePayment);
+router.post("/midtrans", savePayment);
+router.post("/midtrans/notification", midtransNotification);
 
 export default router;

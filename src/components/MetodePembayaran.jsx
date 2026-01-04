@@ -8,52 +8,24 @@ import KodeBayarPDF from "./kodeBayar.jsx";
 function MetodePembayaran({ paket, formData, isOpen, setIsOpen, isOpenNested, setIsOpenNested, jumlahOrang, total }) {
     const navigate = useNavigate();
     const close = () => setIsOpen(false);
-    const [seconds, setSeconds] = useState(15);
     const hargaPerTiket = parseInt(paket.price.replace(/\D/g, "")) || 0;
     const subTotal = (jumlahOrang || 0) * hargaPerTiket;
+    const [isPaying, setIsPaying] = useState(false);
 
+    const [seconds, setSeconds] = useState(900);
     useEffect(() => {
         let timer;
         if (isOpenNested && seconds > 0) {
-            timer = setInterval(() => {
-                setSeconds((prev) => prev - 1);
-            }, 1000);
+          timer = setInterval(() => {
+            setSeconds((prev) => prev - 1);
+          }, 1000);
         }
-        if (seconds === 0) {
-            clearInterval(timer);
-        }
-        
         return () => clearInterval(timer);
-    }, [isOpenNested, seconds]);
+      }, [isOpenNested, seconds]);
 
     const closeNested = () => {
-        const status = seconds <= 0 ? "gagal" : "berhasil";
-    
-        const riwayatLama = JSON.parse(localStorage.getItem("riwayat")) || [];
-        const riwayatBaru = {
-            paket: paket.title,
-            tanggal: new Date().toLocaleDateString("id-ID"),
-            status,
-            // metode: selectedMethod, 
-            imageSrc: paket.imageSrc,
-            deskripsi: paket.tagLine,
-        };
-        localStorage.setItem("riwayat", JSON.stringify([...riwayatLama, riwayatBaru]));
-    
-        if (status === "berhasil") {
-            const tiketSebelumnya = JSON.parse(localStorage.getItem("tiketSaya")) || [];
-            const tiketBaru = {
-                paket: paket,
-                data: formData,
-                status,
-            };
-            localStorage.setItem("tiketSaya", JSON.stringify([...tiketSebelumnya, tiketBaru]));
-        } else {
-            alert("Pembayaran Gagal!");
-        }
-    
         setIsOpenNested(false);
-        navigate("/riwayat-pemesanan", { state: { status } });
+        navigate("/riwayat-pemesanan");
     };
 
     const formatTime = (seconds) => {
@@ -61,12 +33,6 @@ function MetodePembayaran({ paket, formData, isOpen, setIsOpen, isOpenNested, se
         const minutes = Math.floor((seconds % 3600) / 60);
         const secondsRemaining = seconds % 60;
         return [hour, minutes, secondsRemaining].map((v) => v.toString().padStart(2, "0")).join(":");
-    }
-
-    const handleOpenNested = () => {
-        setSeconds(15);
-        close();
-        setIsOpenNested(true);
     };
 
     const handleDownloadPDF = async () => {
@@ -91,6 +57,88 @@ function MetodePembayaran({ paket, formData, isOpen, setIsOpen, isOpenNested, se
     };
 
     const [selectedMethod, setSelectedMethod] = useState(null);
+
+    const handleBayar = async () => {
+        if (!selectedMethod || !formData || isPaying) return;
+        setIsPaying(true);
+      
+        try {
+            console.log("PAYLOAD MIDTRANS:", {
+                fullName: formData.fullName,
+                email: formData.email,
+                nomorTelpon: formData.nomorTelpon,
+                jumlahOrang: formData.jumlahOrang,
+                tanggalBerangkat: formData.tanggalBerangkat,
+                paketId: paket.id || `PKT-${Date.now()}`, 
+                paketNama: paket.title,
+                totalPayment: total,
+              });
+
+            const response = await fetch("http://localhost:4000/api/payments/midtrans", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  fullName: formData.fullName,
+                  email: formData.email,
+                  nomorTelpon: formData.nomorTelpon,
+                  jumlahOrang: formData.jumlahOrang,
+                  tanggalBerangkat: formData.tanggalBerangkat,
+                  paketId: paket.id || `PKT-${Date.now()}`, 
+                  paketNama: paket.title,
+                  totalPayment: total,
+                }),
+              });
+              
+              if (!response.ok) {
+                const err = await response.json();
+                console.error("Payment error:", err);
+                setIsPaying(true);
+                return;
+              }
+              
+              const data = await response.json();              
+      
+              if (data.token) {
+                window.snap.pay(data.token, {
+                  onSuccess: handleSuccess,
+                  onPending: handlePending,
+                  onError: handleFailed,
+                  onClose: () => setIsPaying(false),
+                });
+              }
+            } catch (error) {
+              setIsPaying(false);
+              alert("Gagal menghubungkan ke Midtrans");
+            }
+      };
+      
+    // Update handler-handler
+    const handleSuccess = (result) => {
+        alert("Pembayaran berhasil! 🎉");
+        // Simpan ke localStorage kalau mau
+        const riwayatLama = JSON.parse(localStorage.getItem("riwayat")) || [];
+        localStorage.setItem("riwayat", JSON.stringify([...riwayatLama, {
+        paket: paket.title,
+        tanggal: new Date().toLocaleDateString("id-ID"),
+        status: "berhasil",
+        imageSrc: paket.imageSrc,
+        deskripsi: paket.tagLine,
+        }]));
+    
+        navigate("/riwayat-pemesanan", { state: { status: "berhasil" } });
+    };
+    
+    const handlePending = (result) => {
+        console.log("Pending payment:", result);
+        alert("Silakan selesaikan pembayaran sesuai instruksi ");
+        setSeconds(900);
+        setIsOpenNested(true);
+    };
+    
+    const handleFailed = (result) => {
+        alert("Pembayaran gagal atau dibatalkan.");
+        navigate("/riwayat-pemesanan", { state: { status: "gagal" } });
+    };
 
     return (
         <div>
@@ -155,7 +203,7 @@ function MetodePembayaran({ paket, formData, isOpen, setIsOpen, isOpenNested, se
                                 <p className="font-bold text-3xl">Rp. {total.toLocaleString("id-ID")}</p>
                             </div>
 
-                            <button disabled={!selectedMethod} onClick={handleOpenNested}
+                            <button disabled={!selectedMethod || isPaying} onClick={handleBayar}
                                 className={`w-[200px] py-5 px-6 rounded-lg font-bold text-lg
                                     ${!selectedMethod 
                                     ? "bg-gray-400 cursor-not-allowed" 
@@ -180,7 +228,7 @@ function MetodePembayaran({ paket, formData, isOpen, setIsOpen, isOpenNested, se
                                 </Dialog.Title>
                                 <button onClick={closeNested}> <X size={28} className="text-black hover:text-red-500" /></button>
                             </div>
-                            <p className="mt-2 text-gray-600">Kode transaksi #648274898402</p>
+                            <p className="mt-2 text-gray-600">{formData?.boo}</p>
                         </div>
 
                         <div className="flex items-center justify-center bg-blue-600 gap-10">

@@ -55,7 +55,7 @@ function MenuPembayaran() {
         };
 
         try {
-            const response = await fetch("http://localhost:4000/api/payments", {
+            const response = await fetch("http://localhost:4000/api/payments/midtrans", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
